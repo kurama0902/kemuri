@@ -64,7 +64,7 @@ export default function Home() {
           <div className="generatedImages">
             {imagesLinks.map(link => {
               return (
-                <img className="generatedImage" src={link} alt={promptText.current} />
+                <img className="generatedImage" src={link} alt={promptText.current} key={link} />
               )
             })}
           </div>
