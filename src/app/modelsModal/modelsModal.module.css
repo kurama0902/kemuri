@@ -1,0 +1,57 @@
+.modalWrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    padding: 10px;
+}
+
+.closeBG {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.modal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    border: 1px solid lightgray;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    z-index: 10;
+    padding: 15px;
+    overflow-y: scroll;
+    gap: 15px;
+}
+
+.modelBtn {
+    cursor: pointer;
+    width: 130px;
+    height: 40px;
+    border: 1px solid darkgray;
+    background-color: transparent;
+    transition: all .3s;
+    color: #FFF;
+    font-size: 16px;
+}
+
+.modelBtn:hover {
+    border-color: #FFF;
+    background-color: rgb(145, 145, 145);
+}
