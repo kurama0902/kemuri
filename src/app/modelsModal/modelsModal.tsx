@@ -3,7 +3,7 @@ import s from './modelsModal.module.css'
 
 export const ModelsModal = ({ changeVisibility, selectModel }: {
     changeVisibility: () => void,
-    selectModel: (modelName: string) => void
+    selectModel: ({modelName, category}: {modelName: string, category: string}) => void
 }) => {
 
     const allModels = useGetAvailableModels();
@@ -28,7 +28,10 @@ export const ModelsModal = ({ changeVisibility, selectModel }: {
                             <div className={s.modelsWrap}>
                                 {models[categoryKey]?.map((model, mIndex) => {
                                     return (
-                                        <button onClick={() => selectModel(model)} className={s.modelBtn} key={mIndex}>{model}</button>
+                                        <button onClick={() => selectModel({
+                                            modelName: model, 
+                                            category: categoryKey
+                                        })} className={s.modelBtn} key={mIndex}>{model}</button>
                                     )
                                 })}
                             </div>

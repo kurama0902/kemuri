@@ -10,9 +10,17 @@ import { ModelsModal } from "./modelsModal";
 export default function Home() {
 
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
-  const [selectedModel, setSelectedModel] = useState<string>('select model');
+  const [selectedModel, setSelectedModel] = useState<{
+    modelName: string,
+    category: string
+  }>({
+    modelName: 'select model',
+    category: ''
+  });
   const promptText = useRef('');
   const [imagesLinks, setImagesLinks] = useState<string[]>([]);
+  const [isBlockedBtn, setIsBlockedBtn] = useState<boolean>(false);
+  const [charactersCount, setCharactersCount] = useState<number>(0)
 
   const changeVisibility = () => {
     setModalVisibility((prev) => {
@@ -21,13 +29,40 @@ export default function Home() {
   }
 
   const changePromptText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    promptText.current = e.target.value;
-    console.log(promptText);
-
+    if (selectedModel.modelName !== 'select model') {
+      promptText.current = e.target.value;
+      setCharactersCount(promptText.current.length)
+      if (selectedModel.category === 'general_models') {
+        if (promptText.current.length > 150) {
+          if (isBlockedBtn === false) {
+            setIsBlockedBtn((prev) => {
+              return !prev
+            })
+          }
+          console.log(promptText.current.length);
+        } else {
+          if (isBlockedBtn === true) {
+            setIsBlockedBtn((prev) => {
+              return !prev
+            })
+          }
+          console.log(promptText.current.length);
+        }
+      } else {
+        promptText.current = e.target.value;
+      }
+    } else {
+      e.target.value = '';
+    }
   }
 
-  const selectModel = (modelName: string) => {
-    setSelectedModel(modelName);
+  const selectModel = ({ modelName, category }: { modelName: string, category: string }) => {
+    setSelectedModel({ modelName, category });
+    if (category === 'general_models' && promptText.current.length > 150) {
+      setIsBlockedBtn((prev) => {
+        return !prev
+      })
+    }
     setModalVisibility((prev) => {
       return !prev
     })
@@ -35,10 +70,7 @@ export default function Home() {
 
   const generateImage = async () => {
 
-    console.log("prompt", promptText.current);
-    console.log("model", selectedModel)
-
-    if (promptText.current.length > 0 && selectedModel !== 'select model') {
+    if (promptText.current.length > 0 && selectedModel.modelName !== 'select model') {
       const response = await fetch('https://api.kemuri.top/v1/images/generations', {
         method: "POST",
         headers: {
@@ -46,9 +78,10 @@ export default function Home() {
         },
         body: JSON.stringify({
           "prompt": promptText.current,
-          "model": selectedModel
+          "model": selectedModel.modelName
         })
       })
+
 
       const data = await response.json();
       const { urls } = data;
@@ -60,11 +93,12 @@ export default function Home() {
   return (
     <div className="mainPage">
       <section className="settingSection">
-        <button onClick={changeVisibility} className="selectBtn">{selectedModel}</button>
-        <textarea onChange={changePromptText} className="promptArea" name="" id="" >
-
-        </textarea>
-        <button onClick={generateImage} className="generateBtn">generate</button>
+        <button onClick={changeVisibility} className="selectBtn">{selectedModel.modelName}</button>
+        <div className="promptAreaWrap">
+          <textarea placeholder="Enter your promt.." onChange={changePromptText} className="promptArea" maxLength={450} ></textarea>
+          <span className="characters">{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+        </div>
+        <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'}`}>generate</button>
       </section>
       <section className="generatedImagesWrap">
         <div className="generatedImages">
