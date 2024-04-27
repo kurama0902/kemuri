@@ -22,6 +22,8 @@ export default function Home() {
 
   const changePromptText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     promptText.current = e.target.value;
+    console.log(promptText);
+    
   }
 
   const selectModel = (modelName: string) => {
@@ -40,7 +42,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           "prompt": promptText.current,
-          "model": selectModel
+          "model": selectedModel
         })
       })
 
