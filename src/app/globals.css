@@ -40,8 +40,17 @@
   height: 100vh;
 }
 
+.generateBtnWrap {
+  border-radius: 12px;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
 .selectBtn, .generateBtn {
   cursor: pointer;
+  width: 100%;
   height: 60px;
   border-radius: 12px;
   border: none;
@@ -80,6 +89,7 @@
   font-size: 16px;
   outline-width: 1px;
   outline-color: yellow;
+  border: 1px solid darkgray;
   border-radius: 12px;
   resize: none;
   background-color: transparent;
@@ -87,6 +97,16 @@
   width: 100%;
   height: 250px;
   color: #FFF;
+}
+
+.invalidText {
+  outline: none;
+  border-color: darkred;
+  background-color: rgba(255, 0, 0, 0.171);
+}
+
+.promptArea:focus {
+  outline-offset: 0px;
 }
 
 .promptArea:hover {
@@ -126,7 +146,6 @@
 
 .blockedBtn {
   pointer-events: none;
-  cursor: not-allowed;
   background-color: rgba(255, 0, 0, 0.171);
   border-color: darkred;
 }

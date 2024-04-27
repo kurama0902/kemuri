@@ -59,10 +59,21 @@ export default function Home() {
   const selectModel = ({ modelName, category }: { modelName: string, category: string }) => {
     setSelectedModel({ modelName, category });
     if (category === 'general_models' && promptText.current.length > 150) {
-      setIsBlockedBtn((prev) => {
-        return !prev
-      })
+      if (isBlockedBtn === false) {
+        setIsBlockedBtn((prev) => {
+          return !prev
+        })
+      }
     }
+
+    if (category !== 'general_models') {
+      if (isBlockedBtn === true) {
+        setIsBlockedBtn((prev) => {
+          return !prev
+        })
+      }
+    }
+
     setModalVisibility((prev) => {
       return !prev
     })
@@ -95,10 +106,12 @@ export default function Home() {
       <section className="settingSection">
         <button onClick={changeVisibility} className="selectBtn">{selectedModel.modelName}</button>
         <div className="promptAreaWrap">
-          <textarea placeholder="Enter your promt.." onChange={changePromptText} className="promptArea" maxLength={450} ></textarea>
+          <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`promptArea ${isBlockedBtn && 'invalidText'}`} maxLength={450} ></textarea>
           <span className="characters">{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
         </div>
-        <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'}`}>generate</button>
+        <div className={`generateBtnWrap ${isBlockedBtn && 'disabled'}`}>
+          <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'}`}>generate</button>
+        </div>
       </section>
       <section className="generatedImagesWrap">
         <div className="generatedImages">
