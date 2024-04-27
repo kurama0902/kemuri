@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 export const useGetAvailableModels = () => {
 
-    const [models, setModels] = useState<string[]>([]);
+    const [models, setModels] = useState<object[]>([]);
 
     const fetchData = async () => {
         const response = await fetch('https://api.kemuri.top/v1/models', {
@@ -12,9 +12,9 @@ export const useGetAvailableModels = () => {
         const result = await response.json();
 
         const imageModels = [
-            ...Object.keys(result.image_models),
-            ...Object.keys(result.sd_1_5_models),
-            ...Object.keys(result.sdxl_1_0_models)
+            {general_models: Object.keys(result.image_models)},
+            {sd_models: Object.keys(result.sd_1_5_models)},
+            {sdxl_models: Object.keys(result.sdxl_1_0_models)}
         ];
 
         setModels(imageModels);

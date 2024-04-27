@@ -14,15 +14,14 @@
     right: 0;
     left: 0;
     bottom: 0;
+    background-color: rgba(0, 0, 0, 0.507);
     backdrop-filter: blur(10px);
     z-index: 1;
 }
 
 .modal {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
+    flex-direction: column;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -37,7 +36,26 @@
     z-index: 10;
     padding: 15px;
     overflow-y: scroll;
-    gap: 15px;
+    gap: 20px;
+}
+
+.categoryWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.categoryText {
+    color: #FFF;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.modelsWrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .modelBtn {

@@ -23,7 +23,7 @@ export default function Home() {
   const changePromptText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     promptText.current = e.target.value;
     console.log(promptText);
-    
+
   }
 
   const selectModel = (modelName: string) => {
@@ -34,6 +34,10 @@ export default function Home() {
   }
 
   const generateImage = async () => {
+
+    console.log("prompt", promptText.current);
+    console.log("model", selectedModel)
+
     if (promptText.current.length > 0 && selectedModel !== 'select model') {
       const response = await fetch('https://api.kemuri.top/v1/images/generations', {
         method: "POST",
@@ -53,25 +57,25 @@ export default function Home() {
     }
   }
 
-    return (
-      <div className="mainPage">
-        <section className="settingSection">
-          <button onClick={changeVisibility} className="selectBtn">{selectedModel}</button>
-          <textarea onChange={changePromptText} className="promptArea" name="" id="" >
+  return (
+    <div className="mainPage">
+      <section className="settingSection">
+        <button onClick={changeVisibility} className="selectBtn">{selectedModel}</button>
+        <textarea onChange={changePromptText} className="promptArea" name="" id="" >
 
-          </textarea>
-          <button onClick={generateImage} className="generateBtn">generate</button>
-        </section>
-        <section className="generatedImagesWrap">
-          <div className="generatedImages">
-            {imagesLinks.map(link => {
-              return (
-                <img className="generatedImage" src={link} alt={promptText.current} key={link} />
-              )
-            })}
-          </div>
-        </section>
-        {modalVisibility && <ModelsModal changeVisibility={changeVisibility} selectModel={selectModel} />}
-      </div>
-    );
-  }
+        </textarea>
+        <button onClick={generateImage} className="generateBtn">generate</button>
+      </section>
+      <section className="generatedImagesWrap">
+        <div className="generatedImages">
+          {imagesLinks.map(link => {
+            return (
+              <img className="generatedImage" src={link} alt={promptText.current} key={link} />
+            )
+          })}
+        </div>
+      </section>
+      {modalVisibility && <ModelsModal changeVisibility={changeVisibility} selectModel={selectModel} />}
+    </div>
+  );
+}
