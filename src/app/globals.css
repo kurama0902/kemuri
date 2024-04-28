@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
   width: 3px;
 }
@@ -148,4 +152,49 @@
   pointer-events: none;
   background-color: rgba(255, 0, 0, 0.171);
   border-color: darkred;
+}
+
+.generatingProcess {
+  pointer-events: none;
+  background-color: rgba(255, 255, 0, 0.555);
+  border-color: yellow;
+}
+
+.badPromptNotification {
+  display: flex;
+  border: 1px solid lightcoral;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  right: -310px;
+  width: 300px;
+  height: 70px;
+  background-color: rgb(180, 87, 87);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: #FFF;
+}
+
+.showNotification {
+  animation: showAndHideNotification 1.5s;
+}
+
+@keyframes showAndHideNotification {
+  0% {
+    right: -310px;
+  }
+
+  50% {
+    right: 10px;
+  }
+
+  70% {
+    right: 10px;
+  }
+
+  100% {
+    right: -310px;
+  }
 }

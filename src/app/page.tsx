@@ -2,9 +2,6 @@
 
 import { ChangeEvent, useRef, useState } from "react";
 
-// import Image from "next/image";
-// import styles from "./page.module.css";
-
 import { ModelsModal } from "./modelsModal";
 
 export default function Home() {
@@ -20,7 +17,9 @@ export default function Home() {
   const promptText = useRef('');
   const [imagesLinks, setImagesLinks] = useState<string[]>([]);
   const [isBlockedBtn, setIsBlockedBtn] = useState<boolean>(false);
-  const [charactersCount, setCharactersCount] = useState<number>(0)
+  const [isBlockedBtnAfterPrompt, setIsBlockedBtnAfterPrompt] = useState<boolean>(false);
+  const [charactersCount, setCharactersCount] = useState<number>(0);
+  const [isShowNotification, setIsShowNotification] = useState<boolean>(false);
 
   const changeVisibility = () => {
     setModalVisibility((prev) => {
@@ -80,24 +79,32 @@ export default function Home() {
   }
 
   const generateImage = async () => {
-
-    if (promptText.current.length > 0 && selectedModel.modelName !== 'select model') {
-      const response = await fetch('https://api.kemuri.top/v1/images/generations', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          "prompt": promptText.current,
-          "model": selectedModel.modelName
+    try {
+      if (promptText.current.length > 0 && selectedModel.modelName !== 'select model') {
+        setIsBlockedBtnAfterPrompt(true)
+        const response = await fetch('https://api.kemuri.top/v1/images/generations', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "prompt": promptText.current,
+            "model": selectedModel.modelName
+          })
         })
-      })
 
-
-      const data = await response.json();
-      const { urls } = data;
-      console.log(urls);
-      setImagesLinks(urls)
+        const data = await response.json();
+        const { urls } = data;
+        console.log(urls);
+        setImagesLinks(urls)
+        setIsBlockedBtnAfterPrompt(false)
+      }
+    } catch (error) {
+      setIsShowNotification(true)
+      setTimeout(() => {
+        setIsShowNotification(false);
+        setIsBlockedBtnAfterPrompt(false);
+      }, 1500)
     }
   }
 
@@ -109,8 +116,8 @@ export default function Home() {
           <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`promptArea ${isBlockedBtn && 'invalidText'}`} maxLength={450} ></textarea>
           <span className="characters">{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
         </div>
-        <div className={`generateBtnWrap ${isBlockedBtn && 'disabled'}`}>
-          <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'}`}>generate</button>
+        <div className={`generateBtnWrap ${isBlockedBtn && 'disabled'} ${isBlockedBtnAfterPrompt && 'disabled'}`}>
+          <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'} ${isBlockedBtnAfterPrompt && 'generatingProcess'}`}>{isBlockedBtnAfterPrompt ? 'processing...' : 'generate'}</button>
         </div>
       </section>
       <section className="generatedImagesWrap">
@@ -123,6 +130,7 @@ export default function Home() {
         </div>
       </section>
       {modalVisibility && <ModelsModal changeVisibility={changeVisibility} selectModel={selectModel} />}
+      <div className={`badPromptNotification ${isShowNotification && 'showNotification'}`}>Bad prompt. Try again..</div>
     </div>
   );
 }

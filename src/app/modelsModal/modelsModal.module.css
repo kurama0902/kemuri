@@ -60,10 +60,14 @@
 
 .modelBtn {
     cursor: pointer;
-    width: 130px;
+    /* width: 145px; */
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
     height: 40px;
     border: 1px solid darkgray;
     background-color: transparent;
+    text-transform: uppercase;
     transition: all .3s;
     color: #FFF;
     font-size: 16px;
