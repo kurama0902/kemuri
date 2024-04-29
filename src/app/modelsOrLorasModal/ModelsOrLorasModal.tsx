@@ -14,7 +14,9 @@ export const ModelsOrLorasModal = ({ changeVisibility, selectModel, selectLoras,
     choice: string
 }) => {
 
-    const allModelsOrLoras = choice === 'models' ? useGetAvailableModels() : useGetLoras();
+    // const allModelsOrLoras = choice === 'models' ? useGetAvailableModels() : useGetLoras();
+    const allModels = useGetAvailableModels();
+    const allLoras = useGetLoras();
 
 
     return (
@@ -24,7 +26,7 @@ export const ModelsOrLorasModal = ({ changeVisibility, selectModel, selectLoras,
                 {
                     choice === 'models'
                         ?
-                        allModelsOrLoras.map((models: {
+                        allModels.map((models: {
                             general_models?: string[],
                             sd_models?: string[],
                             sdxl_models?: string[]
@@ -50,27 +52,34 @@ export const ModelsOrLorasModal = ({ changeVisibility, selectModel, selectLoras,
                             )
                         })
                         :
-                        allModelsOrLoras.map((loras: {
+                        allLoras.map((loras: {
                             sd_loras?: string[],
                             sdxl_loras?: string[],
-                        }, index) => {                            
+                        }, index) => {
 
                             const categoryText = Object.keys(loras)[0].split('_').join(' ');
                             const categoryKey = Object.keys(loras)[0] as keyof typeof loras;
-                            
+
                             return (
                                 <div className={s.categoryWrap} key={index}>
                                     <p className={s.categoryText}>{categoryText}</p>
                                     <div className={s.lorasWrap}>
                                         {selectLoras !== undefined && loras[categoryKey]?.map((lora, loraIndex) => {
-                                            const isTrue = selectedLoras?.loras.includes(lora);
-                                            console.log(isTrue);
-                                            
                                             return (
-                                                <button onClick={() => selectLoras({
-                                                    lora: lora,
-                                                    category: categoryKey
-                                                })} className={`${s.loraBtn} ${isTrue && 'selected'}`} key={loraIndex}>{lora}</button>
+                                                <button onClick={() => {
+                                                    if (selectedLoras?.category === '') {
+                                                        selectLoras({
+                                                            lora: lora,
+                                                            category: categoryKey
+                                                        })
+                                                    }
+                                                    if (selectedLoras?.category === categoryKey) {
+                                                        selectLoras({
+                                                            lora: lora,
+                                                            category: categoryKey
+                                                        })
+                                                    }
+                                                }} className={`${s.loraBtn} ${selectedLoras?.loras.includes(lora) && s.selected}`} key={loraIndex}>{lora}</button>
                                             )
                                         })}
                                     </div>

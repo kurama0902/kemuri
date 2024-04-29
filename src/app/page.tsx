@@ -94,7 +94,7 @@ export default function Home() {
       const newLoras = selectedLoras.loras.filter(el => el !== lora);
       setSelectedLoras({
         loras: newLoras,
-        category: category
+        category: newLoras.length > 0 ? category : ''
       });
     } else {
       const newLoras = [...selectedLoras.loras, lora]
