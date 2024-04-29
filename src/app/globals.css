@@ -4,9 +4,9 @@
   box-sizing: border-box;
 }
 
-body {
+/* body {
   overflow-x: hidden;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 3px;
@@ -30,8 +30,10 @@ body {
 
 .mainPage {
   display: flex;
+  position: relative;
   height: 100vh;
   background-color: #23272F;
+  overflow-x: hidden;
 }
 
 .settingSection {
@@ -99,7 +101,7 @@ body {
   background-color: transparent;
   transition: border .3s;
   width: 100%;
-  height: 250px;
+  height: 200px;
   color: #FFF;
 }
 

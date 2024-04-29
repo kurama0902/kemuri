@@ -1,1 +1,0 @@
-export { ModelsModal } from './modelsModal'

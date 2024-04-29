@@ -1,0 +1,131 @@
+.additionalSettings {
+    display: flex;
+    flex-direction: column;
+}
+
+.addLoraBtn {
+    height: 50px;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid darkgray;
+    border-radius: 12px;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    transition: all .3s;
+    color: #FFF;
+}
+
+.addLoraBtn:hover {
+    background-color: rgba(211, 211, 211, 0.377);
+}
+
+.aspectRatioWrap {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+    gap: 5px;
+}
+
+.aspectRatio {
+    display: flex;
+    width: max-content;
+    border: 1px solid darkgray;
+    border-radius: 12px;
+}
+
+.ratioBtn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    width: 100px;
+    height: 50px;
+    gap: 5px;
+}
+
+.ratioBtn:not(:last-child) {
+    border-right: 1px solid darkgray;
+}
+
+.ratioBtn:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.ratioBtn:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.ratioType {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #FFF;
+}
+
+.ratioText {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: #ffffffbd;
+}
+
+.customAspectRatioWrap,
+.stepsScaleWrap {
+    display: flex;
+    gap: 20px;
+}
+
+.rangeInput {
+    width: 170px;
+}
+
+.numberInput {
+    width: 75px;
+    height: 25px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(88, 88, 88);
+    padding-left: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: white;
+}
+
+.numberInput:focus {
+    border: 1px solid lightgray;
+    outline: none;
+}
+
+.inputsWrap {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 7px;
+}
+
+.samplingMethodWrap {
+    margin-bottom: 20px;
+}
+
+.settingsText,
+.widthText,
+.heightText,
+.samplingStepsText,
+.scaleText,
+.aspectRatioText {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 7px;
+    color: #FFF;
+}
+
+.settingsText {
+    margin-bottom: 10px;
+}

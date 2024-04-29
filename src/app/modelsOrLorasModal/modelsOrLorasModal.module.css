@@ -5,6 +5,7 @@
     left: 0;
     bottom: 0;
     padding: 10px;
+    z-index: 2;
 }
 
 .closeBG {
@@ -52,13 +53,13 @@
     font-size: 16px;
 }
 
-.modelsWrap {
+.modelsWrap, .lorasWrap {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.modelBtn {
+.modelBtn, .loraBtn {
     cursor: pointer;
     /* width: 145px; */
     width: max-content;
@@ -71,6 +72,10 @@
     transition: all .3s;
     color: #FFF;
     font-size: 16px;
+}
+
+.selected {
+    background-color: red;
 }
 
 .modelBtn:hover {

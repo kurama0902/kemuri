@@ -2,7 +2,8 @@
 
 import { ChangeEvent, useRef, useState } from "react";
 
-import { ModelsModal } from "./modelsModal";
+import { ModelsOrLorasModal } from "./modelsOrLorasModal";
+import { AdditionalSettings } from "./AdditionalSettings";
 
 export default function Home() {
 
@@ -14,12 +15,22 @@ export default function Home() {
     modelName: 'select model',
     category: ''
   });
+  const [selectedLoras, setSelectedLoras] = useState<{
+    loras: string[],
+    category: string
+  }>({
+    loras: [],
+    category: ''
+  })
   const promptText = useRef('');
   const [imagesLinks, setImagesLinks] = useState<string[]>([]);
   const [isBlockedBtn, setIsBlockedBtn] = useState<boolean>(false);
   const [isBlockedBtnAfterPrompt, setIsBlockedBtnAfterPrompt] = useState<boolean>(false);
   const [charactersCount, setCharactersCount] = useState<number>(0);
   const [isShowNotification, setIsShowNotification] = useState<boolean>(false);
+
+  console.log(selectedLoras);
+  
 
   const changeVisibility = () => {
     setModalVisibility((prev) => {
@@ -78,6 +89,22 @@ export default function Home() {
     })
   }
 
+  const selectLoras = ({ lora, category }: {lora: string, category: string}) => {
+    if(selectedLoras.loras?.includes(lora)) {
+      const newLoras = selectedLoras.loras.filter(el => el !== lora);
+      setSelectedLoras({
+        loras: newLoras,
+        category: category
+      });
+    } else {
+      const newLoras = [...selectedLoras.loras, lora]
+      setSelectedLoras({
+        loras: newLoras,
+        category: category
+      })
+    }
+  }
+
   const generateImage = async () => {
     try {
       if (promptText.current.length > 0 && selectedModel.modelName !== 'select model') {
@@ -116,6 +143,9 @@ export default function Home() {
           <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`promptArea ${isBlockedBtn && 'invalidText'}`} maxLength={450} ></textarea>
           <span className="characters">{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
         </div>
+        {
+          (selectedModel.category !== 'general_models' && selectedModel.modelName !== 'select model') && <AdditionalSettings selectedLoras={selectedLoras} selectLoras={selectLoras} />
+        }
         <div className={`generateBtnWrap ${isBlockedBtn && 'disabled'} ${isBlockedBtnAfterPrompt && 'disabled'}`}>
           <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'} ${isBlockedBtnAfterPrompt && 'generatingProcess'}`}>{isBlockedBtnAfterPrompt ? 'processing...' : 'generate'}</button>
         </div>
@@ -129,7 +159,7 @@ export default function Home() {
           })}
         </div>
       </section>
-      {modalVisibility && <ModelsModal changeVisibility={changeVisibility} selectModel={selectModel} />}
+      {modalVisibility && <ModelsOrLorasModal choice="models" changeVisibility={changeVisibility} selectModel={selectModel} />}
       <div className={`badPromptNotification ${isShowNotification && 'showNotification'}`}>Bad prompt. Try again..</div>
     </div>
   );
