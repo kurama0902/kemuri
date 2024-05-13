@@ -18,7 +18,7 @@ export const Select = ({ text }: { text: string }) => {
         <div className={s.wrap}>
             <p className={s.text}>{text}</p>
             <div onClick={handleShowingSelect} className={`${s.closeBG} ${isShowSelect && s.show}`}></div>
-            <div className={`${s.selectWrap}`}>
+            <div className={`${s.selectWrap} ${isShowSelect && s.selectWrapRelative }`}>
                 <button onClick={handleShowingSelect} className={`${s.select}`}>
                     Choose
                 </button>
