@@ -44,6 +44,7 @@
   padding: 10px 15px;
   gap: 12px;
   height: 100vh;
+  overflow-y: scroll;
 }
 
 .generateBtnWrap {
@@ -57,7 +58,7 @@
 .selectBtn, .generateBtn {
   cursor: pointer;
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   border-radius: 12px;
   border: none;
   border: 1px solid lightgray;

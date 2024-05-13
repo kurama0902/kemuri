@@ -150,6 +150,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras }: {
                     </div>
                 </div>
             </div>
+            <Select text='VAE' />
             <Select text='Sampling Method' />
             <div className={s.stepsScaleWrap}>
                 <div className={s.steps}>
