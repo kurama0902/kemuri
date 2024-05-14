@@ -4,12 +4,16 @@ import { Select } from './Select'
 import s from './additional-settings.module.css'
 import { ModelsOrLorasModal } from '../modelsOrLorasModal'
 
-export const AdditionalSettings = ({ selectedLoras, selectLoras }: {
+export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetVae, samplingMethod, handleSetSamplingMethod }: {
     selectedLoras: {
         loras: string[],
         category: string
     },
-    selectLoras: ({ lora, category }: { lora: string, category: string }) => void
+    selectLoras: ({ lora, category }: { lora: string, category: string }) => void,
+    vae: string,
+    handleSetVae: (vae: string) => void,
+    samplingMethod: string,
+    handleSetSamplingMethod: (method: string) => void
 }) => {
 
     type RatioType = {
@@ -17,6 +21,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras }: {
         height: number;
         aspectRatio: string
     }
+
 
     const aspectRatioList: { name: string, size: string }[] = [
         { name: 'portrait', size: '768x1152' },
@@ -100,6 +105,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras }: {
     }
 
     const changeSapmlingOrCFG = (e: ChangeEvent<HTMLInputElement>, type: string) => {
+        if (e.target.value.includes('e')) e.target.value = '';
         if (type === 'sampling') {
             setSampling(Number(e.target.value));
         }
@@ -150,8 +156,8 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras }: {
                     </div>
                 </div>
             </div>
-            <Select text='VAE' />
-            <Select text='Sampling Method' />
+            <Select text='VAE' vae={vae} handleSetVae={handleSetVae}  />
+            <Select text='Sampling Method' samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
             <div className={s.stepsScaleWrap}>
                 <div className={s.steps}>
                     <p className={s.samplingStepsText}>Sampling Steps</p>

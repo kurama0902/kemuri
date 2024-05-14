@@ -144,6 +144,10 @@
     color: white;
 }
 
+.numberInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .numberInput:focus {
     border: 1px solid lightgray;
     outline: none;

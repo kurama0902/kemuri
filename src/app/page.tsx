@@ -28,9 +28,17 @@ export default function Home() {
   const [isBlockedBtnAfterPrompt, setIsBlockedBtnAfterPrompt] = useState<boolean>(false);
   const [charactersCount, setCharactersCount] = useState<number>(0);
   const [isShowNotification, setIsShowNotification] = useState<boolean>(false);
+  const [vae, setVae] = useState<string>('');
+  const [samplingMethod, setSamplingMethod] = useState<string>('');
 
-  console.log(selectedLoras);
-  
+
+  const handleSetVae = (vae: string) => {
+    setVae(vae);
+  }
+
+  const handleSetSamplingMethod = (method: string) => {
+    setSamplingMethod(method)
+  }
 
   const changeVisibility = () => {
     setModalVisibility((prev) => {
@@ -89,8 +97,8 @@ export default function Home() {
     })
   }
 
-  const selectLoras = ({ lora, category }: {lora: string, category: string}) => {
-    if(selectedLoras.loras?.includes(lora)) {
+  const selectLoras = ({ lora, category }: { lora: string, category: string }) => {
+    if (selectedLoras.loras?.includes(lora)) {
       const newLoras = selectedLoras.loras.filter(el => el !== lora);
       setSelectedLoras({
         loras: newLoras,
@@ -137,19 +145,21 @@ export default function Home() {
 
   return (
     <div className="mainPage">
-      <section className="settingSection">
-        <button onClick={changeVisibility} className="selectBtn">{selectedModel.modelName}</button>
-        <div className="promptAreaWrap">
-          <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`promptArea ${isBlockedBtn && 'invalidText'}`} maxLength={450} ></textarea>
-          <span className="characters">{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
-        </div>
-        {
-          (selectedModel.category !== 'general_models' && selectedModel.modelName !== 'select model') && <AdditionalSettings selectedLoras={selectedLoras} selectLoras={selectLoras} />
-        }
-        <div className={`generateBtnWrap ${isBlockedBtn && 'disabled'} ${isBlockedBtnAfterPrompt && 'disabled'}`}>
-          <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'} ${isBlockedBtnAfterPrompt && 'generatingProcess'}`}>{isBlockedBtnAfterPrompt ? 'processing...' : 'generate'}</button>
-        </div>
-      </section>
+      <div className="settingSectionWrap">
+        <section className="settingSection">
+          <button onClick={changeVisibility} className="selectBtn">{selectedModel.modelName}</button>
+          <div className="promptAreaWrap">
+            <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`promptArea ${isBlockedBtn && 'invalidText'}`} maxLength={450} ></textarea>
+            <span className="characters">{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+          </div>
+          {
+            (selectedModel.category !== 'general_models' && selectedModel.modelName !== 'select model') && <AdditionalSettings selectedLoras={selectedLoras} selectLoras={selectLoras} vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
+          }
+          <div className={`generateBtnWrap ${isBlockedBtn && 'disabled'} ${isBlockedBtnAfterPrompt && 'disabled'}`}>
+            <button onClick={generateImage} className={`generateBtn ${isBlockedBtn && 'blockedBtn'} ${isBlockedBtnAfterPrompt && 'generatingProcess'}`}>{isBlockedBtnAfterPrompt ? 'processing...' : 'generate'}</button>
+          </div>
+        </section>
+      </div>
       <section className="generatedImagesWrap">
         <div className="generatedImages">
           {imagesLinks.map(link => {
