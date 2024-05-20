@@ -28,7 +28,6 @@
   display: flex;
   position: relative;
   height: 100vh;
-  background-color: #23272F;
   overflow-x: hidden;
 }
 
@@ -86,6 +85,7 @@
 
 .characters {
   position: absolute;
+  pointer-events: none;
   right: 15px;
   bottom: 15px;
   color: #FFF;

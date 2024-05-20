@@ -12,12 +12,15 @@
     "next": "14.2.3",
     "nextjs-cors": "^2.2.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "three": "^0.164.1",
+    "vanta": "^0.5.24"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/three": "^0.164.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "typescript": "^5"

@@ -14,7 +14,6 @@ export const ModelsOrLorasModal = ({ changeVisibility, selectModel, selectLoras,
     choice: string
 }) => {
 
-    // const allModelsOrLoras = choice === 'models' ? useGetAvailableModels() : useGetLoras();
     const allModels = useGetAvailableModels();
     const allLoras = useGetLoras();
 

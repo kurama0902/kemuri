@@ -1,9 +1,10 @@
 "use client";
 
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { ModelsOrLorasModal } from "./modelsOrLorasModal";
 import { AdditionalSettings } from "./AdditionalSettings";
+import { GeneratingPreloader } from "./GeneratingPreloader";
 
 export default function Home() {
 
@@ -23,6 +24,7 @@ export default function Home() {
     category: ''
   })
   const promptText = useRef('');
+  const [showGeneratingPreloader, setShowGeneratingPreloader] = useState<boolean>(true);
   const [imagesLinks, setImagesLinks] = useState<string[]>([]);
   const [isBlockedBtn, setIsBlockedBtn] = useState<boolean>(false);
   const [isBlockedBtnAfterPrompt, setIsBlockedBtnAfterPrompt] = useState<boolean>(false);
@@ -143,8 +145,15 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowGeneratingPreloader(false);
+    }, 1500)
+  }, [])
+
   return (
     <div className="mainPage">
+      {showGeneratingPreloader && <GeneratingPreloader />}
       <div className="settingSectionWrap">
         <section className="settingSection">
           <button onClick={changeVisibility} className="selectBtn">{selectedModel.modelName}</button>
