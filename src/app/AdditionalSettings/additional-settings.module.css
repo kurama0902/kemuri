@@ -192,3 +192,24 @@
 .selectedRatio span {
     color: black;
 }
+
+@media (width <= 850px) {
+
+    .aspectRatio {
+        width: auto;
+    }
+
+    .customAspectRatioWrap, .stepsScaleWrap {
+        flex-direction: column;
+    }
+
+    .rangeInput {
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .ratioBtn {
+        width: 25%;
+    }
+
+}
