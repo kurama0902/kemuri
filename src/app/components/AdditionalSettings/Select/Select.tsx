@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 
 import s from './select.module.css'
 
@@ -24,11 +25,12 @@ export const Select = ({ text, vae, handleSetVae, samplingMethod, handleSetSampl
         <div className={s.wrap}>
             <p className={s.text}>{text}</p>
             <div className={`${s.selectWrap}`}>
-                <div className={s.btnWrap}>
+                <div className={`${s.btnWrap} ${isShowSelect && s.straightBorders}`}>
                     <button onClick={handleShowingSelect} className={`${s.select} ${isShowSelect && s.straightBorders}`}>
                         {((vae === '' || vae === undefined) && (samplingMethod === '' || samplingMethod === undefined)) ? <span>Choose</span> : <span>{vae ? vae : samplingMethod}</span>}
                     </button>
                     <div className={s.btnBG}></div>
+                    <Image className={`${s.dropdown} ${isShowSelect && s.rotateDropdown}`} src='/dropdown.svg' width={25} height={25} alt='dropdown' />
                 </div>
                 <div className={`${s.options} ${isShowSelect === null ? '' : isShowSelect ? s.show : s.close}`}>
                     {text === 'Sampling Method' ? methods.map((el, index) => {

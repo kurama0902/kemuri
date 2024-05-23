@@ -119,6 +119,19 @@
     background-color: #fff;
 }
 
+.dropdown {
+    position: absolute;
+    top: 30%;
+    transform: translateY(-30%);
+    transform: rotate(-90deg);
+    transition: all .3s;
+    right: 20px;
+}
+
+.rotateDropdown {
+    transform: rotate(0deg);
+}
+
 @keyframes increaseHeight {
     0% {
         height: 0px;
