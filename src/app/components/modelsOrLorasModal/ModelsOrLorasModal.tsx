@@ -1,5 +1,5 @@
-import { useGetAvailableModels } from '../../../hooks/useGetAvailableModels'
-import { useGetLoras } from '../../../hooks/useGetLoras';
+import { useGetAvailableModels } from '../../../../hooks/useGetAvailableModels'
+import { useGetLoras } from '../../../../hooks/useGetLoras';
 
 import s from './modelsOrLorasModal.module.css'
 

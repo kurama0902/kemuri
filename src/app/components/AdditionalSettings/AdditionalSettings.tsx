@@ -59,19 +59,19 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
             if (sizes.includes(enteredRatio)) {
                 setRatio({ width: Number(e.target.value), height: ratio.height, aspectRatio: aspectRatioList[sizes.indexOf(enteredRatio)].name })
             } else {
-                setRatio({ width: Number(e.target.value), height: ratio.height, aspectRatio: 'custom'})
+                setRatio({ width: Number(e.target.value), height: ratio.height, aspectRatio: 'custom' })
             }
         }
 
         if (type === 'height') {
-           
+
             const sizes = aspectRatioList.map(size => size.size);
-            const enteredRatio = `${ratio.width}x${e.target.value}`;            
+            const enteredRatio = `${ratio.width}x${e.target.value}`;
 
             if (sizes.includes(enteredRatio)) {
                 setRatio({ width: ratio.width, height: Number(e.target.value), aspectRatio: aspectRatioList[sizes.indexOf(enteredRatio)].name })
             } else {
-                setRatio({ width: ratio.width, height: Number(e.target.value), aspectRatio: 'custom'})
+                setRatio({ width: ratio.width, height: Number(e.target.value), aspectRatio: 'custom' })
             }
         }
     }
@@ -87,19 +87,19 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
             if (sizes.includes(enteredRatio)) {
                 setRatio({ width: Number(e.target.value), height: ratio.height, aspectRatio: aspectRatioList[sizes.indexOf(enteredRatio)].name })
             } else {
-                setRatio({ width: Number(e.target.value), height: ratio.height, aspectRatio: 'custom'})
+                setRatio({ width: Number(e.target.value), height: ratio.height, aspectRatio: 'custom' })
             }
         }
 
         if (type === 'height') {
             const sizes = aspectRatioList.map(size => size.size);
             const enteredRatio = `${ratio.width}x${e.target.value}`;
-            
+
 
             if (sizes.includes(enteredRatio)) {
                 setRatio({ width: ratio.width, height: Number(e.target.value), aspectRatio: aspectRatioList[sizes.indexOf(enteredRatio)].name })
             } else {
-                setRatio({ width: ratio.width, height: Number(e.target.value), aspectRatio: 'custom'})
+                setRatio({ width: ratio.width, height: Number(e.target.value), aspectRatio: 'custom' })
             }
         }
     }
@@ -118,7 +118,12 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
     return (
         <div className={s.additionalSettings}>
             <h3 className={s.settingsText}>Settings</h3>
-            <button onClick={changeVisibility} className={s.addLoraBtn}>add lora</button>
+            <div className={s.btnWrap}>
+                <button onClick={changeVisibility} className={s.addLoraBtn}>
+                    <span>add lora</span>
+                </button>
+                <div className={s.btnBG}></div>
+            </div>
             <div className={s.aspectRatioWrap}>
                 <p className={s.aspectRatioText}>Aspect Ratio</p>
                 <div className={s.aspectRatio}>
@@ -156,7 +161,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
                     </div>
                 </div>
             </div>
-            <Select text='VAE' vae={vae} handleSetVae={handleSetVae}  />
+            <Select text='VAE' vae={vae} handleSetVae={handleSetVae} />
             <Select text='Sampling Method' samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
             <div className={s.stepsScaleWrap}>
                 <div className={s.steps}>
