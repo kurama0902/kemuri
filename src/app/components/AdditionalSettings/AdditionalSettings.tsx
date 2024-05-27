@@ -118,7 +118,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
     return (
         <div className={s.additionalSettings}>
             <h3 className={s.settingsText}>Settings</h3>
-            <div className={s.btnWrap}>
+            <div className={`${s.btnWrap} ${isShowModal && s.mobBtnWrap}`}>
                 <button onClick={changeVisibility} className={s.addLoraBtn}>
                     <span>add lora</span>
                 </button>

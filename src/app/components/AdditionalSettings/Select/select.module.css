@@ -32,9 +32,9 @@
     top: 61px;
 }
 
-.btnWrap:hover .btnBG {
+/* .btnWrap:hover .btnBG {
     top: -300px;
-}
+} */
 
 .select {
     position: relative;
@@ -111,7 +111,7 @@
 }
 
 .selectedBtn {
-    font-size: 22px;
+    font-size: 24px;
     color: white;
 }
 
@@ -131,6 +131,19 @@
 .rotateDropdown {
     transform: rotate(0deg);
 }
+
+@media (hover: hover) {
+    .btnWrap:hover .btnBG {
+        top: -300px;
+    }
+}
+
+@media (width <= 850px) {
+    .mobBtnWrap .btnBG {
+        top: -300px;
+    }
+}
+
 
 @keyframes increaseHeight {
     0% {

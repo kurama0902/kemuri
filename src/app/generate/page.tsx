@@ -158,7 +158,7 @@ export default function Generate() {
       {showGeneratingPreloader && <GeneratingPreloader />}
       <div className={s.settingSectionWrap}>
         <section className={s.settingSection}>
-          <div className={s.btnWrap}>
+          <div className={`${s.btnWrap} ${modalVisibility && s.mobBtnWrap}`}>
             <button onClick={changeVisibility} className={s.selectBtn}>
               <span>
                 {selectedModel.modelName}

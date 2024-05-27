@@ -25,7 +25,7 @@ export const Select = ({ text, vae, handleSetVae, samplingMethod, handleSetSampl
         <div className={s.wrap}>
             <p className={s.text}>{text}</p>
             <div className={`${s.selectWrap}`}>
-                <div className={`${s.btnWrap} ${isShowSelect && s.straightBorders}`}>
+                <div className={`${s.btnWrap} ${isShowSelect && s.mobBtnWrap} ${isShowSelect && s.straightBorders}`}>
                     <button onClick={handleShowingSelect} className={`${s.select} ${isShowSelect && s.straightBorders}`}>
                         {((vae === '' || vae === undefined) && (samplingMethod === '' || samplingMethod === undefined)) ? <span>Choose</span> : <span>{vae ? vae : samplingMethod}</span>}
                     </button>

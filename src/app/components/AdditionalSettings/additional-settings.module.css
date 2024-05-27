@@ -223,7 +223,7 @@
     color: black;
 }
 
-@media (width <=850px) {
+@media (width <= 850px) {
 
     .aspectRatio {
         width: auto;
@@ -243,4 +243,17 @@
         width: 25%;
     }
 
+    .mobBtnWrap .btnBG {
+        top: -300px;
+    }
+}
+
+@media (hover: hover) {
+    .promptArea:hover {
+        border-color: #FFF;
+    }
+
+    .btnWrap:hover .btnBG {
+        top: -300px;
+    }
 }

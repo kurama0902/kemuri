@@ -54,13 +54,13 @@
     background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(196, 43, 43, 1) 50%, rgba(252, 176, 69, 1) 100%);
     left: 50%;
     transform: translateX(-50%);
-    transition: all .4s;
+    transition: all .3s;
     top: 61px;
 }
 
-.btnWrap:hover .btnBG {
+/* .btnWrap:hover .btnBG {
     top: -300px;
-}
+} */
 
 .selectBtn,
 .generateBtn {
@@ -80,10 +80,6 @@
     z-index: 1;
 }
 
-/* .selectBtn:active,
-.generateBtn:active {
-    background-color: rgba(211, 211, 211, 0.644);
-} */
 
 .promptAreaWrap {
     position: relative;
@@ -122,10 +118,6 @@
 
 .promptArea:focus {
     outline-offset: 0px;
-}
-
-.promptArea:hover {
-    border-color: #FFF;
 }
 
 .generatedImagesWrap {
@@ -208,7 +200,7 @@
     }
 }
 
-@media (width <=850px) {
+@media (width <= 850px) {
     .mainPage {
         flex-direction: column;
         align-items: center;
@@ -242,4 +234,18 @@
         max-width: 800px;
     }
 
+    .mobBtnWrap .btnBG {
+        top: -300px;
+    }
+
+}
+
+@media (hover: hover) {
+    .promptArea:hover {
+        border-color: #FFF;
+    }
+
+    .btnWrap:hover .btnBG {
+        top: -300px;
+    }
 }
