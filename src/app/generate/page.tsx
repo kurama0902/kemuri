@@ -174,7 +174,7 @@ export default function Generate() {
             (selectedModel.category !== 'general_models' && selectedModel.modelName !== 'select model') && <AdditionalSettings selectedLoras={selectedLoras} selectLoras={selectLoras} vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
           }
           <div className={`${s.btnWrap} ${s.generateBtnWrap} ${isBlockedBtn && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
-            <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'processing...' : 'generate'}</span></button>
+            <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span></button>
             {!isBlockedBtn && <div className={s.btnBG}></div>}
           </div>
         </section>

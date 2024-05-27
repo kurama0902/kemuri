@@ -27,9 +27,6 @@
     border-radius: 12px;
 }
 
-.disabled {
-    cursor: not-allowed;
-}
 
 .btnWrap {
     cursor: pointer;
@@ -182,6 +179,10 @@
     animation: showAndHideNotification 1.5s;
 }
 
+.disabled {
+    cursor: not-allowed;
+}
+
 @keyframes showAndHideNotification {
     0% {
         right: -310px;
@@ -247,5 +248,9 @@
 
     .btnWrap:hover .btnBG {
         top: -300px;
+    }
+
+    .disabled:hover .btnBG {
+        top: 61px;
     }
 }
