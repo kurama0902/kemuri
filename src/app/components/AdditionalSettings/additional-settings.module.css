@@ -59,7 +59,7 @@
 
 .aspectRatio {
     display: flex;
-    width: max-content;
+    max-width: 400px;
     border: 1px solid darkgray;
     border-radius: 12px;
 }
@@ -213,6 +213,7 @@
 
 .selectedRatio {
     background-color: #fff;
+    width: 40%;
 }
 
 .selectedRatio:hover {
@@ -237,10 +238,6 @@
     .rangeInput {
         max-width: 300px;
         width: 100%;
-    }
-
-    .ratioBtn {
-        width: 25%;
     }
 
     .mobBtnWrap .btnBG {
