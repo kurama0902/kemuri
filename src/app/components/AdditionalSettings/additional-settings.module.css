@@ -31,9 +31,9 @@
     top: 61px;
 }
 
-.btnWrap:hover .btnBG {
+/* .btnWrap:hover .btnBG {
     top: -300px;
-}
+} */
 
 .addLoraBtn {
     position: relative;
@@ -133,6 +133,7 @@
 }
 
 .rangeInput::-moz-range-track {
+    background: linear-gradient(to right, red, rgb(196, 93, 196));
     border-radius: 8px;
     height: 8px;
 }
