@@ -179,13 +179,15 @@ export default function Generate() {
           </div>
         </section>
       </div>
-      <section className={s.generatedImagesWrap}>
-        <div className={s.generatedImages}>
-          {imagesLinks.map(link => {
-            return (
-              <img className={s.generatedImage} src={link} alt={promptText.current} key={link} />
-            )
-          })}
+      <section className={s.generatedImagesSection}>
+        <div className={s.generatedImagesWrap}>
+          <div className={s.generatedImages}>
+            {imagesLinks.map(link => {
+              return (
+                <img className={s.generatedImage} src={link} alt={promptText.current} key={link} />
+              )
+            })}
+          </div>
         </div>
       </section>
       {modalVisibility && <ModelsOrLorasModal choice="models" changeVisibility={changeVisibility} selectModel={selectModel} />}
