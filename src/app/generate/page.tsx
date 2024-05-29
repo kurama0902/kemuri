@@ -10,7 +10,7 @@ import s from "./generate.module.css";
 
 export default function Generate() {
 
-  const [modalVisibility, setModalVisibility] = useState<boolean>(false);
+  const [modalVisibility, setModalVisibility] = useState<boolean | null>(null);
   const [selectedModel, setSelectedModel] = useState<{
     modelName: string,
     category: string
@@ -44,10 +44,12 @@ export default function Generate() {
     setSamplingMethod(method)
   }
 
-  const changeVisibility = () => {
-    setModalVisibility((prev) => {
-      return !prev
-    })
+  // const changeVisibility = () => {
+  //   setModalVisibility()
+  // }
+
+  const changeVisibility = (state: boolean | null) => {
+    setModalVisibility(state);
   }
 
   const changePromptText = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -96,9 +98,9 @@ export default function Generate() {
       }
     }
 
-    setModalVisibility((prev) => {
-      return !prev
-    })
+    // setModalVisibility((prev) => {
+    //   return !prev
+    // })
   }
 
   const selectLoras = ({ lora, category }: { lora: string, category: string }) => {
@@ -159,7 +161,7 @@ export default function Generate() {
       <div className={s.settingSectionWrap}>
         <section className={s.settingSection}>
           <div className={`${s.btnWrap} ${modalVisibility && s.mobBtnWrap}`}>
-            <button onClick={changeVisibility} className={s.selectBtn}>
+            <button onClick={() => changeVisibility(true)} className={s.selectBtn}>
               <span>
                 {selectedModel.modelName}
               </span>
@@ -190,7 +192,7 @@ export default function Generate() {
           </div>
         </div>
       </section>
-      {modalVisibility && <ModelsOrLorasModal choice="models" changeVisibility={changeVisibility} selectModel={selectModel} />}
+      <ModelsOrLorasModal choice="models" visibility={modalVisibility} changeVisibility={changeVisibility} selectModel={selectModel} />
       <div className={`${s.badPromptNotification} ${isShowNotification && s.showNotification}`}>Bad prompt. Try again..</div>
     </div>
   );

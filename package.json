@@ -14,6 +14,7 @@
     "next": "14.2.3",
     "nextjs-cors": "^2.2.0",
     "react": "^18",
+    "react-animated-modal": "^1.1.1",
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",
     "three": "^0.164.1",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-animated-modal": "^1.1.4",
     "@types/react-dom": "^18",
     "@types/three": "^0.164.0",
     "eslint": "^8",
