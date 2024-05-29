@@ -179,7 +179,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
                     </div>
                 </div>
             </div>
-            {isShowModal && <ModelsOrLorasModal changeVisibility={changeVisibility} selectedLoras={selectedLoras} selectLoras={selectLoras} choice='loras' />}
+            {isShowModal && <ModelsOrLorasModal visibility={isShowModal} changeVisibility={changeVisibility} selectedLoras={selectedLoras} selectLoras={selectLoras} choice='loras' />}
         </div>
     )
 }
