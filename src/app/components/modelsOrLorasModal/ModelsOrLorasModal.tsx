@@ -57,3 +57,5 @@ export const ModelsOrLorasModal = memo(({ visibility, changeVisibility, selected
         </div>
     )
 })
+
+ModelsOrLorasModal.displayName = 'ModelsOrLorasModal';
