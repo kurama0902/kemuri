@@ -9,23 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.40.0",
+    "@tanstack/react-query-devtools": "^5.40.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.6",
     "next": "14.2.3",
     "nextjs-cors": "^2.2.0",
     "react": "^18",
-    "react-animated-modal": "^1.1.1",
-    "react-dom": "^18",
-    "tailwind-merge": "^2.3.0",
-    "three": "^0.164.1",
-    "vanta": "^0.5.24"
+    "react-dom": "^18"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.35.6",
     "@types/node": "^20",
     "@types/react": "^18",
-    "@types/react-animated-modal": "^1.1.4",
     "@types/react-dom": "^18",
-    "@types/three": "^0.164.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "typescript": "^5"
