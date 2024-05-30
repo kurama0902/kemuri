@@ -66,9 +66,11 @@
 
 
 .modelWrap {
+    cursor: pointer;
     position: relative;
     max-width: 200px;
     min-height: 270px;
+    border: none;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -87,7 +89,7 @@
     position: absolute;
     font-size: 20px;
     font-weight: 600;
-    background-color: rgba(0, 0, 0, 0.637);
+    background-color: rgba(0, 0, 0, 0.753);
     border-radius: 8px;
     text-transform: uppercase;
     color: white;

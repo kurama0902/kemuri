@@ -45,11 +45,11 @@ export const ModelsOrLorasModal = ({ visibility, changeVisibility, selectModel, 
                 {data?.map(model => {
                     console.log('model image', model.modelImage);
                     
-                    return <div className={s.modelWrap} key={model.modelName}>
+                    return <button onClick={() => selectModel !== undefined && selectModel({modelName: model.modelName, category: model.modelCategory})} className={s.modelWrap} key={model.modelName}>
                         <img className={s.modelImage} src={model.modelImage} alt={model.modelCategory} />
                         <p className={s.modelName}>{model.modelName}</p>
                         <p className={s.modelCategory}>{model.modelCategory}</p>
-                    </div>
+                    </button>
                 })}
             </div>
         </div>
