@@ -192,7 +192,7 @@ export default function Generate() {
           </div>
         </div>
       </section>
-      <ModelsOrLorasModal choice="models" visibility={modalVisibility} changeVisibility={changeVisibility} selectModel={selectModel} />
+      <ModelsOrLorasModal choice="models" visibility={modalVisibility} changeVisibility={changeVisibility} selectedModel={selectedModel.modelName} selectModel={selectModel} />
       <div className={`${s.badPromptNotification} ${isShowNotification && s.showNotification}`}>Bad prompt. Try again..</div>
     </div>
   );

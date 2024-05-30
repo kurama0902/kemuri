@@ -99,6 +99,22 @@
     bottom: 40px;
 }
 
+.selectedText {
+    position: absolute;
+    transition: opacity .3s;
+    opacity: 0;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.753);
+    border-radius: 8px;
+    color: white;
+    padding: 5px 10px;
+    top: 5px;
+    right: 5px;
+}
+.selected {
+    opacity: 1;
+}
+
 @keyframes showModal {
     0% {
         opacity: 0;
