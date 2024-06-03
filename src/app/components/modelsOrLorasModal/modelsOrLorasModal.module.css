@@ -28,24 +28,44 @@
 }
 
 .modal {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
     grid-auto-rows: auto;
-    justify-content: center;
+    justify-content: center; */
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     max-width: 1000px;
     width: calc(100% - 20px);
-    height: 600px;
+    /* height: 600px; */
     border-radius: 12px;
     border: 1px solid lightgray;
     z-index: 10;
     padding: 15px;
-    overflow-y: auto;
+    padding-right: 5px;
+    /* overflow-y: auto; */
     animation: showModal .3s forwards;
+    /* gap: 20px; */
+}
+
+.imagesWrap {
+    position: relative;
+    display: grid;
+    height: 600px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
+    grid-auto-rows: 270px;
+    justify-content: center;
+    overflow-y: auto;
+    padding-right: 10px;
     gap: 20px;
+}
+
+.modalPagination {
+    position: fixed;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .hideModal {

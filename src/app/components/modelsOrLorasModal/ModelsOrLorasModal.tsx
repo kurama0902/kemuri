@@ -1,10 +1,9 @@
 
 import { memo, useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getModels } from '../../../../queryFunctions/getModels';
-
+import { useGetModels } from '../../../../hooks/useGetModels';
 
 import s from './modelsOrLorasModal.module.css'
+import { Pagination } from '@mui/material';
 
 export const ModelsOrLorasModal = memo(({ visibility, changeVisibility, selectedModel, selectModel, selectLoras, selectedLoras, choice }: {
     visibility: boolean | null;
@@ -20,18 +19,15 @@ export const ModelsOrLorasModal = memo(({ visibility, changeVisibility, selected
 }) => {
 
     const [page, setPage] = useState<number>(1);
+    const models = useGetModels(page);
 
-    const queryClient = useQueryClient();
-
-    const {data, isLoading, error} = useQuery({queryKey: ['models', page, 8], queryFn: getModels})
-
-    console.log('modal render');
-    
-    
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value)
+    }
 
     useEffect(() => {
         let timer: NodeJS.Timeout;
-        if(visibility === false) {
+        if (visibility === false) {
             timer = setTimeout(() => changeVisibility(null), 300)
         }
 
@@ -42,17 +38,17 @@ export const ModelsOrLorasModal = memo(({ visibility, changeVisibility, selected
         <div className={`${s.modalWrap} ${visibility !== null && s.show} `}>
             <div onClick={() => changeVisibility(false)} className={`${s.closeBG} ${visibility === false && s.hideBG}`}></div>
             <div className={`${s.modal} ${visibility === false && s.hideModal}`}>
-                {/* <button onClick={() => setPage(prev => prev + 1)} className={s.changePage}>Next</button> */}
-                {error && <p>Error</p>}
-                {isLoading && <p>Loading</p>}
-                {data?.map(model => {                    
-                    return <button onClick={() => selectModel !== undefined && selectModel({modelName: model.modelName, category: model.modelCategory})} className={s.modelWrap} key={model.modelName}>
-                        <img className={s.modelImage} src={model.modelImage} alt={model.modelCategory} />
-                        <p className={s.modelName}>{model.modelName}</p>
-                        <p className={s.modelCategory}>{model.modelCategory}</p>
-                        <p className={`${s.selectedText} ${(selectedModel === model.modelName) && s.selected}`}>selected</p>
-                    </button>
-                })}
+                <div className={s.imagesWrap}>
+                    <Pagination className={s.modalPagination} size='medium' onChange={handlePageChange} page={page} count={10} variant="outlined" color="secondary" />
+                    {models?.map(model => {
+                        return <button onClick={() => selectModel !== undefined && selectModel({ modelName: model.modelName, category: model.modelCategory })} className={s.modelWrap} key={model.modelName}>
+                            <img className={s.modelImage} src={model.modelImage} alt={model.modelCategory} />
+                            <p className={s.modelName}>{model.modelName}</p>
+                            <p className={s.modelCategory}>{model.modelCategory}</p>
+                            <p className={`${s.selectedText} ${(selectedModel === model.modelName) && s.selected}`}>selected</p>
+                        </button>
+                    })}
+                </div>
             </div>
         </div>
     )

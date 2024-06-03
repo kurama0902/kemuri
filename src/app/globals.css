@@ -23,3 +23,8 @@
   cursor: pointer;
   background: gray;
 }
+
+.MuiPagination-ul {
+  flex-direction: column;
+  gap: 5px;
+}
