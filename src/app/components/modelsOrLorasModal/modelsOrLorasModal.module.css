@@ -28,25 +28,30 @@
 }
 
 .modal {
-    /* display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
-    grid-auto-rows: auto;
-    justify-content: center; */
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     max-width: 1000px;
     width: calc(100% - 20px);
-    /* height: 600px; */
     border-radius: 12px;
     border: 1px solid lightgray;
     z-index: 10;
     padding: 15px;
     padding-right: 5px;
-    /* overflow-y: auto; */
+    overflow-y: hidden;
     animation: showModal .3s forwards;
-    /* gap: 20px; */
+}
+
+.errorText, .emptyText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 70px;
+    width: max-content;
+    color: white;
 }
 
 .imagesWrap {
@@ -66,6 +71,7 @@
     left: 5px;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 1;
 }
 
 .hideModal {
