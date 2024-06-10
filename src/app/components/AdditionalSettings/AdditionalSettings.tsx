@@ -1,15 +1,11 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
 import { Select } from './Select'
 
 import s from './additional-settings.module.css'
 import { ModelsOrLorasModal } from '../modelsOrLorasModal'
+import { ModalContext } from '../../../../context/ModalContext'
 
-export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetVae, samplingMethod, handleSetSamplingMethod }: {
-    selectedLoras: {
-        loras: string[],
-        category: string
-    },
-    selectLoras: ({ lora, category }: { lora: string, category: string }) => void,
+export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSetSamplingMethod }: {
     vae: string,
     handleSetVae: (vae: string) => void,
     samplingMethod: string,
@@ -22,6 +18,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
         aspectRatio: string
     }
 
+    const modalContext = useContext(ModalContext);
 
     const aspectRatioList: { name: string, size: string }[] = [
         { name: 'portrait', size: '768x1152' },
@@ -29,7 +26,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
         { name: 'square', size: '1024x1024' },
     ];
 
-    const [isShowModal, setIsShowModal] = useState<boolean>(false);
+    // const [isShowModal, setIsShowModal] = useState<{ modalName: string, isShow: boolean } | null>(null);
     const [ratio, setRatio] = useState<RatioType>({
         width: 768,
         height: 1152,
@@ -40,11 +37,10 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
     const [CFG, setCFG] = useState<number>(1);
 
 
-    const changeVisibility = () => {
-        setIsShowModal(prev => {
-            return !prev
-        })
-    }
+    const handleChangeVisibility = (state: { modalName: string, isShow: boolean } | null) => {
+        // setIsShowModal(state);
+        modalContext?.changeVisibility(state);
+      }
 
     const changeRatioByButton = (width: number, height: number, aspectRatio: string) => () => {
         setRatio({ width, height, aspectRatio })
@@ -118,8 +114,8 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
     return (
         <div className={s.additionalSettings}>
             <h3 className={s.settingsText}>Settings</h3>
-            <div className={`${s.btnWrap} ${isShowModal && s.mobBtnWrap}`}>
-                <button onClick={changeVisibility} className={s.addLoraBtn}>
+            <div className={`${s.btnWrap} ${modalContext?.visibility?.isShow && s.mobBtnWrap}`}>
+                <button onClick={() => handleChangeVisibility({modalName: 'loras', isShow: true})} className={s.addLoraBtn}>
                     <span>add lora</span>
                 </button>
                 <div className={s.btnBG}></div>
@@ -179,7 +175,7 @@ export const AdditionalSettings = ({ selectedLoras, selectLoras, vae, handleSetV
                     </div>
                 </div>
             </div>
-            {isShowModal && <ModelsOrLorasModal visibility={isShowModal} changeVisibility={changeVisibility} selectedLoras={selectedLoras} selectLoras={selectLoras} choice='loras' />}
+            <ModelsOrLorasModal choice='loras' />
         </div>
     )
 }

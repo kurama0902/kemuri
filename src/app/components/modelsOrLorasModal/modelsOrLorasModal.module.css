@@ -118,6 +118,7 @@
     background-color: rgba(0, 0, 0, 0.753);
     border-radius: 8px;
     text-transform: uppercase;
+    max-width: 95%;
     color: white;
 }
 
@@ -139,6 +140,27 @@
 }
 .selected {
     opacity: 1;
+}
+
+.class, .version {
+    left: 5px;
+    bottom: 5px;
+    border-radius: 8px;
+    position: absolute;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.753);
+    text-transform: uppercase;
+    padding: 5px 10px;
+    color: white;
+}
+
+.version {
+    left: 95px;
+}
+
+.loraName {
+    font-size: 18px;
 }
 
 @keyframes showModal {

@@ -5,12 +5,13 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ModelsOrLorasModal } from "../components/modelsOrLorasModal";
 import { AdditionalSettings } from "../components/AdditionalSettings";
 import { GeneratingPreloader } from "../components/GeneratingPreloader";
+import { ModalContext } from "../../../context/ModalContext";
 
 import s from "./generate.module.css";
 
 export default function Generate() {
 
-  const [modalVisibility, setModalVisibility] = useState<boolean | null>(null);
+  const [modalVisibility, setModalVisibility] = useState<{ modalName: string, isShow: boolean } | null>(null);
   const [selectedModel, setSelectedModel] = useState<{
     modelName: string,
     category: string
@@ -35,7 +36,6 @@ export default function Generate() {
   const [vae, setVae] = useState<string>('');
   const [samplingMethod, setSamplingMethod] = useState<string>('');
 
-
   const handleSetVae = (vae: string) => {
     setVae(vae);
   }
@@ -48,7 +48,7 @@ export default function Generate() {
   //   setModalVisibility()
   // }
 
-  const changeVisibility = (state: boolean | null) => {
+  const changeVisibility = (state: { modalName: string, isShow: boolean } | null) => {
     setModalVisibility(state);
   }
 
@@ -156,44 +156,46 @@ export default function Generate() {
   }, [])
 
   return (
-    <div className={s.mainPage}>
-      {showGeneratingPreloader && <GeneratingPreloader />}
-      <div className={s.settingSectionWrap}>
-        <section className={s.settingSection}>
-          <div className={`${s.btnWrap} ${modalVisibility && s.mobBtnWrap}`}>
-            <button onClick={() => changeVisibility(true)} className={s.selectBtn}>
-              <span>
-                {selectedModel.modelName}
-              </span>
-            </button>
-            <div className={s.btnBG}></div>
-          </div>
-          <div className={s.promptAreaWrap}>
-            <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
-            <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
-          </div>
-          {
-            (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings selectedLoras={selectedLoras} selectLoras={selectLoras} vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
-          }
-          <div className={`${s.btnWrap} ${s.generateBtnWrap} ${isBlockedBtn && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
-            <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span></button>
-            {!isBlockedBtn && <div className={s.btnBG}></div>}
+    <ModalContext.Provider value={ { visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel.modelName, selectModel: selectModel} }>
+      <div className={s.mainPage}>
+        {showGeneratingPreloader && <GeneratingPreloader />}
+        <div className={s.settingSectionWrap}>
+          <section className={s.settingSection}>
+            <div className={`${s.btnWrap} ${modalVisibility && s.mobBtnWrap}`}>
+              <button onClick={() => changeVisibility({ modalName: 'models', isShow: true })} className={s.selectBtn}>
+                <span>
+                  {selectedModel.modelName}
+                </span>
+              </button>
+              <div className={s.btnBG}></div>
+            </div>
+            <div className={s.promptAreaWrap}>
+              <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
+              <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+            </div>
+            {
+              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
+            }
+            <div className={`${s.btnWrap} ${s.generateBtnWrap} ${isBlockedBtn && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
+              <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span></button>
+              {!isBlockedBtn && <div className={s.btnBG}></div>}
+            </div>
+          </section>
+        </div>
+        <section className={s.generatedImagesSection}>
+          <div className={s.generatedImagesWrap}>
+            <div className={s.generatedImages}>
+              {imagesLinks.map(link => {
+                return (
+                  <img className={s.generatedImage} src={link} alt={promptText.current} key={link} />
+                )
+              })}
+            </div>
           </div>
         </section>
+        <ModelsOrLorasModal choice="models" />
+        <div className={`${s.badPromptNotification} ${isShowNotification && s.showNotification}`}>Bad prompt. Try again..</div>
       </div>
-      <section className={s.generatedImagesSection}>
-        <div className={s.generatedImagesWrap}>
-          <div className={s.generatedImages}>
-            {imagesLinks.map(link => {
-              return (
-                <img className={s.generatedImage} src={link} alt={promptText.current} key={link} />
-              )
-            })}
-          </div>
-        </div>
-      </section>
-      <ModelsOrLorasModal choice="models" visibility={modalVisibility} changeVisibility={changeVisibility} selectedModel={selectedModel.modelName} selectModel={selectModel} />
-      <div className={`${s.badPromptNotification} ${isShowNotification && s.showNotification}`}>Bad prompt. Try again..</div>
-    </div>
+    </ModalContext.Provider>
   );
 }
