@@ -18,11 +18,6 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
 
     let modalContext = useContext(ModalContext);
 
-    console.log(modalContext?.visibility?.modalName, '|', choice, 'VISIBILITY and CHOICE');
-    
-
-    // console.log(modelsOrLoras, 'models');
-
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setIsLoading(true)
@@ -41,10 +36,12 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
         return () => clearTimeout(timer);
     }, [modalContext?.visibility, isLoading])
 
+
+
     return (
-        <div className={`${s.modalWrap} ${(modalContext?.visibility !== null && modalContext?.visibility.modalName === choice) && s.show} `}>
-            <div onClick={() => modalContext?.changeVisibility({modalName: '', isShow: false})} className={`${s.closeBG} ${modalContext?.visibility?.isShow === false && s.hideBG}`}></div>
-            <div className={`${s.modal} ${modalContext?.visibility?.isShow === false && s.hideModal}`}>
+        <div className={`${s.modalWrap} ${(modalContext?.visibility !== null && modalContext?.visibility?.modalName === choice) && s.show} `}>
+            <div onClick={() => modalContext?.visibility?.modalName !== undefined && modalContext?.changeVisibility({ modalName: modalContext.visibility.modalName, isShow: false })} className={`${s.closeBG} ${(modalContext?.visibility?.isShow === false) && s.hideBG}`}></div>
+            <div className={`${s.modal} ${(modalContext?.visibility?.isShow === false) && s.hideModal}`}>
                 <div className={s.imagesWrap}>
                     <Pagination
                         className={s.modalPagination}
@@ -84,11 +81,25 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                     {modelsOrLoras === undefined && <h1 className={s.errorText}>Error</h1>}
                     {modelsOrLoras === null && <h1 className={s.emptyText}>Page {page} is empty..</h1>}
                     {modelsOrLoras?.data?.map((modelOrLora, index) => {
-                        return <button onClick={() => (modalContext?.selectModel !== undefined && modelOrLora.modelCategory !== undefined) && modalContext.selectModel({ modelName: modelOrLora.name, category: modelOrLora.modelCategory })} className={s.modelWrap} key={modelOrLora.name}>
+                        return <button onClick={() => {
+                            if (choice === 'models') {
+                                (modalContext?.selectModel !== undefined && modelOrLora.modelCategory !== undefined) && modalContext.selectModel({ modelName: modelOrLora.name, category: modelOrLora.modelCategory })
+                            } else {
+                                (modalContext?.selectLoras !== undefined && modelOrLora.version !== undefined) && modalContext.selectLoras({ lora: modelOrLora.name, version: modelOrLora.version })
+                            }
+                        }
+                        } className={s.modelWrap} key={modelOrLora.name}>
                             <img className={s.modelImage} src={modelOrLora.image_url} alt={modelOrLora.modelCategory} />
                             <p className={`${s.modelName} ${choice !== 'models' && s.loraName}`}>{modelOrLora.name}</p>
                             {choice === 'models' && <p className={s.modelCategory}>{modelOrLora.modelCategory}</p>}
-                            <p className={`${s.selectedText} ${(modalContext?.selectedModel === modelOrLora.name) && s.selected}`}>selected</p>
+                            {
+                                choice === 'models' 
+                                ? 
+                                <p className={`${s.selectedText} ${(modalContext?.selectedModel === modelOrLora.name) && s.selected}`}>selected</p>
+                                :
+                                <p className={`${s.selectedText} ${(modalContext?.selectedLoras?.loras.includes(modelOrLora.name)) && s.selected}`}>selected</p>
+
+                            }
                             {choice !== 'models' && <p className={s.class}>{modelOrLora.class}</p>}
                             {choice !== 'models' && <p className={s.version}>{modelOrLora.version}</p>}
                         </button>

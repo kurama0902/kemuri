@@ -21,11 +21,15 @@ export default function Generate() {
   });
   const [selectedLoras, setSelectedLoras] = useState<{
     loras: string[],
-    category: string
+    version: string
   }>({
     loras: [],
-    category: ''
+    version: ''
   })
+
+  console.log(selectedLoras);
+  
+
   const promptText = useRef('');
   const [showGeneratingPreloader, setShowGeneratingPreloader] = useState<boolean>(true);
   const [imagesLinks, setImagesLinks] = useState<string[]>([]);
@@ -103,18 +107,24 @@ export default function Generate() {
     // })
   }
 
-  const selectLoras = ({ lora, category }: { lora: string, category: string }) => {
+  const selectLoras = ({ lora, version }: { lora: string, version: string }) => {
+
+    if(selectedLoras.version !== version) {
+      setSelectedLoras({loras: [lora], version});
+      return;
+    }
+
     if (selectedLoras.loras?.includes(lora)) {
       const newLoras = selectedLoras.loras.filter(el => el !== lora);
       setSelectedLoras({
         loras: newLoras,
-        category: newLoras.length > 0 ? category : ''
+        version: newLoras.length > 0 ? version : ''
       });
     } else {
       const newLoras = [...selectedLoras.loras, lora]
       setSelectedLoras({
         loras: newLoras,
-        category: category
+        version: version
       })
     }
   }
@@ -156,7 +166,7 @@ export default function Generate() {
   }, [])
 
   return (
-    <ModalContext.Provider value={ { visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel.modelName, selectModel: selectModel} }>
+    <ModalContext.Provider value={ { visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel.modelName, selectModel: selectModel, selectedLoras, selectLoras} }>
       <div className={s.mainPage}>
         {showGeneratingPreloader && <GeneratingPreloader />}
         <div className={s.settingSectionWrap}>

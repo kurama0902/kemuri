@@ -26,7 +26,6 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
         { name: 'square', size: '1024x1024' },
     ];
 
-    // const [isShowModal, setIsShowModal] = useState<{ modalName: string, isShow: boolean } | null>(null);
     const [ratio, setRatio] = useState<RatioType>({
         width: 768,
         height: 1152,
@@ -38,7 +37,6 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
 
 
     const handleChangeVisibility = (state: { modalName: string, isShow: boolean } | null) => {
-        // setIsShowModal(state);
         modalContext?.changeVisibility(state);
       }
 
