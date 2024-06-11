@@ -43,7 +43,8 @@
     animation: showModal .3s forwards;
 }
 
-.errorText, .emptyText {
+.errorText,
+.emptyText {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -94,6 +95,11 @@
 .modelWrap {
     cursor: pointer;
     position: relative;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     max-width: 200px;
     min-height: 270px;
     border: none;
@@ -138,11 +144,13 @@
     top: 5px;
     right: 5px;
 }
+
 .selected {
     opacity: 1;
 }
 
-.class, .version {
+.class,
+.version {
     left: 5px;
     bottom: 5px;
     border-radius: 8px;
@@ -161,6 +169,11 @@
 
 .loraName {
     font-size: 18px;
+}
+
+.blockBtn {
+    pointer-events: none;
+    filter: blur(8px);
 }
 
 @keyframes showModal {

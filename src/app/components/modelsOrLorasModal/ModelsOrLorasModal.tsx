@@ -88,14 +88,14 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                                 (modalContext?.selectLoras !== undefined && modelOrLora.version !== undefined) && modalContext.selectLoras({ lora: modelOrLora.name, version: modelOrLora.version })
                             }
                         }
-                        } className={s.modelWrap} key={modelOrLora.name}>
+                        } className={`${s.modelWrap} ${(choice !== 'models' && (modelOrLora.version !== modalContext?.selectedModel?.category)) && s.blockBtn}`} key={modelOrLora.name}>
                             <img className={s.modelImage} src={modelOrLora.image_url} alt={modelOrLora.modelCategory} />
                             <p className={`${s.modelName} ${choice !== 'models' && s.loraName}`}>{modelOrLora.name}</p>
                             {choice === 'models' && <p className={s.modelCategory}>{modelOrLora.modelCategory}</p>}
                             {
                                 choice === 'models' 
                                 ? 
-                                <p className={`${s.selectedText} ${(modalContext?.selectedModel === modelOrLora.name) && s.selected}`}>selected</p>
+                                <p className={`${s.selectedText} ${(modalContext?.selectedModel?.modelName === modelOrLora.name) && s.selected}`}>selected</p>
                                 :
                                 <p className={`${s.selectedText} ${(modalContext?.selectedLoras?.loras.includes(modelOrLora.name)) && s.selected}`}>selected</p>
 

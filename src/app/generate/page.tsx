@@ -25,10 +25,7 @@ export default function Generate() {
   }>({
     loras: [],
     version: ''
-  })
-
-  console.log(selectedLoras);
-  
+  })  
 
   const promptText = useRef('');
   const [showGeneratingPreloader, setShowGeneratingPreloader] = useState<boolean>(true);
@@ -166,7 +163,7 @@ export default function Generate() {
   }, [])
 
   return (
-    <ModalContext.Provider value={ { visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel.modelName, selectModel: selectModel, selectedLoras, selectLoras} }>
+    <ModalContext.Provider value={ { visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel, selectModel: selectModel, selectedLoras, selectLoras} }>
       <div className={s.mainPage}>
         {showGeneratingPreloader && <GeneratingPreloader />}
         <div className={s.settingSectionWrap}>
