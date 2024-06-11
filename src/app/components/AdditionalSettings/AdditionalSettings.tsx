@@ -5,11 +5,13 @@ import s from './additional-settings.module.css'
 import { ModelsOrLorasModal } from '../modelsOrLorasModal'
 import { ModalContext } from '../../../../context/ModalContext'
 
-export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSetSamplingMethod }: {
+export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSetSamplingMethod, upscaleMethod, handleSetUpscaleMethod }: {
     vae: string,
     handleSetVae: (vae: string) => void,
     samplingMethod: string,
-    handleSetSamplingMethod: (method: string) => void
+    handleSetSamplingMethod: (method: string) => void,
+    upscaleMethod: string
+    handleSetUpscaleMethod: (method: string) => void
 }) => {
 
     type RatioType = {
@@ -32,13 +34,14 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
         aspectRatio: 'portrait'
     });
 
-    const [sampling, setSampling] = useState<number>(20);
-    const [CFG, setCFG] = useState<number>(1);
+    const [sampling, setSampling] = useState<number>(25);
+    const [CFG, setCFG] = useState<number>(7);
+    const [upscaleFactor, setUpscaleFactor] = useState<number>(1.5)
 
 
     const handleChangeVisibility = (state: { modalName: string, isShow: boolean } | null) => {
         modalContext?.changeVisibility(state);
-      }
+    }
 
     const changeRatioByButton = (width: number, height: number, aspectRatio: string) => () => {
         setRatio({ width, height, aspectRatio })
@@ -98,7 +101,7 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
         }
     }
 
-    const changeSapmlingOrCFG = (e: ChangeEvent<HTMLInputElement>, type: string) => {
+    const changeSapmlingOrScaleFactorOrCFG = (e: ChangeEvent<HTMLInputElement>, type: string) => {
         if (e.target.value.includes('e')) e.target.value = '';
         if (type === 'sampling') {
             setSampling(Number(e.target.value));
@@ -107,13 +110,17 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
         if (type === 'cfg') {
             setCFG(Number(e.target.value));
         }
+
+        if (type === 'scaleFactor') {
+            setUpscaleFactor(Number(e.target.value));
+        }
     }
 
     return (
         <div className={s.additionalSettings}>
             <h3 className={s.settingsText}>Settings</h3>
             <div className={`${s.btnWrap} ${modalContext?.visibility?.isShow && s.mobBtnWrap}`}>
-                <button onClick={() => handleChangeVisibility({modalName: 'loras', isShow: true})} className={s.addLoraBtn}>
+                <button onClick={() => handleChangeVisibility({ modalName: 'loras', isShow: true })} className={s.addLoraBtn}>
                     <span>add lora</span>
                 </button>
                 <div className={s.btnBG}></div>
@@ -157,20 +164,28 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
             </div>
             <Select text='VAE' vae={vae} handleSetVae={handleSetVae} />
             <Select text='Sampling Method' samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
+            <Select text='Upscaler' upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} />
             <div className={s.stepsScaleWrap}>
                 <div className={s.steps}>
                     <p className={s.samplingStepsText}>Sampling Steps</p>
                     <div className={s.inputsWrap}>
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrCFG(e, 'sampling')} value={sampling} className={s.rangeInput} min={20} max={70} type="range" step={1} />
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrCFG(e, 'sampling')} value={sampling} className={s.numberInput} min={20} max={70} type="number" step={1} />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={sampling} className={s.rangeInput} min={20} max={70} type="range" step={1} />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={sampling} className={s.numberInput} min={20} max={70} type="number" step={1} />
                     </div>
                 </div>
                 <div className={s.scale}>
                     <p className={s.scaleText}>CFG Scale</p>
                     <div className={s.inputsWrap}>
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrCFG(e, 'cfg')} value={CFG} className={s.rangeInput} min={1} max={10} type="range" step={1} />
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrCFG(e, 'cfg')} value={CFG} className={s.numberInput} min={1} max={10} type="number" step={1} />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'cfg')} value={CFG} className={s.rangeInput} min={1} max={10} type="range" step={1} />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'cfg')} value={CFG} className={s.numberInput} min={1} max={10} type="number" step={1} />
                     </div>
+                </div>
+            </div>
+            <div className={s.upscaleFactorWrap}>
+                <p className={s.upscaleFactorText}>Upscale Factor</p>
+                <div className={s.inputsWrap}>
+                    <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'scaleFactor')} value={upscaleFactor} className={s.rangeInput} min={1} max={2} type="range" step={.1} />
+                    <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'scaleFactor')} value={upscaleFactor} className={s.numberInput} min={1} max={2} type="number" step={.1} />
                 </div>
             </div>
             <ModelsOrLorasModal choice='loras' />

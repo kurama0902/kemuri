@@ -34,11 +34,16 @@ export default function Generate() {
   const [isBlockedBtnAfterPrompt, setIsBlockedBtnAfterPrompt] = useState<boolean>(false);
   const [charactersCount, setCharactersCount] = useState<number>(0);
   const [isShowNotification, setIsShowNotification] = useState<boolean>(false);
-  const [vae, setVae] = useState<string>('');
-  const [samplingMethod, setSamplingMethod] = useState<string>('');
+  const [vae, setVae] = useState<string>('Automatic');
+  const [samplingMethod, setSamplingMethod] = useState<string>('Euler a');
+  const [upscaleMethod, setUpscaleMethod] = useState<string>('4x-UltraSharp');
 
   const handleSetVae = (vae: string) => {
     setVae(vae);
+  }
+
+  const handleSetUpscaleMethod = (method: string) => {
+    setUpscaleMethod(method)
   }
 
   const handleSetSamplingMethod = (method: string) => {
@@ -181,7 +186,7 @@ export default function Generate() {
               <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
             </div>
             {
-              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} />
+              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} />
             }
             <div className={`${s.btnWrap} ${s.generateBtnWrap} ${isBlockedBtn && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
               <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span></button>
