@@ -8,6 +8,7 @@ import { GeneratingPreloader } from "../components/GeneratingPreloader";
 import { ModalContext } from "../../../context/ModalContext";
 
 import s from "./generate.module.css";
+import { RatioType } from "../../../types/types";
 
 export default function Generate() {
 
@@ -25,7 +26,7 @@ export default function Generate() {
   }>({
     loras: [],
     version: ''
-  })  
+  })
 
   const promptText = useRef('');
   const [showGeneratingPreloader, setShowGeneratingPreloader] = useState<boolean>(true);
@@ -37,6 +38,25 @@ export default function Generate() {
   const [vae, setVae] = useState<string>('Automatic');
   const [samplingMethod, setSamplingMethod] = useState<string>('Euler a');
   const [upscaleMethod, setUpscaleMethod] = useState<string>('4x-UltraSharp');
+  const [loraWeights, setLoraWeights] = useState<{ [key: string]: number }>({});
+  const [ratio, setRatio] = useState<RatioType>({
+    width: 768,
+    height: 1152,
+    aspectRatio: 'portrait'
+  });
+  const [sampling, setSampling] = useState<number>(25);
+  const [upscaleFactor, setUpscaleFactor] = useState<number>(1.5);
+  const [CFG, setCFG] = useState<number>(7);
+
+
+
+  const handleSetLoraWeights = (e: ChangeEvent<HTMLInputElement>, loraName: string) => {
+    if (e.target.value.includes('e')) e.target.value = '';
+    setLoraWeights({
+      ...loraWeights,
+      [loraName]: Number(e.target.value)
+    })
+  }
 
   const handleSetVae = (vae: string) => {
     setVae(vae);
@@ -111,8 +131,8 @@ export default function Generate() {
 
   const selectLoras = ({ lora, version }: { lora: string, version: string }) => {
 
-    if(selectedLoras.version !== version) {
-      setSelectedLoras({loras: [lora], version});
+    if (selectedLoras.version !== version) {
+      setSelectedLoras({ loras: [lora], version });
       return;
     }
 
@@ -132,18 +152,48 @@ export default function Generate() {
   }
 
   const generateImage = async () => {
-    try {
-      if (promptText.current.length > 0 && selectedModel.modelName !== 'select model') {
+
+    if (promptText.current.length > 0 && selectedModel.modelName !== 'select model') {
+
+      const loras: { [key: string]: number }[] = [];
+
+      for (let lora in loraWeights) {
+        loras.push({ [lora]: loraWeights[lora] })
+      }
+
+      try {
         setIsBlockedBtnAfterPrompt(true)
-        const response = await fetch('https://api.kemuri.top/v1/images/generations', {
+        const response = await fetch(`https://api.kemuri.top/v1/${selectedModel.category === 'general' ? 'images/generations' : selectedModel.category === 'sd' ? 'gen-sd' : 'gen-sdxl'}`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
+          body: selectedModel.category === 'general' ? JSON.stringify({
             "prompt": promptText.current,
             "model": selectedModel.modelName
-          })
+          }) :
+            JSON.stringify({
+              "prompt": promptText.current,
+              "negative_prompts": [
+                "bad anatomy, easynegative"
+              ],
+              "model_shorthand": selectedModel.modelName,
+              "lora_shorthands": loras.length > 0 ? loras : Object.values(selectedLoras.loras).map(el => {
+                return { [el]: 0.8 }
+              }),
+              "sampler": samplingMethod,
+              "width": ratio.width,
+              "height": ratio.height,
+              "steps": sampling,
+              "count": 4,
+              "upscale_factor": upscaleFactor,
+              "sdVae": vae,
+              "clip_skip": 2,
+              "cfg_scale": CFG,
+              "hr_upscaler": upscaleMethod,
+              "hr_second_pass_steps": 10,
+              "denoising_strength": 1
+            })
         })
 
         const data = await response.json();
@@ -151,13 +201,13 @@ export default function Generate() {
         console.log(urls);
         setImagesLinks(urls)
         setIsBlockedBtnAfterPrompt(false)
+      } catch (error) {
+        setIsShowNotification(true)
+        setTimeout(() => {
+          setIsShowNotification(false);
+          setIsBlockedBtnAfterPrompt(false);
+        }, 1500)
       }
-    } catch (error) {
-      setIsShowNotification(true)
-      setTimeout(() => {
-        setIsShowNotification(false);
-        setIsBlockedBtnAfterPrompt(false);
-      }, 1500)
     }
   }
 
@@ -168,7 +218,7 @@ export default function Generate() {
   }, [])
 
   return (
-    <ModalContext.Provider value={ { visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel, selectModel: selectModel, selectedLoras, selectLoras} }>
+    <ModalContext.Provider value={{ visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel, selectModel: selectModel, selectedLoras, selectLoras }}>
       <div className={s.mainPage}>
         {showGeneratingPreloader && <GeneratingPreloader />}
         <div className={s.settingSectionWrap}>
@@ -186,7 +236,7 @@ export default function Generate() {
               <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
             </div>
             {
-              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} />
+              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras.loras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />
             }
             <div className={`${s.btnWrap} ${s.generateBtnWrap} ${isBlockedBtn && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
               <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span></button>

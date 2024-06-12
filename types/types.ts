@@ -12,3 +12,9 @@ export type ModalContextType = {
         version: string
     }
 }
+
+export type RatioType = {
+    width: number;
+    height: number;
+    aspectRatio: string
+}
