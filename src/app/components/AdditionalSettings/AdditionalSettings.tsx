@@ -6,14 +6,18 @@ import { Select } from './Select'
 import s from './additional-settings.module.css'
 import { RatioType } from '../../../../types/types'
 
-export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSetSamplingMethod, upscaleMethod, handleSetUpscaleMethod, selectedLoras, loraWeights, handleSetLoraWeights, ratio, setRatio, sampling, setSampling, upscaleFactor, setUpscaleFactor, CFG, setCFG }: {
+export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSetSamplingMethod, upscaleMethod, handleSetUpscaleMethod, selectedLoras, selectLoras, loraWeights, handleSetLoraWeights, ratio, setRatio, sampling, setSampling, upscaleFactor, setUpscaleFactor, CFG, setCFG }: {
     vae: string,
     handleSetVae: (vae: string) => void,
     samplingMethod: string,
     handleSetSamplingMethod: (method: string) => void,
     upscaleMethod: string,
     handleSetUpscaleMethod: (method: string) => void,
-    selectedLoras: string[],
+    selectedLoras: {
+        loras: string[];
+        version: string;
+    },
+    selectLoras: ({ lora, version }: { lora: string, version: string }) => void,
     loraWeights: { [key: string]: number },
     handleSetLoraWeights: (e: ChangeEvent<HTMLInputElement>, loraName: string) => void,
     ratio: {
@@ -30,12 +34,6 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
     setCFG: Dispatch<SetStateAction<number>>
 }) => {
 
-    // type RatioType = {
-    //     width: number;
-    //     height: number;
-    //     aspectRatio: string
-    // }
-
     const modalContext = useContext(ModalContext);
 
     const aspectRatioList: { name: string, size: string }[] = [
@@ -43,17 +41,6 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
         { name: 'landscape', size: '1152x768' },
         { name: 'square', size: '1024x1024' },
     ];
-
-    // const [ratio, setRatio] = useState<RatioType>({
-    //     width: 768,
-    //     height: 1152,
-    //     aspectRatio: 'portrait'
-    // });
-
-    // const [sampling, setSampling] = useState<number>(25);
-    // const [CFG, setCFG] = useState<number>(7);
-    // const [upscaleFactor, setUpscaleFactor] = useState<number>(1.5)
-
 
     const handleChangeVisibility = (state: { modalName: string, isShow: boolean } | null) => {
         modalContext?.changeVisibility(state);
@@ -141,7 +128,7 @@ export const AdditionalSettings = ({ vae, handleSetVae, samplingMethod, handleSe
                 </button>
                 <div className={s.btnBG}></div>
             </div>
-            <Select text='Lora Weight' selectedLoras={selectedLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights}  />
+            {selectedLoras.loras.length > 0 && <Select text='Lora Weight' selectedLoras={selectedLoras} selectLoras={selectLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} />}
             <div className={s.aspectRatioWrap}>
                 <p className={s.aspectRatioText}>Aspect Ratio</p>
                 <div className={s.aspectRatio}>

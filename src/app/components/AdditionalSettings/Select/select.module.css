@@ -140,7 +140,9 @@
 .weightSettings {
    display: flex;
    flex-direction: column;
-   gap: 5px;
+   background-color: rgba(211, 211, 211, 0.253);
+   border-radius: 12px;
+   gap: 10px;
 }
 
 .inputsWrap {
@@ -148,21 +150,6 @@
     align-items: center;
     gap: 5px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .rangeInput {
@@ -234,17 +221,26 @@
 }
 
 
-
-
-
 .bigPadding {
-    padding: 5px;
+    padding: 10px;
 }
 
 
+.unselectLora {
+    cursor: pointer;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(211, 211, 211, 0.349);
+    text-transform: uppercase;
+    transition: background-color .3s;
+    color: #FFF;
+}
 
+.unselectLora:hover {
+    background-color: rgba(211, 211, 211, 0.514);
 
-
+}
 
 
 

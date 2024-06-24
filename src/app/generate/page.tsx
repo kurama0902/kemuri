@@ -123,10 +123,6 @@ export default function Generate() {
         })
       }
     }
-
-    // setModalVisibility((prev) => {
-    //   return !prev
-    // })
   }
 
   const selectLoras = ({ lora, version }: { lora: string, version: string }) => {
@@ -236,7 +232,7 @@ export default function Generate() {
               <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
             </div>
             {
-              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras.loras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />
+              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras} selectLoras={selectLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />
             }
             <div className={`${s.btnWrap} ${s.generateBtnWrap} ${isBlockedBtn && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
               <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span></button>
