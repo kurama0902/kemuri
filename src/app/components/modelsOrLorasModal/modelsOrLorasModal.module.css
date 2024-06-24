@@ -63,7 +63,7 @@
     grid-auto-rows: 270px;
     justify-content: center;
     overflow-y: auto;
-    padding-right: 10px;
+    padding-inline: 50px;
     gap: 20px;
 }
 
@@ -174,6 +174,28 @@
 .blockBtn {
     pointer-events: none;
     filter: blur(8px);
+}
+
+.closeBtn {
+    cursor: pointer;
+    display: flex;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    border: 2px solid darkgray;
+    border-radius: 100%;
+    transition: background-color .3s;
+    color: white;
+}
+
+.closeBtn:hover {
+    background-color: rgba(169, 169, 169, 0.582);
 }
 
 @keyframes showModal {

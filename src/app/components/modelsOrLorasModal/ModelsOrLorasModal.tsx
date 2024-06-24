@@ -16,7 +16,6 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
     const [page, setPage] = useState<number>(1);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const type = modalContext?.selectedLoras?.version;
-    console.log(type, 'type');
     const modelsOrLoras = useGetModels(choice, page, choice === 'loras' ? type : '');
 
 
@@ -107,6 +106,11 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                             {choice !== 'models' && <p className={s.version}>{modelOrLora.version}</p>}
                         </button>
                     })}
+                    <button onClick={() => {
+                        modalContext?.visibility?.modalName !== undefined && modalContext?.changeVisibility({ modalName: modalContext.visibility?.modalName, isShow: false })
+                    }} className={s.closeBtn}>
+                        X
+                    </button>
                 </div>
             </div>
         </div>

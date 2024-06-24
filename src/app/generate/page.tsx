@@ -26,7 +26,7 @@ export default function Generate() {
   }>({
     loras: [],
     version: ''
-  })
+  })  
 
   const promptText = useRef('');
   const [showGeneratingPreloader, setShowGeneratingPreloader] = useState<boolean>(true);
@@ -138,7 +138,7 @@ export default function Generate() {
       const newLoras = selectedLoras.loras.filter(el => el !== lora);
       setSelectedLoras({
         loras: newLoras,
-        version: newLoras.length > 0 ? version : ''
+        version: version
       });
     } else {
       const newLoras = [...selectedLoras.loras, lora]
