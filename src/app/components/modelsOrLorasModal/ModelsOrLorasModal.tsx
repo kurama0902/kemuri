@@ -5,7 +5,7 @@ import { useGetModels } from '../../../../hooks/useGetModels';
 import { GeneratingPreloader } from '../GeneratingPreloader';
 import { ModalContext } from '../../../../context/ModalContext';
 
-import { Pagination } from '@mui/material';
+import { Pagination, TextField } from '@mui/material';
 
 import s from './modelsOrLorasModal.module.css'
 
@@ -44,6 +44,19 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
         <div className={`${s.modalWrap} ${(modalContext?.visibility !== null && modalContext?.visibility?.modalName === choice) && s.show} `}>
             <div onClick={() => modalContext?.visibility?.modalName !== undefined && modalContext?.changeVisibility({ modalName: modalContext.visibility.modalName, isShow: false })} className={`${s.closeBG} ${(modalContext?.visibility?.isShow === false) && s.hideBG}`}></div>
             <div className={`${s.modal} ${(modalContext?.visibility?.isShow === false) && s.hideModal}`}>
+                <div className={s.searchWrap}>
+                    <TextField
+                        id="standard-basic"
+                        label="Search..."
+                        variant="standard"
+                        sx={{
+                            input: { color: 'white' },
+                            label: { color: 'white' },
+                            '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+                            '&:hover .MuiInput-underline:before': { borderBottomColor: 'white' },
+                        }}
+                    />
+                </div>
                 <div className={s.imagesWrap}>
                     <Pagination
                         className={s.modalPagination}
@@ -95,23 +108,23 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                             <p className={`${s.modelName} ${choice !== 'models' && s.loraName}`}>{modelOrLora.name}</p>
                             {choice === 'models' && <p className={s.modelCategory}>{modelOrLora.modelCategory}</p>}
                             {
-                                choice === 'models' 
-                                ? 
-                                <p className={`${s.selectedText} ${(modalContext?.selectedModel?.modelName === modelOrLora.name) && s.selected}`}>selected</p>
-                                :
-                                <p className={`${s.selectedText} ${(modalContext?.selectedLoras?.loras.includes(modelOrLora.name)) && s.selected}`}>selected</p>
+                                choice === 'models'
+                                    ?
+                                    <p className={`${s.selectedText} ${(modalContext?.selectedModel?.modelName === modelOrLora.name) && s.selected}`}>selected</p>
+                                    :
+                                    <p className={`${s.selectedText} ${(modalContext?.selectedLoras?.loras.includes(modelOrLora.name)) && s.selected}`}>selected</p>
 
                             }
                             {choice !== 'models' && <p className={s.class}>{modelOrLora.class}</p>}
                             {choice !== 'models' && <p className={s.version}>{modelOrLora.version}</p>}
                         </button>
                     })}
-                    <button onClick={() => {
-                        modalContext?.visibility?.modalName !== undefined && modalContext?.changeVisibility({ modalName: modalContext.visibility?.modalName, isShow: false })
-                    }} className={s.closeBtn}>
-                        X
-                    </button>
                 </div>
+                <button onClick={() => {
+                    modalContext?.visibility?.modalName !== undefined && modalContext?.changeVisibility({ modalName: modalContext.visibility?.modalName, isShow: false })
+                }} className={s.closeBtn}>
+                    X
+                </button>
             </div>
         </div>
     )

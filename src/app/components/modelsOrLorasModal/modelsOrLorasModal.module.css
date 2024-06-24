@@ -58,12 +58,13 @@
 .imagesWrap {
     position: relative;
     display: grid;
-    height: 600px;
+    height: 565px;
     grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
     grid-auto-rows: 270px;
     justify-content: center;
     overflow-y: auto;
     padding-inline: 50px;
+    grid-gap: 20px;
     gap: 20px;
 }
 
@@ -180,7 +181,7 @@
     cursor: pointer;
     display: flex;
     position: absolute;
-    top: 5px;
+    top: 15px;
     right: 10px;
     width: 30px;
     height: 30px;
@@ -196,6 +197,11 @@
 
 .closeBtn:hover {
     background-color: rgba(169, 169, 169, 0.582);
+}
+
+.searchWrap {
+    padding-left: 10px;
+    margin-bottom: 20px;
 }
 
 @keyframes showModal {
