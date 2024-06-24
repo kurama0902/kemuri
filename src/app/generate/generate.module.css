@@ -33,6 +33,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 12px;
+    max-height: 60px;
 }
 
 .btnWrap span {
