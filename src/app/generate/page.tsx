@@ -70,10 +70,6 @@ export default function Generate() {
     setSamplingMethod(method)
   }
 
-  // const changeVisibility = () => {
-  //   setModalVisibility()
-  // }
-
   const changeVisibility = (state: { modalName: string, isShow: boolean } | null) => {
     setModalVisibility(state);
   }
@@ -107,7 +103,13 @@ export default function Generate() {
   }
 
   const selectModel = ({ modelName, category }: { modelName: string, category: string }) => {
+
+    if(category !== selectedModel.category) {
+      setSelectedLoras({loras: [], version: category});
+    }
+
     setSelectedModel({ modelName, category });
+
     if (category === 'general_models' && promptText.current.length > 150) {
       if (isBlockedBtn === false) {
         setIsBlockedBtn((prev) => {
