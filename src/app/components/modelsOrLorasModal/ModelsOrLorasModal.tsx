@@ -11,12 +11,13 @@ import s from './modelsOrLorasModal.module.css'
 
 export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
 
+    let modalContext = useContext(ModalContext);
+
     const [page, setPage] = useState<number>(1);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const modelsOrLoras = useGetModels(choice, page);
-
-
-    let modalContext = useContext(ModalContext);
+    const type = modalContext?.selectedLoras?.version;
+    console.log(type, 'type');
+    const modelsOrLoras = useGetModels(choice, page, choice === 'loras' ? type : '');
 
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -27,7 +28,9 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (modalContext?.visibility?.isShow === false) {
-            timer = setTimeout(() => modalContext.changeVisibility(null), 300)
+            timer = setTimeout(() => {
+                modalContext.changeVisibility(null);
+            }, 300)
         }
         setTimeout(() => {
             if (isLoading === true) setIsLoading(false);

@@ -15,7 +15,7 @@ type ModelsOrLorasInfo = {
 }
 
 
-export const useGetModels = (choice: string, page: number): ModelsOrLorasInfo | null | undefined => {
+export const useGetModels = (choice: string, page: number, type: string = ''): ModelsOrLorasInfo | null | undefined => {
 
     const [modelsOrLoras, setModelsOrLoras] = useState<ModelsOrLorasInfo | null | undefined>(null);
 
@@ -26,9 +26,14 @@ export const useGetModels = (choice: string, page: number): ModelsOrLorasInfo | 
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
+                body: !type ? JSON.stringify({
                     page,
                     page_size
+                }) :
+                JSON.stringify({
+                    page,
+                    page_size,
+                    type: type
                 })
             });
 
@@ -48,7 +53,7 @@ export const useGetModels = (choice: string, page: number): ModelsOrLorasInfo | 
 
     useEffect(() => {
         getModels();
-    }, [page])
+    }, [page, type])
 
     return modelsOrLoras;
 }
