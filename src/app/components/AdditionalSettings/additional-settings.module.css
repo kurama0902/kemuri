@@ -9,6 +9,7 @@
     overflow: hidden;
     border-radius: 12px;
     margin-bottom: 25px;
+    max-height: 60px;
 }
 
 .btnWrap span {
