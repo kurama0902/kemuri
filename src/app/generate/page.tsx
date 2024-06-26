@@ -136,7 +136,8 @@ export default function Generate() {
 
     if (selectedLoras.loras?.includes(lora)) {
       const newLoras = selectedLoras.loras.filter(el => el !== lora);
-            
+      delete loraWeights[lora];
+
       setSelectedLoras({
         loras: newLoras,
         version: version
@@ -146,6 +147,10 @@ export default function Generate() {
       setSelectedLoras({
         loras: newLoras,
         version: version
+      })
+      setLoraWeights({
+        ...loraWeights,
+        [lora]: 0.8 
       })
     }
   }
