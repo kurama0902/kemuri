@@ -4,10 +4,15 @@ import { memo, useContext, useEffect, useState } from 'react';
 import { useGetModels } from '../../../../hooks/useGetModels';
 import { GeneratingPreloader } from '../GeneratingPreloader';
 import { ModalContext } from '../../../../context/ModalContext';
+import { getSearchedData } from '../../../../utilites/getSearchedData';
+
+import { Virtuoso } from 'react-virtuoso'
 
 import { Pagination, TextField } from '@mui/material';
 
 import s from './modelsOrLorasModal.module.css'
+
+import { Loras, Models } from '../../../../types/types';
 
 export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
 
@@ -17,7 +22,11 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const type = modalContext?.selectedLoras?.version;
     const modelsOrLoras = useGetModels(choice, page, choice === 'loras' ? type : '');
+    const [searchedData, setSearchedData] = useState<Models[] | Loras[]>([]);
 
+    // getSearchedData(searchText.current, choice === 'models' ? "all" : type || '', choice, setSearchedData, flag, setFlag);
+
+    console.log(searchedData, 'searchedData');
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setIsLoading(true)
@@ -46,6 +55,13 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
             <div className={`${s.modal} ${(modalContext?.visibility?.isShow === false) && s.hideModal}`}>
                 <div className={s.searchWrap}>
                     <TextField
+                        onChange={(e) => {
+                            if (e.target.value.length > 0) {
+                                getSearchedData(e, choice === 'models' ? "all" : type || '', choice, setSearchedData);
+                            } else {
+                                setSearchedData([]);
+                            }
+                        }}
                         id="standard-basic"
                         label="Search..."
                         variant="standard"
@@ -54,8 +70,44 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                             label: { color: 'white' },
                             '& .MuiInput-underline:before': { borderBottomColor: 'white' },
                             '&:hover .MuiInput-underline:before': { borderBottomColor: 'white' },
+                            '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: 'lightgrey' },
+
                         }}
                     />
+                    {
+                        searchedData.length > 0 &&
+                        <div className={s.searchPopup}>
+                            <Virtuoso
+                                style={{ height: '200px', maxWidth: '350px', width: '100%' }}
+                                totalCount={searchedData.length}
+                                itemContent={(index) => {
+                                    const item = searchedData[index];
+                                    if (choice === 'models') {
+                                        const model = item as Models;
+                                        return (
+                                            <button key={model.name + index} onClick={() => modalContext?.selectModel !== undefined && modalContext.selectModel({ modelName: model.name, category: model.modelCategory })} className={s.popupItem}>
+                                                <img className={s.popupImage} src={model.image_url} alt="" />
+                                                <p className={s.modelName}>{model.name}</p>
+                                                <p className={s.modelCategory}>{model.modelCategory}</p>
+                                                <p className={`${s.selectedText} ${model.name === modalContext?.selectedModel?.modelName && s.selected}`}>selected</p>
+                                            </button>
+                                        );
+                                    } else {
+                                        const lora = item as Loras;
+                                        return (
+                                            <button key={lora.name + index} onClick={() => modalContext?.selectLoras !== undefined && modalContext.selectLoras({ lora: lora.name, version: lora.version })} className={s.popupItem}>
+                                                <img className={s.popupImage} src={lora.image_url} alt="" />
+                                                <p className={s.modelName}>{lora.name}</p>
+                                                <p className={s.version}>{lora.version}</p>
+                                                <p className={s.class}>{lora.class}</p>
+                                                <p className={`${s.selectedText} ${modalContext?.selectedLoras?.loras.includes(lora.name) && s.selected}`}>selected</p>
+                                            </button>
+                                        );
+                                    }
+                                }}
+                            />
+                        </div>
+                    }
                 </div>
                 <div className={s.imagesWrap}>
                     <Pagination

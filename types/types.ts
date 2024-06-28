@@ -18,3 +18,17 @@ export type RatioType = {
     height: number;
     aspectRatio: string
 }
+
+export type Loras = {
+    name: string,
+    image_url: string,
+    sensitive: string,
+    class: string,
+    version: string
+}
+
+export type Models = {
+    name: string,
+    modelCategory: string,
+    image_url: string
+}

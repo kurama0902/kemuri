@@ -15,12 +15,15 @@
     "@mui/material": "^5.15.19",
     "@tanstack/react-query": "^5.40.0",
     "@tanstack/react-query-devtools": "^5.40.0",
+    "@virtuoso.dev/message-list": "^1.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.6",
     "next": "14.2.3",
     "nextjs-cors": "^2.2.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-dynamic-virtual-scroll": "^1.4.0",
+    "react-virtuoso": "^4.7.11"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.35.6",
