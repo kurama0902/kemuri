@@ -105,6 +105,7 @@ export default function Generate() {
   const selectModel = ({ modelName, category }: { modelName: string, category: string }) => {
 
     if(category !== selectedModel.category) {
+      setLoraWeights({});
       setSelectedLoras({loras: [], version: category});
     }
 
