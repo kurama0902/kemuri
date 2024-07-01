@@ -1,4 +1,6 @@
+
 export default {
+  
   images: {
     domains: ['i.ibb.co', 'image.tensorartassets.com'],
   },
@@ -16,5 +18,5 @@ export default {
         ]
       }
     ];
-  }
+  },
 };

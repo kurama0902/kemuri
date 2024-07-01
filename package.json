@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dotlottie/react-player": "^1.6.19",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
@@ -19,11 +20,13 @@
     "@virtuoso.dev/message-list": "^1.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.6",
+    "lottie-react": "^2.4.0",
     "next": "14.2.3",
     "nextjs-cors": "^2.2.0",
     "react": "^18",
     "react-dom": "^18",
     "react-dynamic-virtual-scroll": "^1.4.0",
+    "react-lottie": "^1.2.4",
     "react-virtuoso": "^4.7.11"
   },
   "devDependencies": {
@@ -31,6 +34,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-lottie": "^1.2.10",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "typescript": "^5"

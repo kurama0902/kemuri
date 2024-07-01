@@ -6,9 +6,10 @@ import { ModelsOrLorasModal } from "../components/modelsOrLorasModal";
 import { AdditionalSettings } from "../components/AdditionalSettings";
 import { GeneratingPreloader } from "../components/GeneratingPreloader";
 import { ModalContext } from "../../../context/ModalContext";
+import { RatioType } from "../../../types/types";
+
 
 import s from "./generate.module.css";
-import { RatioType } from "../../../types/types";
 
 export default function Generate() {
 
@@ -109,7 +110,16 @@ export default function Generate() {
       setSelectedLoras({loras: [], version: category});
     }
 
-    setSelectedModel({ modelName, category });
+    console.log(selectedModel.modelName, 'selected modelName');
+    console.log(modelName, 'fn modelName');
+    
+    
+
+    if(selectedModel.modelName !== 'select model' && modelName === selectedModel.modelName) {
+      setSelectedModel({modelName: 'select model', category: ''})
+    } else {
+      setSelectedModel({modelName, category})
+    }
 
     if (category === 'general_models' && promptText.current.length > 150) {
       if (isBlockedBtn === false) {
@@ -219,7 +229,7 @@ export default function Generate() {
   useEffect(() => {
     setTimeout(() => {
       setShowGeneratingPreloader(false);
-    }, 1500);
+    }, 1000);
   }, [])
 
   return (
