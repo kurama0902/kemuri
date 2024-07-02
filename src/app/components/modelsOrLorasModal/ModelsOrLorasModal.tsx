@@ -1,11 +1,11 @@
+"use client"
 
 import { memo, useContext, useEffect, useState } from 'react';
 
-// import { GeneratingPreloader } from '../GeneratingPreloader';
 import { ModalContext } from '../../../../context/ModalContext';
 import { useGetSearchedData } from '../../../../hooks/useGetSearchedData';
 
-import { Virtuoso, VirtuosoGrid } from 'react-virtuoso'
+import { VirtuosoGrid } from 'react-virtuoso'
 
 import s from './modelsOrLorasModal.module.css'
 
@@ -20,8 +20,6 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
     const type = modalContext?.selectedLoras?.version;
     const [searchText, setSearchText] = useState<string>('');
     const searchedData = useGetSearchedData(searchText, choice === 'models' ? "all" : type || '', choice);
-
-    console.log(searchedData, 'searchedData');
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setIsLoading(true)
@@ -44,6 +42,7 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
 
 
 
+
     return (
         <div className={`${s.modalWrap} ${(modalContext?.visibility !== null && modalContext?.visibility?.modalName === choice) && s.show} `}>
             <div onClick={() => modalContext?.visibility?.modalName !== undefined && modalContext?.changeVisibility({ modalName: modalContext.visibility.modalName, isShow: false })} className={`${s.closeBG} ${(modalContext?.visibility?.isShow === false) && s.hideBG}`}></div>
@@ -53,10 +52,9 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                     setSearchText(!isEmpty ? '' : e.target.value.trim());
                 }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" />
                 <VirtuosoGrid
-                    // className={s.imagesWrap}
-                    style={{ height: '565px' }}
+                    style={{ height: '565px'}}
                     totalCount={searchedData.length}
-                    listClassName={s.imagesWrap}
+                    listClassName={`${s.imagesWrap}`}
                     itemClassName={s.modelWrap}
                     itemContent={(index) => {
                         const item = searchedData[index];
@@ -64,9 +62,10 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                         const m = item as Models;
                         const l = item as Loras;
 
+
                         return (
                             <button
-                                style={{ maxWidth: '200px', minHeight: '270px', maxHeight: '270px' }}
+                                style={{ width: '100%', minHeight: '270px', maxHeight: '270px' }}
                                 onClick={() => {
                                     if (choice === 'models') {
                                         (modalContext?.selectModel !== undefined && m.modelCategory !== undefined) && modalContext.selectModel({ modelName: m.name, category: m.modelCategory })
