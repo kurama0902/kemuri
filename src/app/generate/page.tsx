@@ -28,7 +28,7 @@ export default function Generate() {
   }>({
     loras: [],
     version: ''
-  })  
+  })
 
   const promptText = useRef('');
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -107,20 +107,20 @@ export default function Generate() {
 
   const selectModel = ({ modelName, category }: { modelName: string, category: string }) => {
 
-    if(category !== selectedModel.category) {
+    if (category !== selectedModel.category) {
       setLoraWeights({});
-      setSelectedLoras({loras: [], version: category});
+      setSelectedLoras({ loras: [], version: category });
     }
 
     console.log(selectedModel.modelName, 'selected modelName');
     console.log(modelName, 'fn modelName');
-    
-    
 
-    if(selectedModel.modelName !== 'select model' && modelName === selectedModel.modelName) {
-      setSelectedModel({modelName: 'select model', category: ''})
+
+
+    if (selectedModel.modelName !== 'select model' && modelName === selectedModel.modelName) {
+      setSelectedModel({ modelName: 'select model', category: '' })
     } else {
-      setSelectedModel({modelName, category})
+      setSelectedModel({ modelName, category })
     }
 
     if (category === 'general_models' && promptText.current.length > 150) {
@@ -163,7 +163,7 @@ export default function Generate() {
       })
       setLoraWeights({
         ...loraWeights,
-        [lora]: 0.8 
+        [lora]: 0.8
       })
     }
   }
@@ -238,18 +238,18 @@ export default function Generate() {
         body: JSON.stringify({
           type
         })
-      })  
+      })
 
       const text = await res.json();
 
-      if(textAreaRef.current !== null && selectedModel.modelName !== 'select model') {
+      if (textAreaRef.current !== null && selectedModel.modelName !== 'select model') {
         textAreaRef.current.value = text;
         promptText.current = text;
         setCharactersCount(text.length);
       }
 
     } catch (error) {
-      
+
     }
   }
 
@@ -275,10 +275,12 @@ export default function Generate() {
             </div>
             <div className={s.promptAreaWrap}>
               <textarea ref={textAreaRef} placeholder="Enter your promt.." onChange={changePromptText} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
-              <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
-              <button onClick={() => getRandomPrompt(selectedModel.category)} className={s.randBtn}>
-                <Image src='/random.svg' width={20} height={20} alt="random icon" />
-              </button>
+              <div className={s.charactersAndRand}>
+                <button onClick={() => getRandomPrompt(selectedModel.category)} className={s.randBtn}>
+                  <Image src='/random.svg' width={20} height={20} alt="random icon" />
+                </button>
+                <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+              </div>
             </div>
             {
               (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras} selectLoras={selectLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />
@@ -292,16 +294,16 @@ export default function Generate() {
         <section className={s.generatedImagesSection}>
           {
             imagesLinks.length > 0 ? <div className={s.generatedImagesWrap}>
-            <div className={s.generatedImages}>
-              {imagesLinks.map(link => {
-                return (
-                  <img className={s.generatedImage} src={link} alt={promptText.current} key={link} />
-                )
-              })}
+              <div className={s.generatedImages}>
+                {imagesLinks.map(link => {
+                  return (
+                    <img className={s.generatedImage} src={link} alt={promptText.current} key={link} />
+                  )
+                })}
+              </div>
             </div>
-          </div>
-          :
-          <h1 className={s.waitingText}>Waiting for the generation..</h1>
+              :
+              <h1 className={s.waitingText}>Waiting for the generation..</h1>
           }
         </section>
         <ModelsOrLorasModal choice="models" />
