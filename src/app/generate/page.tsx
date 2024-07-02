@@ -260,7 +260,8 @@ export default function Generate() {
           </section>
         </div>
         <section className={s.generatedImagesSection}>
-          <div className={s.generatedImagesWrap}>
+          {
+            imagesLinks.length > 0 ? <div className={s.generatedImagesWrap}>
             <div className={s.generatedImages}>
               {imagesLinks.map(link => {
                 return (
@@ -269,6 +270,9 @@ export default function Generate() {
               })}
             </div>
           </div>
+          :
+          <h1 className={s.waitingText}>Waiting for the generation..</h1>
+          }
         </section>
         <ModelsOrLorasModal choice="models" />
         <div className={`${s.badPromptNotification} ${isShowNotification && s.showNotification}`}>Bad prompt. Try again..</div>
