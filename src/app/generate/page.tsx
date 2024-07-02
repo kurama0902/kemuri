@@ -245,6 +245,7 @@ export default function Generate() {
       if(textAreaRef.current !== null && selectedModel.modelName !== 'select model') {
         textAreaRef.current.value = text;
         promptText.current = text;
+        setCharactersCount(text.length);
       }
 
     } catch (error) {
