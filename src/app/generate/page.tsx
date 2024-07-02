@@ -10,6 +10,7 @@ import { RatioType } from "../../../types/types";
 
 
 import s from "./generate.module.css";
+import Image from "next/image";
 
 export default function Generate() {
 
@@ -30,6 +31,7 @@ export default function Generate() {
   })  
 
   const promptText = useRef('');
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showGeneratingPreloader, setShowGeneratingPreloader] = useState<boolean>(true);
   const [imagesLinks, setImagesLinks] = useState<string[]>([]);
   const [isBlockedBtn, setIsBlockedBtn] = useState<boolean>(false);
@@ -226,6 +228,30 @@ export default function Generate() {
     }
   }
 
+  const getRandomPrompt = async (type: string) => {
+    try {
+      const res = await fetch('https://api.kemuri.top/gen/random', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          type
+        })
+      })  
+
+      const text = await res.json();
+
+      if(textAreaRef.current !== null && selectedModel.modelName !== 'select model') {
+        textAreaRef.current.value = text;
+        promptText.current = text;
+      }
+
+    } catch (error) {
+      
+    }
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setShowGeneratingPreloader(false);
@@ -247,8 +273,11 @@ export default function Generate() {
               <div className={s.btnBG}></div>
             </div>
             <div className={s.promptAreaWrap}>
-              <textarea placeholder="Enter your promt.." onChange={changePromptText} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
+              <textarea ref={textAreaRef} placeholder="Enter your promt.." onChange={changePromptText} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
               <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+              <button onClick={() => getRandomPrompt(selectedModel.category)} className={s.randBtn}>
+                <Image src='/random.svg' width={20} height={20} alt="random icon" />
+              </button>
             </div>
             {
               (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras} selectLoras={selectLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />
