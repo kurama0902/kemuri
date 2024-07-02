@@ -240,16 +240,22 @@ export default function Generate() {
         })
       })
 
-      const text = await res.json();
+      let text = await res.json();
 
       if (textAreaRef.current !== null && selectedModel.modelName !== 'select model') {
+        if (text.length > 450) {
+          text = text.slice(0, 450)
+        }
+
         textAreaRef.current.value = text;
         promptText.current = text;
+
         setCharactersCount(text.length);
       }
 
     } catch (error) {
-
+      console.error('Error while creating random prompt', error);
+      
     }
   }
 
