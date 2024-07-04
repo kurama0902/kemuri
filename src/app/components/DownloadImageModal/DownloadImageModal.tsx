@@ -31,8 +31,14 @@ export const DownloadImageModal = ({ imageURL, selectLink, promptText }: { image
         }
     }, [flag])
 
-    const handleDownload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        fileDownload(imageURL, 'image.png')
+    const handleDownload = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        try {
+            const res = await fetch(imageURL);
+            const data = await res.blob();
+            fileDownload(data, 'image.png')
+        } catch (error) {
+            console.error('Failed downloading..');
+        }
     }
 
     return (
