@@ -1,0 +1,179 @@
+.modalWrap {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.closeBG {
+    cursor: pointer;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.616);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.imageWrap {
+    display: flex;
+    position: relative;
+    max-height: calc(100vh - 20px);
+    padding-inline: 10px;
+    height: auto;
+    z-index: 2;
+}
+
+.image {
+    width: 100%;
+    max-height: calc(100vh - 20px);
+}
+
+.descriptionWrap {
+    position: relative;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    top: 0;
+    bottom: 0;
+    right: -300px;
+    position: absolute;
+    min-width: 300px;
+    max-width: 300px;
+    background-color: rgba(0, 0, 0, 0.815);
+    z-index: 2;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    gap: 5px;
+}
+
+.description {
+    display: flex;
+    gap: 10px;
+}
+
+.mt {
+    padding-top: 35px;
+}
+
+.mb {
+    margin-bottom: 20px;
+}
+
+.promptText {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.show {
+    animation: ShowMenu .3s forwards;
+}
+
+.hide {
+    animation: HideMenu .3s forwards;
+}
+
+.moreBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    border-radius: 100%;
+    top: 10px;
+    right: 20px;
+}
+
+.moreBtn:hover {
+    background-color: rgba(211, 211, 211, 0.486);
+}
+
+.closeBtn {
+    cursor: pointer;
+    display: flex;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    border: 2px solid darkgray;
+    border-radius: 100%;
+    transition: background-color .3s;
+    color: white;
+}
+
+.closeBtn:hover {
+    background-color: rgba(169, 169, 169, 0.582);
+}
+
+.downloadBtn {
+    cursor: pointer;
+    display: flex;
+    border: 1px solid darkgray;
+    background-color: transparent;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    margin-top: 20px;
+    height: 40px;
+    transition: all .3s;
+    color: #fff;
+}
+
+.downloadBtn:hover {
+    background-color: rgba(128, 128, 128, 0.466);
+}
+
+.selectedLoras {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 7px;
+    
+}
+
+.lora {
+    padding: 7px;
+    border-radius: 5px;
+    background-color: #fff;
+    color: black;
+}
+
+@keyframes ShowMenu {
+    from {
+        right: -300px;
+    }
+
+    to {
+        right: 0px;
+    }
+}
+
+@keyframes HideMenu {
+    from {
+        right: 0;
+    }
+
+    to {
+        right: -300px;
+    }
+}

@@ -213,6 +213,12 @@
     background-color: transparent;
 }
 
+.genImageBtn {
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+}
+
 @keyframes showAndHideNotification {
     0% {
         right: -310px;

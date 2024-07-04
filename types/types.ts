@@ -10,7 +10,15 @@ export type ModalContextType = {
     selectedLoras?: {
         loras: string[],
         version: string
-    }
+    },
+    ratioWidth: number,
+    ratioHeight: number,
+    vae: string,
+    samplingMethod: string,
+    upscaleMethod: string,
+    sampling: number,
+    CFG: number,
+    upscaleFactor: number
 }
 
 export type RatioType = {

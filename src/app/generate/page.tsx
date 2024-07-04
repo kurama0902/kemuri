@@ -11,6 +11,8 @@ import { RatioType } from "../../../types/types";
 
 import s from "./generate.module.css";
 import Image from "next/image";
+import { createPortal } from "react-dom";
+import { DownloadImageModal } from "../components/DownloadImageModal";
 
 export default function Generate() {
 
@@ -50,8 +52,12 @@ export default function Generate() {
   const [sampling, setSampling] = useState<number>(25);
   const [upscaleFactor, setUpscaleFactor] = useState<number>(1.5);
   const [CFG, setCFG] = useState<number>(7);
+  const [selectedLink, setSelectedLink] = useState<string | null>(null);
 
 
+  const handleSetSelectedLink = (link: string | null) => {
+    setSelectedLink(link)
+  }
 
   const handleSetLoraWeights = (e: ChangeEvent<HTMLInputElement>, loraName: string) => {
     if (e.target.value.includes('e')) e.target.value = '';
@@ -216,6 +222,7 @@ export default function Generate() {
         const data = await response.json();
         const { urls } = data;
         console.log(urls);
+        setSelectedLink(null);
         setImagesLinks(urls)
         setIsBlockedBtnAfterPrompt(false)
       } catch (error) {
@@ -255,7 +262,7 @@ export default function Generate() {
 
     } catch (error) {
       console.error('Error while creating random prompt', error);
-      
+
     }
   }
 
@@ -266,8 +273,8 @@ export default function Generate() {
   }, [])
 
   return (
-    <ModalContext.Provider value={{ visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel, selectModel: selectModel, selectedLoras, selectLoras }}>
-      <div className={s.mainPage}>
+    <ModalContext.Provider value={{ visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel, selectModel: selectModel, selectedLoras, selectLoras, ratioWidth: ratio.width, ratioHeight: ratio.height, vae, samplingMethod, upscaleMethod, sampling, CFG, upscaleFactor }}>
+      <div id="main" className={s.mainPage}>
         {showGeneratingPreloader && <GeneratingPreloader />}
         <div className={s.settingSectionWrap}>
           <section className={s.settingSection}>
@@ -302,8 +309,15 @@ export default function Generate() {
             imagesLinks.length > 0 ? <div className={s.generatedImagesWrap}>
               <div className={s.generatedImages}>
                 {imagesLinks.map(link => {
+
                   return (
-                    <img className={s.generatedImage} src={link} alt={promptText.current} key={link} />
+                    <button key={link} onClick={() => handleSetSelectedLink(link)} className={s.genImageBtn}>
+                      <img className={s.generatedImage} src={link} alt={promptText.current} />
+                      {selectedLink === link &&
+                        createPortal(
+                          <DownloadImageModal promptText={promptText.current} imageURL={link} mw={ratio.width} mn={ratio.height} selectLink={handleSetSelectedLink} />,
+                          document.getElementById('main') || document.createElement('div'))}
+                    </button>
                   )
                 })}
               </div>
