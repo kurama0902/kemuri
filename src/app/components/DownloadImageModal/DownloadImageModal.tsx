@@ -67,7 +67,7 @@ export const DownloadImageModal = ({ imageURL, selectLink, promptText }: { image
                         {
                             info?.selectedLoras?.loras.map((el) => {
                                 return (
-                                    <p className={s.lora}>{el}</p>
+                                    <p key={el} className={s.lora}>{el}</p>
                                 )
                             })
                         }
