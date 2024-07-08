@@ -33,12 +33,14 @@ export default function Generate() {
   })
 
   const promptText = useRef('');
+  const negativePromptText = useRef('');
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showGeneratingPreloader, setShowGeneratingPreloader] = useState<boolean>(true);
   const [imagesLinks, setImagesLinks] = useState<string[]>([]);
   const [isBlockedBtn, setIsBlockedBtn] = useState<boolean>(false);
   const [isBlockedBtnAfterPrompt, setIsBlockedBtnAfterPrompt] = useState<boolean>(false);
   const [charactersCount, setCharactersCount] = useState<number>(0);
+  const [negativeCharacters, setNegativeCharacters] = useState<number>(0);
   const [isShowNotification, setIsShowNotification] = useState<boolean>(false);
   const [vae, setVae] = useState<string>('Automatic');
   const [samplingMethod, setSamplingMethod] = useState<string>('Euler a');
@@ -83,28 +85,36 @@ export default function Generate() {
     setModalVisibility(state);
   }
 
-  const changePromptText = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const changePromptText = (e: ChangeEvent<HTMLTextAreaElement>, type: string) => {
     if (selectedModel.modelName !== 'select model') {
-      promptText.current = e.target.value;
-      setCharactersCount(promptText.current.length)
-      if (selectedModel.category === 'general_models') {
-        if (promptText.current.length > 150) {
+      if (type === 'regular') {
+        promptText.current = e.target.value;
+        setCharactersCount(promptText.current.length);
+      } else {
+        negativePromptText.current = e.target.value;
+        setNegativeCharacters(negativePromptText.current.length);
+      }
+      if (selectedModel.category === 'general') {
+
+        if (promptText.current.length > 200 || negativePromptText.current.length > 200) {
           if (isBlockedBtn === false) {
             setIsBlockedBtn((prev) => {
               return !prev
             })
           }
-          console.log(promptText.current.length);
         } else {
           if (isBlockedBtn === true) {
             setIsBlockedBtn((prev) => {
               return !prev
             })
           }
-          console.log(promptText.current.length);
         }
       } else {
-        promptText.current = e.target.value;
+        if (type === 'regular') {
+          promptText.current = e.target.value;
+        } else {
+          negativePromptText.current = e.target.value;
+        }
       }
     } else {
       e.target.value = '';
@@ -198,7 +208,7 @@ export default function Generate() {
             JSON.stringify({
               "prompt": promptText.current,
               "negative_prompts": [
-                "bad anatomy, easynegative"
+                negativePromptText.current
               ],
               "model_shorthand": selectedModel.modelName,
               "lora_shorthands": loras.length > 0 ? loras : Object.values(selectedLoras.loras).map(el => {
@@ -287,13 +297,17 @@ export default function Generate() {
               <div className={s.btnBG}></div>
             </div>
             <div className={s.promptAreaWrap}>
-              <textarea ref={textAreaRef} placeholder="Enter your promt.." onChange={changePromptText} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
+              <textarea ref={textAreaRef} placeholder="Enter your promt.." onChange={(e) => changePromptText(e, 'regular')} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
               <div className={s.charactersAndRand}>
                 <button onClick={() => getRandomPrompt(selectedModel.category)} className={s.randBtn}>
                   <Image src='/random.svg' width={20} height={20} alt="random icon" />
                 </button>
                 <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
               </div>
+            </div>
+            <div className={s.promptAreaWrap}>
+              <textarea placeholder="Enter your negative prompt.." onChange={(e) => changePromptText(e, 'negative')} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
+              <span className={s.negativeCharacters}>{negativeCharacters}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
             </div>
             {
               (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras} selectLoras={selectLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />

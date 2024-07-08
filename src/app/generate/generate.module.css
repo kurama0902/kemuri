@@ -219,6 +219,16 @@
     border-radius: 20px;
 }
 
+.negativeCharacters {
+    position: absolute;
+    pointer-events: none;
+    color: #FFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    bottom: 15px;
+    right: 15px;
+}
+
 @keyframes showAndHideNotification {
     0% {
         right: -310px;
