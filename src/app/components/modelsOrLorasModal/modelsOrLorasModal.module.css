@@ -232,6 +232,31 @@
     border: none;
 }
 
+.searchWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ctgBtn {
+    cursor: pointer;
+    border: 1px solid #ffffff8a;
+    border-radius: 8px;
+    background-color: transparent;
+    padding: 7px;
+    text-transform: uppercase;
+    transition: background .3s;
+    color: white;
+}
+
+.ctgBtn:hover {
+    background-color: rgba(204, 204, 204, 0.363);
+}
+
+.selectedCtg {
+    background-color: rgba(170, 170, 170, 0.603);
+}
+
 @media (max-width: 900px) {
     .imagesWrap {
         grid-template-columns: repeat(3, minmax(100px, 1fr));

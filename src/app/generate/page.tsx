@@ -305,10 +305,12 @@ export default function Generate() {
                 <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
               </div>
             </div>
-            <div className={s.promptAreaWrap}>
-              <textarea placeholder="Enter your negative prompt.." onChange={(e) => changePromptText(e, 'negative')} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
-              <span className={s.negativeCharacters}>{negativeCharacters}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
-            </div>
+            {
+              (selectedModel.category !== 'general' && selectedModel.category !== '') && <div className={s.promptAreaWrap}>
+                <textarea placeholder="Enter your negative prompt.." onChange={(e) => changePromptText(e, 'negative')} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
+                <span className={s.negativeCharacters}>{negativeCharacters}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+              </div>
+            }
             {
               (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras} selectLoras={selectLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />
             }

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Loras, Models } from "../types/types";
 
 
-export const useGetSearchedData = (query: string, version: string, type: string): readonly Models[] | readonly Loras[] => {
+export const useGetSearchedData = (query: string, version: string, type: string): { searchedData: readonly Models[] | readonly Loras[], setSearchedData: Dispatch<SetStateAction<Models[] | Loras[]>>, getData: () => void } => {
 
     let timer: NodeJS.Timeout;
 
@@ -37,5 +37,5 @@ export const useGetSearchedData = (query: string, version: string, type: string)
         }
     }, [query, version])
 
-    return searchedData;
+    return { searchedData, setSearchedData, getData };
 }

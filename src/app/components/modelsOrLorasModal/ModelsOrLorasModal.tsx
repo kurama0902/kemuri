@@ -4,12 +4,13 @@ import { memo, useContext, useEffect, useState } from 'react';
 
 import { ModalContext } from '../../../../context/ModalContext';
 import { useGetSearchedData } from '../../../../hooks/useGetSearchedData';
+import { Loras, Models } from '../../../../types/types';
+import { useGetModalCategories } from '../../../../hooks/useGetModalCategories';
 
 import { VirtuosoGrid } from 'react-virtuoso'
 
 import s from './modelsOrLorasModal.module.css'
 
-import { Loras, Models } from '../../../../types/types';
 
 export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
 
@@ -19,11 +20,30 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const type = modalContext?.selectedLoras?.version;
     const [searchText, setSearchText] = useState<string>('');
-    const searchedData = useGetSearchedData(searchText, choice === 'models' ? "all" : type || '', choice);
+    const { searchedData, setSearchedData, getData } = useGetSearchedData(searchText, choice === 'models' ? "all" : type || '', choice);
+    const modalCategories = useGetModalCategories(choice);
+    const [ctg, setCtg] = useState<string>('');
 
-    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        setIsLoading(true)
-        setPage(value)
+    const getDataByCategory = async (category: string, type: string) => {
+        if (ctg !== category) {
+            try {
+                setCtg(category);
+                const res = await fetch('https://api.kemuri.top/modal/getCategoriedML', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(choice === 'models' ? { models: category } : { loras: category, lora_type: type })
+                })
+                const data = await res.json();
+                setSearchedData(data);
+            } catch (error) {
+                console.error('error while fetching certain modal category data', error);
+            }
+        } else {
+            setCtg('');
+            getData();
+        }
     }
 
     useEffect(() => {
@@ -47,12 +67,23 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
         <div className={`${s.modalWrap} ${(modalContext?.visibility !== null && modalContext?.visibility?.modalName === choice) && s.show} `}>
             <div onClick={() => modalContext?.visibility?.modalName !== undefined && modalContext?.changeVisibility({ modalName: modalContext.visibility.modalName, isShow: false })} className={`${s.closeBG} ${(modalContext?.visibility?.isShow === false) && s.hideBG}`}></div>
             <div className={`${s.modal} ${(modalContext?.visibility?.isShow === false) && s.hideModal}`}>
-                <input onChange={(e) => {
-                    const isEmpty = e.target.value.trim().length > 0;
-                    setSearchText(!isEmpty ? '' : e.target.value.trim());
-                }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" />
+                <div className={s.searchWrap}>
+                    <input onChange={(e) => {
+                        const isEmpty = e.target.value.trim().length > 0;
+                        setSearchText(!isEmpty ? '' : e.target.value.trim());
+                    }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" />
+                    {
+                        modalCategories.map(category => {
+                            return (
+                                <button onClick={() => {
+                                    getDataByCategory(category, type || '');
+                                }} key={category} className={`${s.ctgBtn} ${ctg === category && s.selectedCtg}`}>{category}</button>
+                            )
+                        })
+                    }
+                </div>
                 <VirtuosoGrid
-                    style={{ height: '565px'}}
+                    style={{ height: '565px' }}
                     totalCount={searchedData.length}
                     listClassName={`${s.imagesWrap}`}
                     itemClassName={s.modelWrap}
