@@ -70,6 +70,7 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                 <div className={s.searchWrap}>
                     <input onChange={(e) => {
                         const isEmpty = e.target.value.trim().length > 0;
+                        setCtg('');
                         setSearchText(!isEmpty ? '' : e.target.value.trim());
                     }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" />
                     {
