@@ -16,13 +16,13 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
 
     let modalContext = useContext(ModalContext);
 
-    const [page, setPage] = useState<number>(1);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const type = modalContext?.selectedLoras?.version;
     const [searchText, setSearchText] = useState<string>('');
-    const { searchedData, setSearchedData, getData } = useGetSearchedData(searchText, choice === 'models' ? "all" : type || '', choice);
-    const modalCategories = useGetModalCategories(choice);
     const [ctg, setCtg] = useState<string>('');
+    const { searchedData, setSearchedData, getData } = useGetSearchedData(searchText, choice === 'models' ? ctg ? ctg : "all" : type || '', choice);
+    const modalCategories = useGetModalCategories(choice);
+    const [unbluredLoras, setUnbluredLoras] = useState<string[]>([]);
 
     const getDataByCategory = async (category: string, type: string) => {
         if (ctg !== category) {
@@ -43,6 +43,16 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
         } else {
             setCtg('');
             getData();
+        }
+    }
+
+    const handleUnbluredUpdate = (loraName: string) => {
+        if(!unbluredLoras.includes(loraName)) {
+            const newUnblured = [...unbluredLoras, loraName];
+            setUnbluredLoras(newUnblured);
+        } else {
+            const newUnblured = unbluredLoras.filter(lora => lora !== loraName);
+            setUnbluredLoras(newUnblured);
         }
     }
 
@@ -70,7 +80,6 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                 <div className={s.searchWrap}>
                     <input onChange={(e) => {
                         const isEmpty = e.target.value.trim().length > 0;
-                        setCtg('');
                         setSearchText(!isEmpty ? '' : e.target.value.trim());
                     }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" />
                     {
@@ -96,32 +105,46 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
 
 
                         return (
-                            <button
-                                style={{ width: '100%', minHeight: '270px', maxHeight: '270px' }}
-                                onClick={() => {
-                                    if (choice === 'models') {
-                                        (modalContext?.selectModel !== undefined && m.modelCategory !== undefined) && modalContext.selectModel({ modelName: m.name, category: m.modelCategory })
-                                    } else {
-                                        (modalContext?.selectLoras !== undefined && l.version !== undefined) && modalContext.selectLoras({ lora: l.name, version: l.version })
-                                    }
-                                }}
-                                className={`${s.btnStyle}`}
-                                key={choice === 'models' ? m.name + index : l.name + index}
-                            >
-                                <img className={s.modelImage} src={choice === 'models' ? m.image_url : l.image_url} alt={choice === 'models' ? m.modelCategory : l.version} />
-                                <p className={`${s.modelName} ${choice !== 'models' && s.loraName}`}>{choice === 'models' ? m.name : l.name}</p>
-                                {choice === 'models' && <p className={s.modelCategory}>{m.modelCategory}</p>}
-                                {
-                                    choice === 'models'
-                                        ?
-                                        <p className={`${s.selectedText} ${(modalContext?.selectedModel?.modelName === m.name) && s.selected}`}>selected</p>
-                                        :
-                                        <p className={`${s.selectedText} ${(modalContext?.selectedLoras?.loras.includes(l.name)) && s.selected}`}>selected</p>
+                            <div className={s.bWrap}>
+                                <button
+                                    style={{ width: '100%', minHeight: '270px', maxHeight: '270px' }}
+                                    onClick={() => {
+                                        if (choice === 'models') {
+                                            (modalContext?.selectModel !== undefined && m.modelCategory !== undefined) && modalContext.selectModel({ modelName: m.name, category: m.modelCategory })
+                                        } else {
+                                            (modalContext?.selectLoras !== undefined && l.version !== undefined) && modalContext.selectLoras({ lora: l.name, version: l.version })
+                                        }
+                                    }}
+                                    className={`${s.btnStyle} ${ choice !== 'models' && ((l.sensitive !== 'EVERYONE' && !unbluredLoras.includes(l.name)) && s.blurBtn)}`}
+                                    key={choice === 'models' ? m.name + index : l.name + index}
+                                >
+                                    <img className={s.modelImage} src={choice === 'models' ? m.image_url : l.image_url} alt={choice === 'models' ? m.modelCategory : l.version} />
+                                    <p className={`${s.modelName} ${choice !== 'models' && s.loraName}`}>{choice === 'models' ? m.name : l.name}</p>
+                                    {choice === 'models' && <p className={s.modelCategory}>{m.modelCategory}</p>}
+                                    {
+                                        choice === 'models'
+                                            ?
+                                            <p className={`${s.selectedText} ${(modalContext?.selectedModel?.modelName === m.name) && s.selected}`}>selected</p>
+                                            :
+                                            <p className={`${s.selectedText} ${(modalContext?.selectedLoras?.loras.includes(l.name)) && s.selected}`}>selected</p>
 
+                                    }
+                                    {choice !== 'models' && <p className={s.class}>{l.class}</p>}
+                                    {choice !== 'models' && <p className={s.version}>{l.version}</p>}
+                                </button>
+                                {
+                                    (choice !== 'models' && (l.sensitive !== 'EVERYONE' && !unbluredLoras.includes(l.name))) &&
+                                    <div className={s.hideErotic}>
+                                        <p className={s.eroticText}>18+</p>
+                                        <button onClick={() => {
+                                            handleUnbluredUpdate(l.name);
+                                        }} className={s.hideEroticBtn}>
+                                            show
+                                        </button>
+                                    </div>
                                 }
-                                {choice !== 'models' && <p className={s.class}>{l.class}</p>}
-                                {choice !== 'models' && <p className={s.version}>{l.version}</p>}
-                            </button>
+
+                            </div>
                         );
                     }}
                 />

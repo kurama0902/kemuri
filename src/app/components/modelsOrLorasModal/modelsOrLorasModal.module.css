@@ -91,14 +91,12 @@
 
 
 .modelWrap {
-    cursor: pointer;
     position: relative;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    /* max-width: 200px; */
     width: 100%;
     min-height: 270px;
     border: none;
@@ -113,6 +111,7 @@
     max-height: 270px;
     min-height: 270px;
     object-fit: cover;
+    border-radius: 8px;
 }
 
 .modelName,
@@ -230,6 +229,13 @@
 .btnStyle {
     cursor: pointer;
     border: none;
+    border-radius: 8px;
+}
+
+.bWrap {
+    position: relative;
+    min-height: 270px;
+    max-height: 270px;
 }
 
 .searchWrap {
@@ -255,6 +261,45 @@
 
 .selectedCtg {
     background-color: rgba(170, 170, 170, 0.603);
+}
+
+.hideErotic {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.404);
+    border-radius: 8px;
+    gap: 20px;
+}
+
+.blurBtn {
+    filter: blur(20px);
+}
+
+.eroticText {
+    font-size: 30px;
+    color: #fff;
+}
+
+.hideEroticBtn {
+    cursor: pointer;
+    min-width: 150px;
+    height: 40px;
+    border: none;
+    background-color: rgba(172, 255, 47, 0.562);
+    transition: background .3s;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.hideEroticBtn:hover {
+    background-color: rgba(172, 255, 47, 0.705);
 }
 
 @media (max-width: 900px) {
