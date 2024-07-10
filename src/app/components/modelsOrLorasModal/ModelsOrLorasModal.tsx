@@ -19,35 +19,21 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const type = modalContext?.selectedLoras?.version;
     const [searchText, setSearchText] = useState<string>('');
-    const [ctg, setCtg] = useState<string>('');
-    const { searchedData, setSearchedData, getData } = useGetSearchedData(searchText, choice === 'models' ? ctg ? ctg : "all" : type || '', choice);
+    const [ctg, setCtg] = useState<string>('all');
+    const searchedData = useGetSearchedData(searchText, type || '', ctg, choice);
     const modalCategories = useGetModalCategories(choice);
     const [unbluredLoras, setUnbluredLoras] = useState<string[]>([]);
 
     const getDataByCategory = async (category: string, type: string) => {
         if (ctg !== category) {
-            try {
-                setCtg(category);
-                const res = await fetch('https://api.kemuri.top/modal/getCategoriedML', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(choice === 'models' ? { models: category } : { loras: category, lora_type: type })
-                })
-                const data = await res.json();
-                setSearchedData(data);
-            } catch (error) {
-                console.error('error while fetching certain modal category data', error);
-            }
+            setCtg(category);
         } else {
-            setCtg('');
-            getData();
+            setCtg('all');
         }
     }
 
     const handleUnbluredUpdate = (loraName: string) => {
-        if(!unbluredLoras.includes(loraName)) {
+        if (!unbluredLoras.includes(loraName)) {
             const newUnblured = [...unbluredLoras, loraName];
             setUnbluredLoras(newUnblured);
         } else {
@@ -79,6 +65,9 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
             <div className={`${s.modal} ${(modalContext?.visibility?.isShow === false) && s.hideModal}`}>
                 <div className={s.searchWrap}>
                     <input onChange={(e) => {
+                        if(e.target.value.length === 0) {
+                            setCtg('all');
+                        }
                         const isEmpty = e.target.value.trim().length > 0;
                         setSearchText(!isEmpty ? '' : e.target.value.trim());
                     }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" />
@@ -115,7 +104,7 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                                             (modalContext?.selectLoras !== undefined && l.version !== undefined) && modalContext.selectLoras({ lora: l.name, version: l.version })
                                         }
                                     }}
-                                    className={`${s.btnStyle} ${ choice !== 'models' && ((l.sensitive !== 'EVERYONE' && !unbluredLoras.includes(l.name)) && s.blurBtn)}`}
+                                    className={`${s.btnStyle} ${choice !== 'models' && ((l.sensitive !== 'EVERYONE' && !unbluredLoras.includes(l.name)) && s.blurBtn)}`}
                                     key={choice === 'models' ? m.name + index : l.name + index}
                                 >
                                     <img className={s.modelImage} src={choice === 'models' ? m.image_url : l.image_url} alt={choice === 'models' ? m.modelCategory : l.version} />
