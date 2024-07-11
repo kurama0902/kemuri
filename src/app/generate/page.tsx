@@ -299,9 +299,13 @@ export default function Generate() {
             <div className={s.promptAreaWrap}>
               <textarea ref={textAreaRef} placeholder="Enter your promt.." onChange={(e) => changePromptText(e, 'regular')} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
               <div className={s.charactersAndRand}>
-                <button onClick={() => getRandomPrompt(selectedModel.category)} className={s.randBtn}>
-                  <Image src='/random.svg' width={20} height={20} alt="random icon" />
-                </button>
+                {
+                  selectedModel.category !== 'general'
+                  &&
+                  <button onClick={() => getRandomPrompt(selectedModel.category)} className={s.randBtn}>
+                    <Image src='/random.svg' width={20} height={20} alt="random icon" />
+                  </button>
+                }
                 <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
               </div>
             </div>
@@ -322,16 +326,16 @@ export default function Generate() {
         </div>
         <section className={s.generatedImagesSection}>
           {
-            imagesLinks.length > 0 ? <div className={s.generatedImagesWrap}>
+            imagesLinks?.length > 0 ? <div className={s.generatedImagesWrap}>
               <div className={s.generatedImages}>
-                {imagesLinks.map(link => {
+                {imagesLinks.map((link, index) => {
 
                   return (
                     <button key={link} onClick={() => handleSetSelectedLink(link)} className={s.genImageBtn}>
                       <img className={s.generatedImage} src={link} alt={promptText.current} />
                       {selectedLink === link &&
                         createPortal(
-                          <DownloadImageModal promptText={promptText.current} imageURL={link} mw={ratio.width} mn={ratio.height} selectLink={handleSetSelectedLink} />,
+                          <DownloadImageModal promptText={promptText.current} linkList={imagesLinks} inSlide={index} mw={ratio.width} mn={ratio.height} selectLink={handleSetSelectedLink} />,
                           document.getElementById('main') || document.createElement('div'))}
                     </button>
                   )
