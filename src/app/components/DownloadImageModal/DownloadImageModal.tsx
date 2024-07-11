@@ -79,9 +79,9 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
                 className="mySwiper"
             >
                 {
-                    linkList.map(link => {
+                    linkList.map((link, index) => {
                         return (
-                            <SwiperSlide>
+                            <SwiperSlide key={index}>
                                 <div onClick={() => setFlag(true)} className={s.closeBG}></div>
                                 <div style={{ maxWidth: `${info?.ratioWidth}px`, height: 'auto' }} className={s.imageWrap}>
                                     {
