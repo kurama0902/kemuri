@@ -49,7 +49,7 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
             const fetchImages = linkList.map(async (link, index) => {
                 const res = await fetch(link);
                 const image = await res.blob();
-                zip.file(`generation_${index + 1}`, image);
+                zip.file(`generation_${index + 1}.png`, image);
             });
 
             await Promise.all(fetchImages);
@@ -73,8 +73,12 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
                 mousewheel={true}
                 keyboard={true}
                 modules={[Zoom, Navigation, Pagination, Mousewheel, Keyboard]}
-                onZoomChange={() => {
-                    setIsDetailsShow(!isDetailsShow);
+                onZoomChange={(swiper, scale, imageEl, slideEl) => {
+                    if(scale === 1) {
+                        setIsDetailsShow(false);
+                    } else {
+                        setIsDetailsShow(true);
+                    }
                 }}
                 className="mySwiper"
             >
