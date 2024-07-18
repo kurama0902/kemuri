@@ -262,8 +262,8 @@ export default function Generate() {
                 {imagesLinks.map((link, index) => {
 
                   return (
-                    <div className={s.genImageBtnWrap}>
-                      <button key={link} onClick={() => handleSetSelectedLink(link)} className={s.genImageBtn}>
+                    <div key={link} className={s.genImageBtnWrap}>
+                      <button onClick={() => handleSetSelectedLink(link)} className={s.genImageBtn}>
                         <img className={s.generatedImage} src={link} alt={promptText.current} />
                         {
                           selectedLink === link &&
