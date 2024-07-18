@@ -91,14 +91,15 @@
     width: 30px;
     height: 30px;
     border: none;
-    background-color: transparent;
-    border: 2px solid darkgray;
+    background-color: black;
+    border: 2px solid white;
     border-radius: 100%;
-    transition: background-color .3s;
+    transition: all .3s;
 }
 
-.moreBtn:hover {
-    background-color: rgba(211, 211, 211, 0.486);
+.moreBtn:active, .closeBtn:active {
+    background-color: rgba(0, 0, 0, 0.486);
+    border-color: gray;
 }
 
 .closeBtn {
@@ -112,10 +113,10 @@
     justify-content: center;
     align-items: center;
     border: none;
-    background-color: transparent;
-    border: 2px solid darkgray;
+    background-color: black;
+    border: 2px solid white;
     border-radius: 100%;
-    transition: background-color .3s;
+    transition: all .3s;
     color: white;
 }
 
@@ -123,9 +124,9 @@
     position: static;
 }
 
-.closeBtn:hover {
+/* .closeBtn:hover {
     background-color: rgba(169, 169, 169, 0.582);
-}
+} */
 
 .downloadBtn {
     cursor: pointer;
@@ -170,6 +171,13 @@
     position: absolute;
     gap: 7px;
     
+}
+
+@media (hover: hover) {
+    .moreBtn:hover, .closeBtn:hover {
+        background-color: rgba(0, 0, 0, 0.486);
+        border-color: gray;
+    }
 }
 
 @keyframes ShowMenu {

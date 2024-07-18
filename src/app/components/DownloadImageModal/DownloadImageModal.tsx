@@ -87,7 +87,7 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
                         return (
                             <SwiperSlide key={index}>
                                 <div onClick={() => setFlag(true)} className={s.closeBG}></div>
-                                <div style={{ maxWidth: `${info?.ratioWidth}px`, height: 'auto' }} className={s.imageWrap}>
+                                <div style={{ maxWidth: `${info?.ratio.width}px`, height: 'auto' }} className={s.imageWrap}>
                                     {
                                         !isDetailsShow &&
                                         <div className={s.optionsWrap}>
@@ -141,7 +141,7 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
                 }
                 <div className={s.description}>
                     <p>Picture size:</p>
-                    <p>{info?.ratioWidth}x{info?.ratioHeight}</p>
+                    <p>{info?.ratio.width}x{info?.ratio.height}</p>
                 </div>
                 <div className={s.description}>
                     <p>VAE:</p>

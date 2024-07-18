@@ -6,7 +6,7 @@
     left: 0;
     bottom: 0;
     padding: 10px;
-    z-index: 2;
+    z-index: 20;
     padding: 10px;
 }
 
@@ -240,8 +240,11 @@
 
 .searchWrap {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    padding-right: 45px;
+    margin-bottom: 15px;
+    /* gap: 10px; */
 }
 
 .ctgBtn {
@@ -252,6 +255,7 @@
     padding: 7px;
     text-transform: uppercase;
     transition: background .3s;
+    margin-left: 15px;
     color: white;
 }
 
@@ -309,8 +313,17 @@
 }
 
 @media (max-width: 750px) {
+    /* .searchWrap {
+        padding-top: 30px;
+    } */
+
     .imagesWrap {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+
+    .modal {
+        width: calc(95% - 20px);
+        height: 500px;
     }
 }
 

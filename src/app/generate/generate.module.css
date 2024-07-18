@@ -117,6 +117,7 @@
 
 .generatedImagesSection {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -146,7 +147,6 @@
     max-width: 550px;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
     object-fit: cover;
 }
 
@@ -158,25 +158,25 @@
 
 .generatingProcess {
     pointer-events: none;
-    background-color: rgba(255, 255, 0, 0.555);
-    border-color: yellow;
+    background-color: rgb(61, 61, 255);
+    border-color: blue;
 }
 
 .badPromptNotification {
     display: flex;
-    border: 1px solid lightcoral;
-    border-radius: 10px;
+    border-radius: 5px;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 10px;
     right: -310px;
     width: 300px;
-    height: 70px;
-    background-color: rgb(180, 87, 87);
+    height: 50px;
+    background-color: rgb(255 102 102);
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     color: #FFF;
+    z-index: 100;
 }
 
 .showNotification {
@@ -214,10 +214,41 @@
     background-color: transparent;
 }
 
+.genImageBtnWrap {
+    position: relative;
+    max-width: 550px;
+    width: 100%;
+    height: 100%;
+}
+
 .genImageBtn {
+    filter: brightness(0.3) blur(3px);
+    width: 100%;
+    height: 100%;
     cursor: pointer;
     border: none;
-    border-radius: 20px;
+}
+
+.showText {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(144, 238, 144, 0.671);
+    transition: background-color .3s;
+    color: white;
+}
+
+.showText:active {
+    background-color: rgba(144, 238, 144, 0.815);
 }
 
 .negativeCharacters {
@@ -228,6 +259,32 @@
     font-size: 14px;
     bottom: 15px;
     right: 15px;
+}
+
+.selectBtn:active {
+    background-color: rgba(211, 211, 211, 0.253);
+}
+
+.loadingRightSide {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    animation: smoothShow .3s forwards;
+    background-color: rgba(0, 0, 0, 0.384);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    opacity: 0;
+}
+
+.genLoading {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
 }
 
 @keyframes showAndHideNotification {
@@ -252,12 +309,19 @@
     .mainPage {
         flex-direction: column;
         align-items: center;
+        padding-inline: 15px;
+    }
+
+    .loadingRightSide {
+        border-radius: 12px;
     }
 
     .settingSectionWrap {
         height: auto;
         min-width: 300px;
         overflow-y: visible;
+        padding: 0;
+        padding-top: 15px;
     }
 
     .promptArea {
@@ -266,15 +330,16 @@
 
     .generatedImagesSection {
         border-left: none;
-        padding-inline: 15px;
-        margin-bottom: 30px;
+        min-height: 500px;
+        max-width: 650px;
+        margin: 30px 0px;
     }
 
     .generatedImagesWrap {
         height: 500px;
-        max-width: 620px;
         width: 100%;
         grid-template-columns: repeat(1, minmax(150px, 800px));
+        padding: 0;
     }
 
     .generatedImage {
@@ -292,11 +357,25 @@
         border-color: #FFF;
     }
 
-    .btnWrap:hover .btnBG {
-        top: -300px;
+    .selectBtn:hover {
+        background-color: rgba(211, 211, 211, 0.253);
     }
 
-    .disabled:hover .btnBG {
-        top: 61px;
+    .generateBtn:hover {
+        background-color: rgba(211, 211, 211, 0.253);
+    }
+
+    .showText:hover {
+        background-color: rgba(144, 238, 144, 0.815);
+    }
+}
+
+@keyframes smoothShow {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }

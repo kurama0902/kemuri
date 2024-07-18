@@ -2,6 +2,8 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
+import { createPortal } from "react-dom";
+import { DownloadImageModal } from "../components/DownloadImageModal";
 import { ModelsOrLorasModal } from "../components/modelsOrLorasModal";
 import { AdditionalSettings } from "../components/AdditionalSettings";
 import { GeneratingPreloader } from "../components/GeneratingPreloader";
@@ -9,10 +11,13 @@ import { ModalContext } from "../../../context/ModalContext";
 import { RatioType } from "../../../types/types";
 
 
+import { changePromptText } from "../../../utils/generateFunctions/changePromptText";
+import { generateImage } from "../../../utils/generateFunctions/generateImage";
+import { getRandomPrompt } from "../../../utils/generateFunctions/getRandomPrompt";
+
 import s from "./generate.module.css";
 import Image from "next/image";
-import { createPortal } from "react-dom";
-import { DownloadImageModal } from "../components/DownloadImageModal";
+
 
 export default function Generate() {
 
@@ -85,52 +90,13 @@ export default function Generate() {
     setModalVisibility(state);
   }
 
-  const changePromptText = (e: ChangeEvent<HTMLTextAreaElement>, type: string) => {
-    if (selectedModel.modelName !== 'select model') {
-      if (type === 'regular') {
-        promptText.current = e.target.value;
-        setCharactersCount(promptText.current.length);
-      } else {
-        negativePromptText.current = e.target.value;
-        setNegativeCharacters(negativePromptText.current.length);
-      }
-      if (selectedModel.category === 'general') {
-
-        if (promptText.current.length > 200 || negativePromptText.current.length > 200) {
-          if (isBlockedBtn === false) {
-            setIsBlockedBtn((prev) => {
-              return !prev
-            })
-          }
-        } else {
-          if (isBlockedBtn === true) {
-            setIsBlockedBtn((prev) => {
-              return !prev
-            })
-          }
-        }
-      } else {
-        if (type === 'regular') {
-          promptText.current = e.target.value;
-        } else {
-          negativePromptText.current = e.target.value;
-        }
-      }
-    } else {
-      e.target.value = '';
-    }
-  }
-
   const selectModel = ({ modelName, category }: { modelName: string, category: string }) => {
+
 
     if (category !== selectedModel.category) {
       setLoraWeights({});
       setSelectedLoras({ loras: [], version: category });
     }
-
-    console.log(selectedModel.modelName, 'selected modelName');
-    console.log(modelName, 'fn modelName');
-
 
 
     if (selectedModel.modelName !== 'select model' && modelName === selectedModel.modelName) {
@@ -139,7 +105,7 @@ export default function Generate() {
       setSelectedModel({ modelName, category })
     }
 
-    if (category === 'general_models' && promptText.current.length > 150) {
+    if (category === 'general' && promptText.current.length > 150) {
       if (isBlockedBtn === false) {
         setIsBlockedBtn((prev) => {
           return !prev
@@ -147,7 +113,7 @@ export default function Generate() {
       }
     }
 
-    if (category !== 'general_models') {
+    if (category !== 'general') {
       if (isBlockedBtn === true) {
         setIsBlockedBtn((prev) => {
           return !prev
@@ -162,7 +128,6 @@ export default function Generate() {
       setSelectedLoras({ loras: [lora], version });
       return;
     }
-
     if (selectedLoras.loras?.includes(lora)) {
       const newLoras = selectedLoras.loras.filter(el => el !== lora);
       delete loraWeights[lora];
@@ -184,97 +149,6 @@ export default function Generate() {
     }
   }
 
-  const generateImage = async () => {
-
-    if (promptText.current.length > 0 && selectedModel.modelName !== 'select model') {
-
-      const loras: { [key: string]: number }[] = [];
-
-      for (let lora in loraWeights) {
-        loras.push({ [lora]: loraWeights[lora] })
-      }
-
-      try {
-        setIsBlockedBtnAfterPrompt(true)
-        const response = await fetch(`https://api.kemuri.top/v1/${selectedModel.category === 'general' ? 'images/generations' : selectedModel.category === 'sd' ? 'gen-sd' : 'gen-sdxl'}`, {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: selectedModel.category === 'general' ? JSON.stringify({
-            "prompt": promptText.current,
-            "model": selectedModel.modelName
-          }) :
-            JSON.stringify({
-              "prompt": promptText.current,
-              "negative_prompts": [
-                negativePromptText.current
-              ],
-              "model_shorthand": selectedModel.modelName,
-              "lora_shorthands": loras.length > 0 ? loras : Object.values(selectedLoras.loras).map(el => {
-                return { [el]: 0.8 }
-              }),
-              "sampler": samplingMethod,
-              "width": ratio.width,
-              "height": ratio.height,
-              "steps": sampling,
-              "count": 4,
-              "upscale_factor": upscaleFactor,
-              "sdVae": vae,
-              "clip_skip": 2,
-              "cfg_scale": CFG,
-              "hr_upscaler": upscaleMethod,
-              "hr_second_pass_steps": 10,
-              "denoising_strength": 1
-            })
-        })
-
-        const data = await response.json();
-        const { urls } = data;
-        console.log(urls);
-        setSelectedLink(null);
-        setImagesLinks(urls)
-        setIsBlockedBtnAfterPrompt(false)
-      } catch (error) {
-        setIsShowNotification(true)
-        setTimeout(() => {
-          setIsShowNotification(false);
-          setIsBlockedBtnAfterPrompt(false);
-        }, 1500)
-      }
-    }
-  }
-
-  const getRandomPrompt = async (type: string) => {
-    try {
-      const res = await fetch('https://api.kemuri.top/gen/random', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          type
-        })
-      })
-
-      let text = await res.json();
-
-      if (textAreaRef.current !== null && selectedModel.modelName !== 'select model') {
-        if (text.length > 450) {
-          text = text.slice(0, 450)
-        }
-
-        textAreaRef.current.value = text;
-        promptText.current = text;
-
-        setCharactersCount(text.length);
-      }
-
-    } catch (error) {
-      console.error('Error while creating random prompt', error);
-
-    }
-  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -283,67 +157,129 @@ export default function Generate() {
   }, [])
 
   return (
-    <ModalContext.Provider value={{ visibility: modalVisibility, changeVisibility: changeVisibility, selectedModel: selectedModel, selectModel: selectModel, selectedLoras, selectLoras, ratioWidth: ratio.width, ratioHeight: ratio.height, vae, samplingMethod, upscaleMethod, sampling, CFG, upscaleFactor }}>
+    <ModalContext.Provider value={{
+      visibility: modalVisibility,
+      changeVisibility,
+      selectedModel,
+      selectModel,
+      selectedLoras,
+      selectLoras,
+      ratio,
+      setRatio,
+      vae,
+      handleSetVae,
+      samplingMethod,
+      handleSetSamplingMethod,
+      upscaleMethod,
+      handleSetUpscaleMethod,
+      sampling,
+      setSampling,
+      CFG,
+      setCFG,
+      upscaleFactor,
+      setUpscaleFactor,
+      loraWeights,
+      handleSetLoraWeights,
+    }}>
       <div id="main" className={s.mainPage}>
         {showGeneratingPreloader && <GeneratingPreloader />}
         <div className={s.settingSectionWrap}>
           <section className={s.settingSection}>
-            <div className={`${s.btnWrap} ${modalVisibility && s.mobBtnWrap}`}>
-              <button onClick={() => changeVisibility({ modalName: 'models', isShow: true })} className={s.selectBtn}>
-                <span>
-                  {selectedModel.modelName}
-                </span>
-              </button>
-              <div className={s.btnBG}></div>
-            </div>
+            {/* <div className={`${s.btnWrap} ${modalVisibility && s.mobBtnWrap}`}> */}
+            <button onClick={() => changeVisibility({ modalName: 'models', isShow: true })} className={s.selectBtn}>
+              <span>
+                {selectedModel.modelName}
+              </span>
+            </button>
+            {/* <div className={s.btnBG}></div> */}
+            {/* </div> */}
             <div className={s.promptAreaWrap}>
-              <textarea ref={textAreaRef} placeholder="Enter your promt.." onChange={(e) => changePromptText(e, 'regular')} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
+              <textarea ref={textAreaRef} placeholder="Enter your promt.." onChange={(e) => changePromptText(e, 'regular', selectedModel, promptText, negativePromptText, setCharactersCount, setNegativeCharacters, isBlockedBtn, setIsBlockedBtn)} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
               <div className={s.charactersAndRand}>
                 {
-                  selectedModel.category !== 'general'
+                  (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model')
                   &&
-                  <button onClick={() => getRandomPrompt(selectedModel.category)} className={s.randBtn}>
+                  <button onClick={
+                    () => getRandomPrompt(
+                      selectedModel.category,
+                      selectedModel,
+                      promptText,
+                      textAreaRef,
+                      setCharactersCount
+                    )
+                  } className={s.randBtn}>
                     <Image src='/random.svg' width={20} height={20} alt="random icon" />
                   </button>
                 }
-                <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+                <span className={s.characters}>{charactersCount}/{selectedModel.category === 'general' ? '150' : '450'}</span>
               </div>
             </div>
             {
               (selectedModel.category !== 'general' && selectedModel.category !== '') && <div className={s.promptAreaWrap}>
-                <textarea placeholder="Enter your negative prompt.." onChange={(e) => changePromptText(e, 'negative')} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
-                <span className={s.negativeCharacters}>{negativeCharacters}/{selectedModel.category === 'general_models' ? '150' : '450'}</span>
+                <textarea placeholder="Enter your negative prompt.." onChange={(e) => changePromptText(e, 'negative', selectedModel, promptText, negativePromptText, setCharactersCount, setNegativeCharacters, isBlockedBtn, setIsBlockedBtn)} className={`${s.promptArea} ${isBlockedBtn && s.invalidText}`} maxLength={450} ></textarea>
+                <span className={s.negativeCharacters}>{negativeCharacters}/{selectedModel.category === 'general' ? '150' : '450'}</span>
               </div>
             }
             {
-              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings vae={vae} handleSetVae={handleSetVae} samplingMethod={samplingMethod} handleSetSamplingMethod={handleSetSamplingMethod} upscaleMethod={upscaleMethod} handleSetUpscaleMethod={handleSetUpscaleMethod} selectedLoras={selectedLoras} selectLoras={selectLoras} loraWeights={loraWeights} handleSetLoraWeights={handleSetLoraWeights} ratio={ratio} setRatio={setRatio} sampling={sampling} setSampling={setSampling} upscaleFactor={upscaleFactor} setUpscaleFactor={setUpscaleFactor} CFG={CFG} setCFG={setCFG} />
+              (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings />
             }
-            <div className={`${s.btnWrap} ${s.generateBtnWrap} ${isBlockedBtn && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
-              <button onClick={generateImage} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}><span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span></button>
-              {!isBlockedBtn && <div className={s.btnBG}></div>}
+            <div className={`${s.btnWrap} ${s.generateBtnWrap} ${((ratio.width < 512 || ratio.width > 2048) || (ratio.height < 512 || ratio.height > 2048) || (sampling < 20 || sampling > 70) || (CFG < 1 || CFG > 10) || (upscaleFactor < 1 || upscaleFactor > 2)) && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
+              <button onClick={() => generateImage({
+                promptText,
+                negativePromptText,
+                selectedModel,
+                selectedLoras,
+                loraWeights,
+                samplingMethod,
+                ratio,
+                sampling,
+                upscaleFactor,
+                vae,
+                CFG,
+                upscaleMethod,
+                setIsBlockedBtnAfterPrompt,
+                setSelectedLink,
+                setImagesLinks,
+                setIsShowNotification
+              })} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${((ratio.width < 512 || ratio.width > 2048) || (ratio.height < 512 || ratio.height > 2048) || (sampling < 20 || sampling > 70) || (CFG < 1 || CFG > 10) || (upscaleFactor < 1 || upscaleFactor > 2)) && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}>
+                <span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span>
+                {isBlockedBtnAfterPrompt && <Image className={s.genLoading} src='/generating.svg' width={50} height={50} alt="loading" />}
+              </button>
+              {/* {(!isBlockedBtn || ((ratio.width < 512 || ratio.width > 2048) || (ratio.height < 512 || ratio.height > 2048) || (sampling < 20 || sampling > 70) || (CFG < 1 || CFG > 10) || (upscaleFactor < 1 || upscaleFactor > 2))) && <div className={s.btnBG}></div>} */}
             </div>
           </section>
         </div>
         <section className={s.generatedImagesSection}>
+          {
+            isBlockedBtnAfterPrompt &&
+            <div className={s.loadingRightSide}>
+              <Image src='/generatingLoading2.svg' width={200} height={200} alt="loading" />
+            </div>
+          }
           {
             imagesLinks?.length > 0 ? <div className={s.generatedImagesWrap}>
               <div className={s.generatedImages}>
                 {imagesLinks.map((link, index) => {
 
                   return (
-                    <button key={link} onClick={() => handleSetSelectedLink(link)} className={s.genImageBtn}>
-                      <img className={s.generatedImage} src={link} alt={promptText.current} />
-                      {selectedLink === link &&
-                        createPortal(
-                          <DownloadImageModal promptText={promptText.current} linkList={imagesLinks} inSlide={index} mw={ratio.width} mn={ratio.height} selectLink={handleSetSelectedLink} />,
-                          document.getElementById('main') || document.createElement('div'))}
-                    </button>
+                    <div className={s.genImageBtnWrap}>
+                      <button key={link} onClick={() => handleSetSelectedLink(link)} className={s.genImageBtn}>
+                        <img className={s.generatedImage} src={link} alt={promptText.current} />
+                        {
+                          selectedLink === link &&
+                          createPortal(
+                            <DownloadImageModal promptText={promptText.current} linkList={imagesLinks} inSlide={index} mw={ratio.width} mn={ratio.height} selectLink={handleSetSelectedLink} />,
+                            document.getElementById('main') || document.createElement('div'))
+                        }
+                      </button>
+                      <button onClick={() => handleSetSelectedLink(link)} className={s.showText}>Show</button>
+                    </div>
                   )
                 })}
               </div>
             </div>
               :
-              <h1 className={s.waitingText}>Waiting for the generation..</h1>
+              !isBlockedBtnAfterPrompt && <h1 className={s.waitingText}>Waiting for the generation..</h1>
           }
         </section>
         <ModelsOrLorasModal choice="models" />
