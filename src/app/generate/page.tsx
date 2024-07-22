@@ -53,7 +53,7 @@ export default function Generate() {
   const [loraWeights, setLoraWeights] = useState<{ [key: string]: number }>({});
   const [ratio, setRatio] = useState<RatioType>({
     width: 768,
-    height: 1152,
+    height: 1024,
     aspectRatio: 'portrait'
   });
   const [sampling, setSampling] = useState<number>(25);
@@ -223,7 +223,7 @@ export default function Generate() {
             {
               (selectedModel.category !== 'general' && selectedModel.modelName !== 'select model') && <AdditionalSettings />
             }
-            <div className={`${s.btnWrap} ${s.generateBtnWrap} ${((ratio.width < 512 || ratio.width > 2048) || (ratio.height < 512 || ratio.height > 2048) || (sampling < 20 || sampling > 70) || (CFG < 1 || CFG > 10) || (upscaleFactor < 1 || upscaleFactor > 2)) && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
+            <div className={`${s.btnWrap} ${s.generateBtnWrap} ${((promptText.current.length === 0) || (ratio.width < 512 || ratio.width > (selectedModel.category === 'sd' ? 1024 : 1536)) || (ratio.height < 512 || ratio.height > (selectedModel.category === 'sd' ? 1024 : 1536)) || (sampling < 20 || sampling > 60) || (CFG < 1 || CFG > 10) || (upscaleFactor < 1 || upscaleFactor > 2)) && s.disabled} ${isBlockedBtnAfterPrompt && s.disabled}`}>
               <button onClick={() => generateImage({
                 promptText,
                 negativePromptText,
@@ -241,7 +241,7 @@ export default function Generate() {
                 setSelectedLink,
                 setImagesLinks,
                 setIsShowNotification
-              })} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${((ratio.width < 512 || ratio.width > 2048) || (ratio.height < 512 || ratio.height > 2048) || (sampling < 20 || sampling > 70) || (CFG < 1 || CFG > 10) || (upscaleFactor < 1 || upscaleFactor > 2)) && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}>
+              })} className={`${s.generateBtn} ${isBlockedBtn && s.blockedBtn} ${((promptText.current.length === 0) || (ratio.width < 512 || ratio.width > (selectedModel.category === 'sd' ? 1024 : 1536)) || (ratio.height < 512 || ratio.height > (selectedModel.category === 'sd' ? 1024 : 1536)) || (sampling < 20 || sampling > 60) || (CFG < 1 || CFG > 10) || (upscaleFactor < 1 || upscaleFactor > 2)) && s.blockedBtn} ${isBlockedBtnAfterPrompt && s.generatingProcess}`}>
                 <span>{isBlockedBtnAfterPrompt ? 'generating...' : 'generate'}</span>
                 {isBlockedBtnAfterPrompt && <Image className={s.genLoading} src='/generating.svg' width={50} height={50} alt="loading" />}
               </button>

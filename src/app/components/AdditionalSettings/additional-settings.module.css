@@ -70,8 +70,8 @@
     cursor: pointer;
     background-color: transparent;
     border: none;
-    width: 100px;
-    height: 50px;
+    width: 140px;
+    height: 60px;
     transition: all .3s;
     gap: 5px;
 }
@@ -95,16 +95,15 @@
 }
 
 .ratioType {
-    font-family: Arial, Helvetica, sans-serif;
+    padding-inline: 10px;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 20px;
     color: #FFF;
 }
 
 .ratioText {
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 16px;
     color: #ffffffbd;
 }
 
@@ -168,8 +167,7 @@
     background-color: rgb(88, 88, 88);
     transition: background-color .3s;
     padding-left: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: white;
 }
 
@@ -208,9 +206,8 @@
 .scaleText,
 .aspectRatioText,
 .upscaleFactorText {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
-    font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 7px;
     color: #FFF;
 }
@@ -221,7 +218,7 @@
 
 .selectedRatio {
     background-color: #fff;
-    width: 40%;
+    width: 50%;
 }
 
 /* .selectedRatio:hover {

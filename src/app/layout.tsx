@@ -11,6 +11,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <title>kemuri</title>
+      </head>
       <body>{children}</body>
     </html >
   );

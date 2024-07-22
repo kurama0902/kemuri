@@ -14,8 +14,8 @@ export const AdditionalSettings = () => {
     }
 
     const aspectRatioList: { name: string, size: string }[] = [
-        { name: 'portrait', size: '768x1152' },
-        { name: 'landscape', size: '1152x768' },
+        { name: 'portrait', size: '768x1024' },
+        { name: 'landscape', size: '1024x768' },
         { name: 'square', size: '1024x1024' },
     ];
 
@@ -111,13 +111,13 @@ export const AdditionalSettings = () => {
             <div className={s.aspectRatioWrap}>
                 <p className={s.aspectRatioText}>Aspect Ratio</p>
                 <div className={s.aspectRatio}>
-                    <button onClick={changeRatioByButton(768, 1152, "portrait")} className={`${s.ratioBtn} ${modalContext.ratio.aspectRatio === 'portrait' ? s.selectedRatio : ''}`}>
+                    <button onClick={changeRatioByButton(768, 1024, "portrait")} className={`${s.ratioBtn} ${modalContext.ratio.aspectRatio === 'portrait' ? s.selectedRatio : ''}`}>
                         <span className={s.ratioType}>Portrait</span>
-                        <span className={s.ratioText}>768x1152</span>
+                        <span className={s.ratioText}>768x1024</span>
                     </button>
-                    <button onClick={changeRatioByButton(1152, 768, "landscape")} className={`${s.ratioBtn} ${modalContext.ratio.aspectRatio === 'landscape' ? s.selectedRatio : ''}`}>
+                    <button onClick={changeRatioByButton(1024, 768, "landscape")} className={`${s.ratioBtn} ${modalContext.ratio.aspectRatio === 'landscape' ? s.selectedRatio : ''}`}>
                         <span className={s.ratioType}>Landscape</span>
-                        <span className={s.ratioText}>1152x768</span>
+                        <span className={s.ratioText}>1024x768</span>
                     </button>
                     <button onClick={changeRatioByButton(1024, 1024, "square")} className={`${s.ratioBtn} ${modalContext.ratio.aspectRatio === 'square' ? s.selectedRatio : ''}`}>
                         <span className={s.ratioType}>Square</span>
@@ -131,17 +131,17 @@ export const AdditionalSettings = () => {
             </div>
             <div className={s.customAspectRatioWrap}>
                 <div className={s.customAspectRatio}>
-                    <p className={s.widthText}>Width</p>
+                    <p className={s.widthText}>Width [512, {modalContext.selectedModel.category === 'sd' ? 1024 : 1536}]</p>
                     <div className={s.inputsWrap}>
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByInput(e, "width")} className={s.rangeInput} value={modalContext.ratio.width} min={512} max={2048} step={1} type="range" />
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByNumberInput(e, "width")} className={`${s.numberInput} ${(modalContext.ratio.width < 512 || modalContext.ratio.width > 2048) && s.incorrectInput}`} value={modalContext.ratio.width === 0 ? '' : modalContext.ratio.width} min={512} max={2048} step={1} type="number" />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByInput(e, "width")} className={s.rangeInput} value={modalContext.ratio.width} min={512} max={modalContext.selectedModel.category === 'sd' ? 1024 : 1536} step={1} type="range" />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByNumberInput(e, "width")} className={`${s.numberInput} ${(modalContext.ratio.width < 512 || modalContext.ratio.width > (modalContext.selectedModel.category === 'sd' ? 1024 : 1536)) && s.incorrectInput}`} value={modalContext.ratio.width === 0 ? '' : modalContext.ratio.width} min={512} max={modalContext.selectedModel.category === 'sd' ? 1024 : 1536} step={1} type="number" />
                     </div>
                 </div>
                 <div className={s.customAspectRatio}>
-                    <p className={s.heightText}>Height</p>
+                    <p className={s.heightText}>Height [512, {modalContext.selectedModel.category === 'sd' ? 1024 : 1536}]</p>
                     <div className={s.inputsWrap}>
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByInput(e, "height")} className={s.rangeInput} value={modalContext.ratio.height} min={512} max={2048} step={1} type="range" />
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByNumberInput(e, "height")} className={`${s.numberInput} ${(modalContext.ratio.height < 512 || modalContext.ratio.height > 2048) && s.incorrectInput}`} value={modalContext.ratio.height === 0 ? '' : modalContext.ratio.height} min={512} max={2048} step={1} type="number" />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByInput(e, "height")} className={s.rangeInput} value={modalContext.ratio.height} min={512} max={modalContext.selectedModel.category === 'sd' ? 1024 : 1536} step={1} type="range" />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeRatioByNumberInput(e, "height")} className={`${s.numberInput} ${(modalContext.ratio.height < 512 || modalContext.ratio.height > (modalContext.selectedModel.category === 'sd' ? 1024 : 1536)) && s.incorrectInput}`} value={modalContext.ratio.height === 0 ? '' : modalContext.ratio.height} min={512} max={modalContext.selectedModel.category === 'sd' ? 1024 : 1536} step={1} type="number" />
                     </div>
                 </div>
             </div>
@@ -150,14 +150,14 @@ export const AdditionalSettings = () => {
             <Select text='Upscaler' upscaleMethod={modalContext.upscaleMethod} handleSetUpscaleMethod={modalContext.handleSetUpscaleMethod} />
             <div className={s.stepsScaleWrap}>
                 <div className={s.steps}>
-                    <p className={s.samplingStepsText}>Sampling Steps</p>
+                    <p className={s.samplingStepsText}>Sampling Steps [1, 60]</p>
                     <div className={s.inputsWrap}>
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={modalContext.sampling} className={s.rangeInput} min={20} max={70} type="range" step={1} />
-                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={modalContext.sampling === 0 ? '' : modalContext.sampling} className={`${s.numberInput} ${(modalContext.sampling < 20 || modalContext.sampling > 70) && s.incorrectInput}`} min={20} max={70} type="number" step={1} />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={modalContext.sampling} className={s.rangeInput} min={20} max={60} type="range" step={1} />
+                        <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={modalContext.sampling === 0 ? '' : modalContext.sampling} className={`${s.numberInput} ${(modalContext.sampling < 20 || modalContext.sampling > 60) && s.incorrectInput}`} min={20} max={60} type="number" step={1} />
                     </div>
                 </div>
                 <div className={s.scale}>
-                    <p className={s.scaleText}>CFG Scale</p>
+                    <p className={s.scaleText}>CFG Scale [1, 10]</p>
                     <div className={s.inputsWrap}>
                         <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'cfg')} value={modalContext.CFG} className={s.rangeInput} min={1} max={10} type="range" step={1} />
                         <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'cfg')} value={modalContext.CFG === 0 ? '' : modalContext.CFG} className={`${s.numberInput} ${(modalContext.CFG < 1 || modalContext.CFG > 10) && s.incorrectInput}`} min={1} max={10} type="number" step={1} />
@@ -165,7 +165,7 @@ export const AdditionalSettings = () => {
                 </div>
             </div>
             <div className={s.upscaleFactorWrap}>
-                <p className={s.upscaleFactorText}>Upscale Factor</p>
+                <p className={s.upscaleFactorText}>Upscale Factor [1, 2]</p>
                 <div className={s.inputsWrap}>
                     <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'scaleFactor')} value={modalContext.upscaleFactor} className={s.rangeInput} min={1} max={2} type="range" step={.1} />
                     <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'scaleFactor')} value={modalContext.upscaleFactor === 0 ? '' : modalContext.upscaleFactor} className={`${s.numberInput} ${(modalContext.upscaleFactor < 1 || modalContext.upscaleFactor > 2) && s.incorrectInput}`} min={1} max={2} type="number" step={.1} />
