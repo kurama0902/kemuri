@@ -150,7 +150,7 @@ export const AdditionalSettings = () => {
             <Select text='Upscaler' upscaleMethod={modalContext.upscaleMethod} handleSetUpscaleMethod={modalContext.handleSetUpscaleMethod} />
             <div className={s.stepsScaleWrap}>
                 <div className={s.steps}>
-                    <p className={s.samplingStepsText}>Sampling Steps [1, 60]</p>
+                    <p className={s.samplingStepsText}>Sampling Steps [20, 60]</p>
                     <div className={s.inputsWrap}>
                         <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={modalContext.sampling} className={s.rangeInput} min={20} max={60} type="range" step={1} />
                         <input onChange={(e: ChangeEvent<HTMLInputElement>) => changeSapmlingOrScaleFactorOrCFG(e, 'sampling')} value={modalContext.sampling === 0 ? '' : modalContext.sampling} className={`${s.numberInput} ${(modalContext.sampling < 20 || modalContext.sampling > 60) && s.incorrectInput}`} min={20} max={60} type="number" step={1} />

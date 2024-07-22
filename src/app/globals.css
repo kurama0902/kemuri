@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background: darkslategray;
+}
+
 p, h1, h3, button, span, input[type=number] {
   font-family: "Handlee", cursive;
   font-weight: 400;

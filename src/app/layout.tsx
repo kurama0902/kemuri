@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "./components/Header";
 import "./globals.css";
 
 
@@ -14,7 +15,10 @@ export default function RootLayout({
       <head>
         <title>kemuri</title>
       </head>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html >
   );
 }

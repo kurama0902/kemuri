@@ -34,7 +34,7 @@ export const Select = ({ text, vae, handleSetVae, samplingMethod, handleSetSampl
     }
 
     return (
-        <div className={s.wrap}>
+        <div className={`${s.wrap} ${text === 'Lora Weight' && s.mW}`}>
             <p className={s.text}>{text}</p>
             <div className={`${s.selectWrap}`}>
                 <div className={`${s.btnWrap} ${isShowSelect && s.straightBorders}`}>

@@ -136,11 +136,16 @@
 }
 
 .weightSettings {
-   display: flex;
-   flex-direction: column;
-   background-color: rgba(211, 211, 211, 0.253);
-   border-radius: 12px;
-   gap: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(211, 211, 211, 0.253);
+    border-radius: 12px;
+    gap: 10px;
+}
+
+.mW {
+    margin-top: 15px;
+    margin-bottom: 0;
 }
 
 .inputsWrap {
@@ -253,7 +258,7 @@
     }
 }
 
-@media (width <= 850px) {
+@media (width <=850px) {
     .mobBtnWrap .btnBG {
         top: -300px;
     }

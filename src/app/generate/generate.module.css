@@ -1,9 +1,12 @@
 .mainPage {
     display: flex;
     position: relative;
-    height: 100vh;
+    height: calc(100vh - 70px);
     background-color: #16181D;
     overflow-x: hidden;
+    max-width: 1440px;
+    margin-inline: auto;
+    margin-top: 70px;
 }
 
 .settingSection {
@@ -18,7 +21,6 @@
     min-width: 400px;
     max-width: 650px;
     width: 100%;
-    height: 100vh;
     padding: 15px 15px;
     overflow-y: auto;
 }
