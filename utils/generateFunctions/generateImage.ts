@@ -19,10 +19,13 @@ export const generateImage = async ({
   setIsShowNotification
 }: Generate) => {
 
+  const loraWeightValues = Object.values(loraWeights);
+  const isNotValidLoraWeightValues = loraWeightValues.find((el) => el < 0.1 || el > 1);
+
   if (
-    (promptText.current.length > 0 && promptText.current.length <= (selectedModel.category === 'general' ? 150 : 450) && selectedModel.modelName !== 'select model')
+    (promptText.current.length > 0 && promptText.current.length <= (selectedModel.category === 'general' ? 150 : 450) && negativePromptText.current.length <= (selectedModel.category === 'general' ? 150 : 450) && selectedModel.modelName !== 'select model')
     &&
-    ((ratio.width >= 512 && ratio.width <= 1024) && (ratio.height >= 512 && ratio.height <= 1024) && (sampling >= 20 && sampling <= 70) && (CFG >= 1 && CFG <= 10) && (upscaleFactor >= 1 && upscaleFactor <= 2))
+    ((ratio.width >= 512 && ratio.width <= 1024) && (ratio.height >= 512 && ratio.height <= 1024) && (sampling >= 20 && sampling <= 70) && (CFG >= 1 && CFG <= 10) && (upscaleFactor >= 1 && upscaleFactor <= 2) && (isNotValidLoraWeightValues === undefined))
   ) {
 
     const loras: { [key: string]: number }[] = [];

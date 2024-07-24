@@ -68,9 +68,10 @@ export const ModelsOrLorasModal = memo(({ choice }: { choice: string }) => {
                         if(e.target.value.length === 0) {
                             setCtg('all');
                         }
-                        const isEmpty = e.target.value.trim().length > 0;
+                        const isEmpty = e.target.value.trim().length > 0 && e.target.value.trim().length <= 30;
+                        
                         setSearchText(!isEmpty ? '' : e.target.value.trim());
-                    }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" />
+                    }} placeholder='Search..' className={`${s.searchInput} ${searchText.length > 0 && s.lightUnderline}`} type="text" maxLength={30} />
                     {
                         modalCategories.map(category => {
                             return (
