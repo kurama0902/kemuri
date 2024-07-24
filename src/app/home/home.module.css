@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap');
+
+.homeWrap p,
+.homeWrap h1,
+.homeWrap h2,
+.homeWrap button {
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+}
+
+.fSection {
+    display: flex;
+    padding-top: 80px;
+    padding-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFE9E9;
+    min-height: 600px;
+}
+
+.mainDescWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1440px;
+    padding-inline: 45px;
+    width: 100%;
+    gap: 45px;
+}
+
+.mainDesc {
+    display: flex;
+    animation: AnimateText .3s forwards;
+    flex-direction: column;
+    font-size: 20px;
+    gap: 30px;
+}
+
+.companyName,
+.smallDesc {
+    text-align: center;
+}
+
+.homeWrap .companyName {
+    font-family: "Edu AU VIC WA NT Hand";
+    font-size: 25px;
+}
+
+.smallDesc {
+    max-width: 800px;
+}
+
+.kemuriGif {
+    animation: AnimateImage .3s forwards;
+    border-radius: 100%;
+}
+
+.linksWrap {
+    display: flex;
+    width: max-content;
+    align-self: center;
+    gap: 15px;
+}
+
+.tgLink,
+.dsLink {
+    width: 50px;
+    height: 50px;
+}
+
+.learnMore {
+    cursor: pointer;
+    width: 300px;
+    height: 40px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    align-self: center;
+    background-color: rgb(255, 191, 71);
+    transition: background .3s;
+}
+
+.learnMore:active {
+    background-color: rgb(255, 196, 87);
+    border-color: rgba(255, 166, 0, 0.849);
+}
+
+.sSection {
+    background-color: #FFF5F7;
+    padding: 45px;
+    padding-top: 75px;
+}
+
+.sContainer {
+    display: flex;
+    padding: 40px;
+    max-width: 1100px;
+    align-items: center;
+    min-height: 330px;
+    border: 1px solid lightgrey;
+    border-radius: 12px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1),
+                0px -4px 6px rgba(0, 0, 0, 0.1),
+                4px 0px 6px rgba(0, 0, 0, 0.1),
+                -4px 0px 6px rgba(0, 0, 0, 0.1);
+    transition: transform .3s;
+    gap: 30px;
+}
+
+.gifInC {
+    border-radius: 12px;
+}
+
+.containerWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.containerText {
+    text-align: center;
+}
+
+.homeWrap .sText {
+    text-align: center;
+    font-family: "Edu AU VIC WA NT Hand";
+    margin-bottom: 50px;
+}
+
+.goUp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    background-color: #fff;
+}
+
+@media (hover: hover) {
+    .learnMore:hover {
+        background-color: rgb(255, 196, 87);
+        border-color: rgba(255, 166, 0, 0.849);
+    }
+
+    .sContainer:hover {
+        transform: scale(1.05);
+    }
+}
+
+@media (width <= 800px) {
+
+    .mainDescWrap {
+        flex-direction: column;
+    }
+
+    .mainDesc {
+        font-size: 15px;
+        order: 1;
+    }
+
+    .kemuriGif {
+        margin-top: 15px;
+        width: 300px;
+        height: 300px;
+        order: 0;
+    }
+
+    .sContainer {
+        flex-direction: column;
+    }
+}
+
+@keyframes AnimateText {
+    from {
+        transform: translateY(50px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes AnimateImage {
+    from {
+        transform: translateY(-50px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}

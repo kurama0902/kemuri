@@ -14,6 +14,7 @@
     width: 100%;
     min-height: 70px;
     background-color: #fff;
+    animation: ShowHeader .3s forwards;
     z-index: 2;
 }
 
@@ -39,8 +40,33 @@
     color: pink;
 }
 
+.hidden {
+    animation: HideHeader .3s forwards;
+
+}
+
 @media(hover: hover) {
     .navLink:hover {
         color: pink;
+    }
+}
+
+@keyframes ShowHeader {
+    from {
+        top: -70px;
+    }
+
+    to {
+        top: 0;
+    }
+}
+
+@keyframes HideHeader {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: -70px;
     }
 }

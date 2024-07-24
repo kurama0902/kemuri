@@ -3,10 +3,10 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { createPortal } from "react-dom";
-import { DownloadImageModal } from "../components/DownloadImageModal";
-import { ModelsOrLorasModal } from "../components/modelsOrLorasModal";
-import { AdditionalSettings } from "../components/AdditionalSettings";
-import { GeneratingPreloader } from "../components/GeneratingPreloader";
+import { DownloadImageModal } from "../components/generateComponents/DownloadImageModal";
+import { ModelsOrLorasModal } from "../components/generateComponents/modelsOrLorasModal";
+import { AdditionalSettings } from "../components/generateComponents/AdditionalSettings";
+import { GeneratingPreloader } from "../components/generateComponents/GeneratingPreloader";
 import { ModalContext } from "../../../context/ModalContext";
 import { RatioType } from "../../../types/types";
 

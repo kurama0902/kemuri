@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { ModalContext } from '../../../../context/ModalContext';
+import { ModalContext } from '../../../../../context/ModalContext';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 

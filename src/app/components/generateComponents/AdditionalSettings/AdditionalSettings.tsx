@@ -1,7 +1,7 @@
 import { ChangeEvent, useContext } from 'react'
 import { ModelsOrLorasModal } from '../modelsOrLorasModal'
-import { ModalContext } from '../../../../context/ModalContext'
-import { Select } from './Select'
+import { ModalContext } from '../../../../../context/ModalContext'
+import { Select } from '../Select'
 
 import s from './additional-settings.module.css'
 

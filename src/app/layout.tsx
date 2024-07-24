@@ -15,7 +15,7 @@ export default function RootLayout({
       <head>
         <title>kemuri</title>
       </head>
-      <body>
+      <body id="top">
         <Header />
         {children}
       </body>

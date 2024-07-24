@@ -2,10 +2,10 @@
 
 import { memo, useContext, useEffect, useState } from 'react';
 
-import { ModalContext } from '../../../../context/ModalContext';
-import { useGetSearchedData } from '../../../../hooks/useGetSearchedData';
-import { Loras, Models } from '../../../../types/types';
-import { useGetModalCategories } from '../../../../hooks/useGetModalCategories';
+import { ModalContext } from '../../../../../context/ModalContext';
+import { useGetSearchedData } from '../../../../../hooks/useGetSearchedData';
+import { Loras, Models } from '../../../../../types/types';
+import { useGetModalCategories } from '../../../../../hooks/useGetModalCategories';
 
 import { VirtuosoGrid } from 'react-virtuoso'
 
