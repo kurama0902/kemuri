@@ -28,6 +28,7 @@ export const Header = () => {
             };
 
         }
+
         window.addEventListener('scroll', onScroll);
 
     }, [scrollPos])
