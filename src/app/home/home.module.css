@@ -91,6 +91,11 @@
     padding-top: 75px;
 }
 
+.sliderSection {
+    background-color: #FFF5F7;
+    margin-bottom: 40px;
+}
+
 .sContainer {
     display: flex;
     padding: 40px;
@@ -123,10 +128,14 @@
     text-align: center;
 }
 
-.homeWrap .sText {
+.homeWrap .sText, .homeWrap .galleryText {
     text-align: center;
     font-family: "Edu AU VIC WA NT Hand";
     margin-bottom: 50px;
+}
+
+.galleryText {
+    padding-top: 25px;
 }
 
 .goUp {
@@ -142,6 +151,7 @@
     bottom: 15px;
     background-color: #fff;
 }
+
 
 @media (hover: hover) {
     .learnMore:hover {

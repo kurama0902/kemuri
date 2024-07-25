@@ -23,15 +23,16 @@
     "framer-motion": "^11.2.6",
     "js-file-download": "^0.4.12",
     "jszip": "^3.10.1",
+    "keen-slider": "^6.8.6",
     "lottie-react": "^2.4.0",
     "next": "14.2.3",
     "nextjs-cors": "^2.2.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-dynamic-virtual-scroll": "^1.4.0",
     "react-lottie": "^1.2.4",
     "react-virtuoso": "^4.7.11",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.7"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.35.6",

@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import s from './home.module.css';
 import Link from 'next/link';
+import Gallery from '../components/homeComponents/Gallery';
+
 
 export default function Home() {
     return (
@@ -33,22 +35,27 @@ export default function Home() {
                 </div>
             </section>
             <section className={s.sSection}>
-                <h1 className={s.sText}>ZALUPA</h1>
+                <h1 className={s.sText}>About Kemuri</h1>
                 <div className={s.containerWrap}>
                     <div className={s.sContainer}>
-                        <Image className={s.gifInC} src='/kemuri.gif' width={250} height={250} alt='' />
-                        <p className={s.containerText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis aperiam ipsam, veniam blanditiis assumenda iste dolores accusantium architecto sit, minus explicabo saepe obcaecati, optio sed sunt perspiciatis eos eius accusamus!</p>
+                        <Image className={s.gifInC} src='/about/1.jpeg' width={250} height={250} alt='' />
+                        <p className={s.containerText}>Kemuri API is a service that provides text generation capabilities using modern language models. It is suitable for creating a variety of content and automating text tasks.</p>
                     </div>
                     <div className={s.sContainer}>
-                        <Image className={s.gifInC} src='/kemuri.gif' width={250} height={250} alt='' />
-                        <p className={s.containerText}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae sint harum asperiores ducimus cupiditate, atque officiis vel hic provident voluptas, consectetur perspiciatis veritatis nulla explicabo nobis sunt soluta reprehenderit culpa?</p>
+                        <Image className={s.gifInC} src='/about/2.png' width={250} height={250} alt='' />
+                        <p className={s.containerText}>Kemuri API also provides services for generating images using Midjourney, DALL-E 3, Stable Diffusion and SDXL technologies. This allows you to create unique visual materials for various purposes such as marketing, design and creativity.</p>
                     </div>
                     <div className={s.sContainer}>
-                        <Image className={s.gifInC} src='/kemuri.gif' width={250} height={250} alt='' />
-                        <p className={s.containerText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt inventore ex, quam commodi natus magni quibusdam impedit! In labore maxime temporibus quos doloribus, exercitationem vel ad cumque modi optio tempora.</p>
+                        <Image className={s.gifInC} src='/about/3.jpeg' width={250} height={250} alt='' />
+                        <p className={s.containerText}>Kemuri API includes bots for Discord and Telegram, giving users easy access to text and image generation capabilities. These bots make it easy to create content and visuals directly from messengers.</p>
                     </div>
                 </div>
             </section>
+            <section className={s.sliderSection}>
+                <h1 className={s.galleryText}>Gallery</h1>
+                <Gallery/>
+            </section>
+
         </div>
     )
 }
