@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 .mainPage {
     display: flex;
     position: relative;
     height: calc(100vh - 70px);
-    background-color: #16181D;
+    background-color: #121212;
     overflow-x: hidden;
     max-width: 1440px;
     margin-inline: auto;
@@ -19,7 +20,7 @@
 .mainPage button,
 .mainPage span,
 .mainPage input[type=number] {
-    font-family: "Handlee", cursive;
+    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
@@ -317,11 +318,12 @@
     }
 }
 
-@media (width <=850px) {
+@media (width <= 850px) {
     .mainPage {
         flex-direction: column;
         align-items: center;
         padding-inline: 15px;
+        height: auto;
     }
 
     .loadingRightSide {

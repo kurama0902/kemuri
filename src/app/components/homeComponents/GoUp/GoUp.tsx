@@ -1,10 +1,11 @@
-import Image from 'next/image';
+'use client'
 
-import s from './header.module.css';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-export const Header = () => {
+import s from './goUp.module.css';
+
+export const GoUp = () => {
+
     const [isHidden, setIsHidden] = useState<boolean>(false);
     const [scrollPos, setScrollPos] = useState<number>(0);
 
@@ -32,15 +33,8 @@ export const Header = () => {
     }, [scrollPos])
 
     return (
-        <header className={`${s.headerWrap} ${isHidden ? s.hidden : ''}`}>
-            <Link href='/home'>
-                <Image className={s.logo} src='/logo.jpg' width={60} height={60} alt='logo' />
-            </Link>
-            <nav className={s.nav}>
-                <Link className={s.navLink} href='/home'>Home</Link>
-                <Link className={s.navLink} href='/generate'>playground</Link>
-                <Link className={s.navLink} href='/login'>login</Link>
-            </nav>
-        </header>
+        <a href='#top' className={`${s.goUp} ${isHidden ? s.hidden : ''}`}>
+            <svg width={30} height={30} data-name="1-Arrow Up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="m26.71 10.29-10-10a1 1 0 0 0-1.41 0l-10 10 1.41 1.41L15 3.41V32h2V3.41l8.29 8.29z" /></svg>
+        </a>
     )
 }

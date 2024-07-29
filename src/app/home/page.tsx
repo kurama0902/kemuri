@@ -1,3 +1,5 @@
+import { GoUp } from '../components/homeComponents/GoUp';
+
 import Image from 'next/image';
 import s from './home.module.css';
 import Link from 'next/link';
@@ -7,9 +9,7 @@ import Gallery from '../components/homeComponents/Gallery';
 export default function Home() {
     return (
         <div className={s.homeWrap}>
-            <a href='#top' className={s.goUp}>
-                <svg width={30} height={30} data-name="1-Arrow Up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="m26.71 10.29-10-10a1 1 0 0 0-1.41 0l-10 10 1.41 1.41L15 3.41V32h2V3.41l8.29 8.29z" /></svg>
-            </a>
+            <GoUp />
             <section className={s.fSection}>
                 <div className={s.mainDescWrap}>
                     <div className={s.mainDesc}>

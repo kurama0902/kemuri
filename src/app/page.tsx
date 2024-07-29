@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import Home from "./home/page";
 
-const Home = () => {
+const App = () => {
+
   return (
-    <div></div>
+    <Home />
   )
 };
 
-export default Home;
+export default App;
