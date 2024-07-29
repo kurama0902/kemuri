@@ -72,5 +72,6 @@ textarea {
 }
 
 .swiper-zoom-container > img {
-  object-fit: cover !important;
+  object-fit: contain !important;
+  width: max-content;
 }

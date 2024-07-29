@@ -21,6 +21,7 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
     const [flag, setFlag] = useState<boolean | null>(null);
     const [isDetailsShow, setIsDetailsShow] = useState<boolean>(false);
 
+
     const info = useContext(ModalContext);
 
     console.log(info);
@@ -63,6 +64,7 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
         }
     };
 
+
     return (
         <div className={s.modalWrap}>
             <Swiper
@@ -74,7 +76,7 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
                 keyboard={true}
                 modules={[Zoom, Navigation, Pagination, Mousewheel, Keyboard]}
                 onZoomChange={(swiper, scale, imageEl, slideEl) => {
-                    if(scale === 1) {
+                    if (scale === 1) {
                         setIsDetailsShow(false);
                     } else {
                         setIsDetailsShow(true);
@@ -104,7 +106,9 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
                                         </div>
                                     }
                                     <div className='swiper-zoom-container'>
-                                        <img style={{ width: '100%' }} className={s.image} src={link} alt="" />
+                                        <div className={s.imWrap}>
+                                            <img className={s.image} src={link} alt="" />
+                                        </div>
                                     </div>
                                 </div>
                             </SwiperSlide>
