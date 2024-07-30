@@ -1,0 +1,44 @@
+.swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #b117bd1f;
+}
+
+.slide {
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    min-height: 510px;
+    background-image: url('/planBG.jpg');
+    border-radius: 12px;
+    color: #fff;
+}
+
+.planWrap {
+    padding: 20px;
+}
+
+.planType {
+    display: block;
+    width: max-content;
+    padding: 5px;
+    padding-inline: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.modelsType {
+    margin-bottom: 12px;
+}
+
+.requestsPerDay {
+    margin-bottom: 30px;
+}
+
+.add {
+    font-size: large;
+}

@@ -1,9 +1,12 @@
 import { GoUp } from '../components/homeComponents/GoUp';
+import { Plans } from '../components/homeComponents/Plans';
 
-import Image from 'next/image';
-import s from './home.module.css';
 import Link from 'next/link';
-import Gallery from '../components/homeComponents/Gallery';
+import { Gallery } from '../components/homeComponents/Gallery';
+import Image from 'next/image';
+
+import s from './home.module.css';
+
 
 
 export default function Home() {
@@ -54,6 +57,9 @@ export default function Home() {
             <section className={s.sliderSection}>
                 <h1 className={s.galleryText}>Gallery</h1>
                 <Gallery/>
+            </section>
+            <section className={s.plansWrap}>
+                <Plans />
             </section>
 
         </div>

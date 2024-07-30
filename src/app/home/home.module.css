@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap');
 
 .homeWrap p,
+.homeWrap span,
 .homeWrap h1,
 .homeWrap h2,
 .homeWrap button {
@@ -93,6 +94,7 @@
 
 .sliderSection {
     background-color: #FFF5F7;
+    overflow: hidden;
     padding-bottom: 40px;
 }
 

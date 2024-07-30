@@ -14,6 +14,7 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
 import s from './dowloadImageModal.module.css';
+import './slider.css'
 
 export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }: { linkList: string[], inSlide: number, mw: number, mn: number, selectLink: (link: string | null) => void, promptText: string }) => {
 
