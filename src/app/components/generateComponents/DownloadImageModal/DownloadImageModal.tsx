@@ -25,9 +25,6 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
 
     const info = useContext(ModalContext);
 
-    console.log(info);
-
-
     const handleSetOpen = () => {
         if (isOpen) {
             setIsOpen(false);
@@ -83,12 +80,12 @@ export const DownloadImageModal = ({ linkList, inSlide, selectLink, promptText }
                         setIsDetailsShow(true);
                     }
                 }}
-                className="mySwiper"
+                className={s.swiper}
             >
                 {
                     linkList.map((link, index) => {
                         return (
-                            <SwiperSlide key={index}>
+                            <SwiperSlide className={s.slide} key={index}>
                                 <div onClick={() => setFlag(true)} className={s.closeBG}></div>
                                 <div style={{ maxWidth: `${info?.ratio.width}px`, height: 'auto' }} className={s.imageWrap}>
                                     {
