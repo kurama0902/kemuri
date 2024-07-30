@@ -59,6 +59,7 @@ export default function Home() {
                 <Gallery/>
             </section>
             <section className={s.plansWrap}>
+                <h2 className={s.prices}>Prices</h2>
                 <Plans />
             </section>
 

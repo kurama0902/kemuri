@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap');
 
 .homeWrap p,
 .homeWrap span,
@@ -39,13 +39,19 @@
 }
 
 .companyName,
-.smallDesc {
+.smallDesc,
+.prices {
     text-align: center;
 }
 
-.homeWrap .companyName {
-    font-family: "Edu AU VIC WA NT Hand";
+.homeWrap .companyName,
+.homeWrap .prices {
+    font-family: "Playwrite AT", cursive;
+    font-optical-sizing: auto;
     font-size: 25px;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
 }
 
 .smallDesc {
@@ -107,9 +113,9 @@
     border: 1px solid lightgrey;
     border-radius: 12px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1),
-                0px -4px 6px rgba(0, 0, 0, 0.1),
-                4px 0px 6px rgba(0, 0, 0, 0.1),
-                -4px 0px 6px rgba(0, 0, 0, 0.1);
+        0px -4px 6px rgba(0, 0, 0, 0.1),
+        4px 0px 6px rgba(0, 0, 0, 0.1),
+        -4px 0px 6px rgba(0, 0, 0, 0.1);
     transition: transform .3s;
     gap: 30px;
 }
@@ -130,14 +136,21 @@
     text-align: center;
 }
 
-.homeWrap .sText, .homeWrap .galleryText {
+.homeWrap .sText,
+.homeWrap .galleryText {
     text-align: center;
-    font-family: "Edu AU VIC WA NT Hand";
+    font-family: "Playwrite AT", cursive;
+    font-optical-sizing: auto;
     margin-bottom: 50px;
 }
 
 .galleryText {
     padding-top: 25px;
+}
+
+.plansWrap {
+    padding-top: 40px;
+    background-color: #b117bd1f;
 }
 
 @media (hover: hover) {
@@ -151,7 +164,7 @@
     }
 }
 
-@media (width <= 800px) {
+@media (width <=800px) {
 
     .mainDescWrap {
         flex-direction: column;
